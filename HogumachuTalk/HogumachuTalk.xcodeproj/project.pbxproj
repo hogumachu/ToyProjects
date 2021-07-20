@@ -1,0 +1,366 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F10306A226A5C76200B6BE64 /* MyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10306A126A5C76200B6BE64 /* MyProfileViewController.swift */; };
+		F10306A426A5F4C700B6BE64 /* InstagramViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10306A326A5F4C700B6BE64 /* InstagramViewController.swift */; };
+		F10306A726A6B65100B6BE64 /* UIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F10306A626A6B65100B6BE64 /* UIView.swift */; };
+		F16C27392697077C001AA696 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16C27382697077C001AA696 /* AppDelegate.swift */; };
+		F16C273B2697077C001AA696 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16C273A2697077C001AA696 /* SceneDelegate.swift */; };
+		F16C273D2697077C001AA696 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16C273C2697077C001AA696 /* ViewController.swift */; };
+		F16C27422697077F001AA696 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F16C27412697077F001AA696 /* Assets.xcassets */; };
+		F16C27452697077F001AA696 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F16C27432697077F001AA696 /* LaunchScreen.storyboard */; };
+		F16C274D26970EE2001AA696 /* FriendTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16C274C26970EE2001AA696 /* FriendTableViewCell.swift */; };
+		F16C274F269714BD001AA696 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16C274E269714BD001AA696 /* Model.swift */; };
+		F16C275126971C0A001AA696 /* MyProfileTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16C275026971C0A001AA696 /* MyProfileTableViewCell.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		F10306A126A5C76200B6BE64 /* MyProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileViewController.swift; sourceTree = "<group>"; };
+		F10306A326A5F4C700B6BE64 /* InstagramViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstagramViewController.swift; sourceTree = "<group>"; };
+		F10306A626A6B65100B6BE64 /* UIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIView.swift; sourceTree = "<group>"; };
+		F16C27352697077C001AA696 /* HogumachuTalk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HogumachuTalk.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F16C27382697077C001AA696 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		F16C273A2697077C001AA696 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		F16C273C2697077C001AA696 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		F16C27412697077F001AA696 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F16C27442697077F001AA696 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		F16C27462697077F001AA696 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F16C274C26970EE2001AA696 /* FriendTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendTableViewCell.swift; sourceTree = "<group>"; };
+		F16C274E269714BD001AA696 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		F16C275026971C0A001AA696 /* MyProfileTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileTableViewCell.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F16C27322697077C001AA696 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F10306A526A6B61500B6BE64 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				F10306A626A6B65100B6BE64 /* UIView.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		F16C272C2697077C001AA696 = {
+			isa = PBXGroup;
+			children = (
+				F16C27372697077C001AA696 /* HogumachuTalk */,
+				F10306A526A6B61500B6BE64 /* Extension */,
+				F16C27362697077C001AA696 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F16C27362697077C001AA696 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F16C27352697077C001AA696 /* HogumachuTalk.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F16C27372697077C001AA696 /* HogumachuTalk */ = {
+			isa = PBXGroup;
+			children = (
+				F16C27382697077C001AA696 /* AppDelegate.swift */,
+				F16C273A2697077C001AA696 /* SceneDelegate.swift */,
+				F16C274C26970EE2001AA696 /* FriendTableViewCell.swift */,
+				F16C275026971C0A001AA696 /* MyProfileTableViewCell.swift */,
+				F16C274E269714BD001AA696 /* Model.swift */,
+				F10306A126A5C76200B6BE64 /* MyProfileViewController.swift */,
+				F10306A326A5F4C700B6BE64 /* InstagramViewController.swift */,
+				F16C273C2697077C001AA696 /* ViewController.swift */,
+				F16C27412697077F001AA696 /* Assets.xcassets */,
+				F16C27432697077F001AA696 /* LaunchScreen.storyboard */,
+				F16C27462697077F001AA696 /* Info.plist */,
+			);
+			path = HogumachuTalk;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F16C27342697077C001AA696 /* HogumachuTalk */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F16C27492697077F001AA696 /* Build configuration list for PBXNativeTarget "HogumachuTalk" */;
+			buildPhases = (
+				F16C27312697077C001AA696 /* Sources */,
+				F16C27322697077C001AA696 /* Frameworks */,
+				F16C27332697077C001AA696 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HogumachuTalk;
+			productName = HogumachuTalk;
+			productReference = F16C27352697077C001AA696 /* HogumachuTalk.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F16C272D2697077C001AA696 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1250;
+				LastUpgradeCheck = 1250;
+				TargetAttributes = {
+					F16C27342697077C001AA696 = {
+						CreatedOnToolsVersion = 12.5.1;
+					};
+				};
+			};
+			buildConfigurationList = F16C27302697077C001AA696 /* Build configuration list for PBXProject "HogumachuTalk" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = F16C272C2697077C001AA696;
+			productRefGroup = F16C27362697077C001AA696 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F16C27342697077C001AA696 /* HogumachuTalk */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F16C27332697077C001AA696 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F16C27452697077F001AA696 /* LaunchScreen.storyboard in Resources */,
+				F16C27422697077F001AA696 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F16C27312697077C001AA696 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F16C274F269714BD001AA696 /* Model.swift in Sources */,
+				F16C275126971C0A001AA696 /* MyProfileTableViewCell.swift in Sources */,
+				F10306A226A5C76200B6BE64 /* MyProfileViewController.swift in Sources */,
+				F16C273D2697077C001AA696 /* ViewController.swift in Sources */,
+				F16C27392697077C001AA696 /* AppDelegate.swift in Sources */,
+				F10306A426A5F4C700B6BE64 /* InstagramViewController.swift in Sources */,
+				F16C273B2697077C001AA696 /* SceneDelegate.swift in Sources */,
+				F10306A726A6B65100B6BE64 /* UIView.swift in Sources */,
+				F16C274D26970EE2001AA696 /* FriendTableViewCell.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		F16C27432697077F001AA696 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F16C27442697077F001AA696 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		F16C27472697077F001AA696 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		F16C27482697077F001AA696 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F16C274A2697077F001AA696 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 62ZLDXLZ77;
+				INFOPLIST_FILE = HogumachuTalk/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = hogumachu.HogumachuTalk;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		F16C274B2697077F001AA696 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 62ZLDXLZ77;
+				INFOPLIST_FILE = HogumachuTalk/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = hogumachu.HogumachuTalk;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F16C27302697077C001AA696 /* Build configuration list for PBXProject "HogumachuTalk" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F16C27472697077F001AA696 /* Debug */,
+				F16C27482697077F001AA696 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F16C27492697077F001AA696 /* Build configuration list for PBXNativeTarget "HogumachuTalk" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F16C274A2697077F001AA696 /* Debug */,
+				F16C274B2697077F001AA696 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F16C272D2697077C001AA696 /* Project object */;
+}
