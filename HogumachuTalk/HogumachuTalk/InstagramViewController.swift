@@ -78,6 +78,7 @@ class InstagramViewController: UIViewController {
         buttonStackView.distribution = .fillEqually
         buttonStackView.alignment = .fill
         buttonStackView.contentMode = .scaleToFill
+        buttonStackView.backgroundColor = .white
         
         closeButton.setTitle("X", for: .normal)
         closeButton.setTitleColor(.red, for: .normal)
