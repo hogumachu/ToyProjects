@@ -16,25 +16,31 @@ class ChatViewController: UIViewController {
         let button = UIButton()
         button.setTitle("Main", for: .normal)
         button.titleLabel?.font = .boldSystemFont(ofSize: 40)
-        button.setTitleColor(.black, for: .normal)
-        button.setTitleColor(.lightGray, for: .highlighted)
+        button.setTitleColor(.smu, for: .normal)
+        button.setTitleColor(.gray, for: .highlighted)
         button.addTarget(self, action: #selector(gotoMainVCAction(sender:)), for: .touchUpInside)
         return button
     }()
     
     let chatTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "메시지를 입력하세요"
-        textField.backgroundColor = .systemPink
+        textField.placeholder = "  메시지를 입력하세요"
+        textField.layer.borderColor = UIColor.smu.cgColor
+        textField.layer.cornerRadius = 10
+        textField.layer.borderWidth = 1
         textField.addTarget(self, action: #selector(sendMessageAciton(sender:)), for: .touchDragEnter)
         return textField
     }()
     
     let sendButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Send", for: .normal)
-        button.titleLabel?.font = .boldSystemFont(ofSize: 20)
-        button.setTitleColor(.blue, for: .normal)
+        button.setTitle(" Send ", for: .normal)
+        button.titleLabel?.adjustsFontSizeToFitWidth = true
+        button.titleLabel?.font = .systemFont(ofSize: 30)
+        button.setTitleColor(.white, for: .normal)
+        button.layer.cornerRadius = 10
+        button.backgroundColor = .smu
+        button.setTitleColor(.gray, for: .highlighted)
         button.addTarget(self, action: #selector(sendMessageAciton(sender:)), for: .touchUpInside)
         return button
     }()
@@ -83,13 +89,13 @@ class ChatViewController: UIViewController {
             
             chatTextField.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             chatTextField.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor),
-            chatTextField.trailingAnchor.constraint(equalTo: sendButton.leadingAnchor),
+            chatTextField.trailingAnchor.constraint(equalTo: sendButton.leadingAnchor, constant: -5),
             chatTextField.heightAnchor.constraint(equalTo: sendButton.heightAnchor),
             
             sendButton.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
             sendButton.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor),
-            sendButton.widthAnchor.constraint(equalToConstant: 50),
-            sendButton.heightAnchor.constraint(equalToConstant: 30),
+            sendButton.widthAnchor.constraint(equalToConstant: 60),
+            sendButton.heightAnchor.constraint(equalToConstant: 40),
             
             textView.topAnchor.constraint(equalTo: mainViewButton.bottomAnchor),
             textView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
