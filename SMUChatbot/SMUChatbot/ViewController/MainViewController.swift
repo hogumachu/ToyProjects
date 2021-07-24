@@ -12,7 +12,7 @@ class MainViewController: UIViewController {
     let smuLabel: UILabel = {
         let label = UILabel()
         label.text = "상명대학교"
-        label.textColor = .white
+        label.textColor = .smu
         label.textAlignment = .left
         label.font = .systemFont(ofSize: 70, weight: .heavy)
         label.adjustsFontSizeToFitWidth = true
@@ -22,7 +22,7 @@ class MainViewController: UIViewController {
     let capstoneLabel: UILabel = {
         let label = UILabel()
         label.text = "캡스톤디자인"
-        label.textColor = .white
+        label.textColor = .smu
         label.textAlignment = .left
         label.font = .systemFont(ofSize: 70, weight: .heavy)
         label.adjustsFontSizeToFitWidth = true
@@ -32,54 +32,37 @@ class MainViewController: UIViewController {
     let teamNameLabel: UILabel = {
         let label = UILabel()
         label.text = "채팅해조"
-        label.textColor = .white
+        label.textColor = .smu
         label.textAlignment = .left
         label.font = .systemFont(ofSize: 70, weight: .heavy)
         label.adjustsFontSizeToFitWidth = true
         return label
     }()
     
-    let startButton: UIButton = {
-        let button = UIButton()
-        button.setTitle(" Start ", for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 40, weight: .heavy)
-        button.setTitleColor(.white, for: .normal)
-        button.layer.borderColor = UIColor.white.cgColor
-        button.layer.cornerRadius = 10
-        button.layer.borderWidth = 1
-        button.addTarget(self, action: #selector(goChatVC(sender:)), for: .touchUpInside)
-        
-        return button
-    }()
-    
-    let infoButton: UIButton = {
-        let button = UIButton()
-        button.setTitle(" Info ", for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 40, weight: .heavy)
-        button.setTitleColor(.white, for: .normal)
-        button.layer.borderColor = UIColor.white.cgColor
-        button.layer.cornerRadius = 10
-        button.layer.borderWidth = 1
-        button.addTarget(self, action: #selector(goInfoVC(sender:)), for: .touchUpInside)
-        
-        return button
-    }()
-    
-    @objc func goChatVC(sender: UIButton) {
-        let chatVC = ChatViewController()
-        chatVC.modalPresentationStyle = .fullScreen
-        chatVC.modalTransitionStyle = .flipHorizontal
-        self.present(chatVC, animated: true)
+    func animateAndGoInfoVC() {
+        UIView.transition(with: self.smuLabel, duration: 1, options: .transitionCrossDissolve) {
+            self.smuLabel.textColor = .white
+        } completion: { _ in
+            UIView.transition(with: self.capstoneLabel, duration: 1, options: .transitionCrossDissolve) {
+                self.capstoneLabel.textColor = .white
+            } completion: { _ in
+                UIView.transition(with: self.teamNameLabel, duration: 1, options: .transitionCrossDissolve) {
+                    self.teamNameLabel.textColor = .white
+                } completion: {  _ in
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        self.goInfoVC()
+                    }
+                }
+            }
+        }
     }
     
-    @objc func goInfoVC(sender: UIButton) {
+    func goInfoVC() {
         let infoVC = InfoViewController()
         infoVC.modalPresentationStyle = .fullScreen
         infoVC.modalTransitionStyle = .crossDissolve
         self.present(infoVC, animated: true)
     }
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -87,9 +70,14 @@ class MainViewController: UIViewController {
         setConstraints()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        animateAndGoInfoVC()
+        
+    }
     func setConstraints() {
         view.backgroundColor = .smu
-        view.initAutoLayout(UIViews: [smuLabel, capstoneLabel, teamNameLabel, startButton, infoButton])
+        view.initAutoLayout(UIViews: [smuLabel, capstoneLabel, teamNameLabel])
         NSLayoutConstraint.activate([
             smuLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             smuLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
@@ -103,13 +91,10 @@ class MainViewController: UIViewController {
             teamNameLabel.leadingAnchor.constraint(equalTo: capstoneLabel.leadingAnchor),
             teamNameLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             
-            startButton.topAnchor.constraint(equalTo: view.topAnchor, constant: view.frame.height * 3 / 5),
-            startButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            
-            infoButton.topAnchor.constraint(equalTo: startButton.bottomAnchor, constant: 30),
-            infoButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
         ])
     }
+    
+    
 
 
 }
