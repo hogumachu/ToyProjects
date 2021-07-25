@@ -3,10 +3,11 @@
 //  SMUChatbot
 //
 //  Created by 홍성준 on 2021/07/21.
-//
+// 
 
 import UIKit
 import RxSwift
+import RxCocoa
 
 class ChatViewController: UIViewController {
     let model = Model()
@@ -28,7 +29,6 @@ class ChatViewController: UIViewController {
         textField.layer.borderColor = UIColor.smu.cgColor
         textField.layer.cornerRadius = 10
         textField.layer.borderWidth = 1
-        textField.addTarget(self, action: #selector(sendMessageAciton(sender:)), for: .touchDragEnter)
         return textField
     }()
     
@@ -41,13 +41,15 @@ class ChatViewController: UIViewController {
         button.layer.cornerRadius = 10
         button.backgroundColor = .smu
         button.setTitleColor(.gray, for: .highlighted)
-        button.addTarget(self, action: #selector(sendMessageAciton(sender:)), for: .touchUpInside)
         return button
     }()
     
     let textView: UITextView = {
         let textView = UITextView()
-        textView.textColor = .blue
+        textView.textColor = .white
+        textView.backgroundColor = .smu
+        textView.text = "init"
+        textView.font = .systemFont(ofSize: 20)
         return textView
     }()
     
@@ -59,26 +61,22 @@ class ChatViewController: UIViewController {
         self.present(mainVC, animated: true, completion: nil)
     }
     
-    @objc func sendMessageAciton(sender: UIButton) {
-        guard let text = chatTextField.text else {
-            return
-        }
-        model.responseDjango(sendText: text)
-//        어떻게 model 에 text 를 보내고 그것을 어떻게 받아올 것 인가.
-        
-        
-        chatTextField.text = ""
-        
-        
-    }
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         
         setConstraints()
+        
+        let result = sendButton.rx.tap.asDriver()
+            .flatMapLatest {
+                self.model.responseDjango(sendText: self.chatTextField.text ?? "")
+                    .asDriver(onErrorJustReturn: "Error !!!!!")
+            }
+        
+        result
+            .drive(textView.rx.text)
+            .disposed(by: disposeBag)
     }
     
     func setConstraints() {
@@ -97,10 +95,10 @@ class ChatViewController: UIViewController {
             sendButton.widthAnchor.constraint(equalToConstant: 60),
             sendButton.heightAnchor.constraint(equalToConstant: 40),
             
-            textView.topAnchor.constraint(equalTo: mainViewButton.bottomAnchor),
+            textView.topAnchor.constraint(equalTo: mainViewButton.bottomAnchor, constant: 10),
             textView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             textView.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
-            textView.bottomAnchor.constraint(equalTo: sendButton.topAnchor)
+            textView.bottomAnchor.constraint(equalTo: sendButton.topAnchor, constant: -10)
         ])
     }
     
