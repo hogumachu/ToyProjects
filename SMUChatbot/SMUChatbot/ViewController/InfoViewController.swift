@@ -48,7 +48,6 @@ class InfoViewController: UIViewController {
         listCollectionView.rx.itemSelected
             .subscribe(onNext: { [weak self] indexPath in
                 if indexPath.row == myChatbotInfo.count - 1 {
-                    print("다음 페이지로 이동합니다.")
                     let chatVC = ChatViewController()
                     chatVC.modalTransitionStyle = .flipHorizontal
                     chatVC.modalPresentationStyle = .fullScreen
