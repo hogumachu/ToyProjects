@@ -15,7 +15,7 @@ class ChatViewController: UIViewController {
     
     let mainViewButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Main", for: .normal)
+        button.setTitle("<", for: .normal)
         button.titleLabel?.font = .boldSystemFont(ofSize: 40)
         button.setTitleColor(.smu, for: .normal)
         button.setTitleColor(.gray, for: .highlighted)
@@ -95,12 +95,10 @@ class ChatViewController: UIViewController {
                         self?.keyboardHeightAnchor?.isActive = false
                         self?.keyboardHeightAnchor = self?.keyboardView.topAnchor.constraint(equalTo: (self?.keyboardView.bottomAnchor)!, constant: 0)
                         self?.keyboardHeightAnchor?.isActive = true
-                        print("키보드 사라짐")
                     } else {
                         self?.keyboardHeightAnchor?.isActive = false
                         self?.keyboardHeightAnchor = self?.keyboardView.topAnchor.constraint(equalTo: (self?.keyboardView.bottomAnchor)!, constant: -height)
                         self?.keyboardHeightAnchor?.isActive = true
-                        print("키보드 나타남")
                     }
                     self?.view.layoutIfNeeded()
                 }
