@@ -53,6 +53,12 @@ class ChatViewController: UIViewController {
         return textView
     }()
     
+    let keyboardView: UIView = {
+        let uiView = UIView()
+        return uiView
+    }()
+    
+    var keyboardHeightAnchor: NSLayoutConstraint?
     
     @objc func gotoMainVCAction(sender: UIButton) {
         let mainVC = MainViewController()
@@ -77,32 +83,26 @@ class ChatViewController: UIViewController {
             .drive(textView.rx.text)
             .disposed(by: disposeBag)
         
-//        keyboardHeight()
-//            .subscribe(onNext: { [weak self] height in
-//                UIView.animate(withDuration: 0.3) {
-//                    self?.textView.contentInset.bottom = height
-//                }
-//
-//            })
-//            .disposed(by: disposeBag)
-        
         let keyboardWillShowNotiObservable = NotificationCenter.default.rx.notification(UIResponder.keyboardWillShowNotification)
             .map { ($0.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.height ?? 0}
         let keyboardWillHideNotiObservable = NotificationCenter.default.rx.notification(UIResponder.keyboardWillHideNotification)
             .map { notification -> CGFloat in 0}
-
+        
         Observable.merge(keyboardWillShowNotiObservable, keyboardWillHideNotiObservable)
-            .map { [unowned self] height -> UIEdgeInsets in
-                var inset = self.textView.contentInset
-                inset.bottom = height
-                return inset
-            }
-            .subscribe(onNext: { [weak self] inset in
-                print(inset)
-                print(inset.bottom)
-                self?.textView.contentInset = inset
+            .subscribe(onNext: { [weak self] height in
                 UIView.animate(withDuration: 0.3) {
-                    self?.textView.layoutIfNeeded()
+                    if height == 0 {
+                        self?.keyboardHeightAnchor?.isActive = false
+                        self?.keyboardHeightAnchor = self?.keyboardView.topAnchor.constraint(equalTo: (self?.keyboardView.bottomAnchor)!, constant: 0)
+                        self?.keyboardHeightAnchor?.isActive = true
+                        print("키보드 사라짐")
+                    } else {
+                        self?.keyboardHeightAnchor?.isActive = false
+                        self?.keyboardHeightAnchor = self?.keyboardView.topAnchor.constraint(equalTo: (self?.keyboardView.bottomAnchor)!, constant: -height)
+                        self?.keyboardHeightAnchor?.isActive = true
+                        print("키보드 나타남")
+                    }
+                    self?.view.layoutIfNeeded()
                 }
             })
             .disposed(by: disposeBag)
@@ -111,41 +111,31 @@ class ChatViewController: UIViewController {
     }
     
     func setConstraints() {
-        textView.initAutoLayout(UIViews: [chatTextField, sendButton])
-        view.initAutoLayout(UIViews: [mainViewButton, textView])
+        view.initAutoLayout(UIViews: [mainViewButton, textView, chatTextField, sendButton, keyboardView])
+        keyboardHeightAnchor = keyboardView.heightAnchor.constraint(equalToConstant: 0)
+        keyboardHeightAnchor?.isActive = true
         NSLayoutConstraint.activate([
             mainViewButton.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
             mainViewButton.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor, constant: 10),
             
-            chatTextField.leadingAnchor.constraint(equalTo: textView.layoutMarginsGuide.leadingAnchor),
-            chatTextField.bottomAnchor.constraint(equalTo: textView.layoutMarginsGuide.bottomAnchor),
+            chatTextField.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
+            chatTextField.bottomAnchor.constraint(equalTo: sendButton.bottomAnchor),
             chatTextField.trailingAnchor.constraint(equalTo: sendButton.leadingAnchor, constant: -5),
             chatTextField.heightAnchor.constraint(equalTo: sendButton.heightAnchor),
             
-            sendButton.trailingAnchor.constraint(equalTo: textView.layoutMarginsGuide.trailingAnchor),
-            sendButton.bottomAnchor.constraint(equalTo: textView.layoutMarginsGuide.bottomAnchor),
+            sendButton.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
+            sendButton.bottomAnchor.constraint(equalTo: keyboardView.topAnchor),
             sendButton.widthAnchor.constraint(equalToConstant: 60),
             sendButton.heightAnchor.constraint(equalToConstant: 40),
             
-            textView.topAnchor.constraint(equalTo: mainViewButton.bottomAnchor, constant: 10),
+            textView.topAnchor.constraint(equalTo: mainViewButton.bottomAnchor, constant: 5),
             textView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             textView.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
-            textView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor)
+            textView.bottomAnchor.constraint(equalTo: sendButton.topAnchor, constant: -5),
+            
+            keyboardView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            keyboardView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            keyboardView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor),
         ])
-    }
-    
-    func keyboardHeight() -> Observable<CGFloat> {
-        return Observable
-                .from([
-                    NotificationCenter.default.rx.notification(UIResponder.keyboardWillShowNotification)
-                                .map { notification -> CGFloat in
-                                    (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.height ?? 0
-                                },
-                        NotificationCenter.default.rx.notification(UIResponder.keyboardWillHideNotification)
-                                .map { _ -> CGFloat in
-                                    0
-                                }
-                ])
-                .merge()
     }
 }
