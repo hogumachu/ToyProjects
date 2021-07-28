@@ -14,17 +14,17 @@ class Model {
         
         let response = Observable.just(urlRequest)
             .flatMap(URLSession.shared.rx.data(request:))
-            .map { self.decodeData(djangoData: $0) }
+            .map { self.decodeData(data: $0) }
         
         return response
         
     }
     
-    func decodeData(djangoData: Data) -> String {
+    func decodeData(data: Data) -> String {
         do {
             let decoder = JSONDecoder()
-            let dataString = try decoder.decode(data.self, from: djangoData)
-            return dataString.data
+            let dataString = try decoder.decode(content.self, from: data)
+            return dataString.content
         } catch {
             print(error)
             return "decodeData Error"
@@ -33,6 +33,6 @@ class Model {
     }
 }
 
-struct data: Codable {
-    let data: String
+struct content: Codable {
+    let content: String
 }
