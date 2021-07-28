@@ -48,7 +48,6 @@ class ChatViewController: UIViewController {
         let textView = UITextView()
         textView.textColor = .white
         textView.backgroundColor = .smu
-        textView.text = "init"
         textView.font = .systemFont(ofSize: 20)
         return textView
     }()
@@ -74,7 +73,7 @@ class ChatViewController: UIViewController {
         
         setConstraints()
         let result = sendButton.rx.tap.asDriver()
-            .flatMapLatest {
+            .flatMapLatest { [unowned self] in
                 self.model.responseDjango(sendText: self.chatTextField.text ?? "")
                     .asDriver(onErrorJustReturn: "Error !!!!!")
             }
