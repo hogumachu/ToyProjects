@@ -11,7 +11,11 @@ import RxCocoa
 
 
 class InfoViewController: UIViewController {
+    var viewModel = InfoViewModel()
+    
+    
     lazy var collectionObservable = Observable.of(myChatbotInfo)
+    
     
     let listCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -28,9 +32,14 @@ class InfoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setConstraints()
-        listCollectionView.register(InfoCollectionViewCell.self, forCellWithReuseIdentifier: "InfoCollectionViewCell")
         
+        setView()
+        
+        setRx()
+        
+    }
+    
+    func setRx() {
         collectionObservable.bind(to: listCollectionView.rx.items(cellIdentifier: "InfoCollectionViewCell", cellType: InfoCollectionViewCell.self)) { index, item, cell in
             cell.layer.cornerRadius = cell.frame.height / 2
             cell.backgroundColor = .smu
@@ -48,23 +57,18 @@ class InfoViewController: UIViewController {
         listCollectionView.rx.itemSelected
             .subscribe(onNext: { [weak self] indexPath in
                 if indexPath.row == myChatbotInfo.count - 1 {
-                    let chatVC = ChatViewController()
-                    chatVC.modalTransitionStyle = .flipHorizontal
-                    chatVC.modalPresentationStyle = .fullScreen
-                    self?.present(chatVC, animated: true) { [weak self] in
-                        self?.disposeBag = DisposeBag()
-                    }
+                    self?.viewModel.gotoChatVC(self!)
                 }
             })
             .disposed(by: disposeBag)
         
         listCollectionView.rx.setDelegate(self)
             .disposed(by: disposeBag)
-        
-       
     }
     
-    func setConstraints() {
+    func setView() {
+        listCollectionView.register(InfoCollectionViewCell.self, forCellWithReuseIdentifier: "InfoCollectionViewCell")
+        
         view.initAutoLayout(UIViews: [listCollectionView])
         view.backgroundColor = .white
         NSLayoutConstraint.activate([
@@ -74,8 +78,6 @@ class InfoViewController: UIViewController {
             listCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
     }
-    
-
 }
 
 

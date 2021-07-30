@@ -12,17 +12,7 @@ import RxCocoa
 class ChatViewController: UIViewController {
     let model = Model()
     var disposeBag = DisposeBag()
-    
-    let mainViewButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("<", for: .normal)
-        button.titleLabel?.font = .boldSystemFont(ofSize: 40)
-        button.setTitleColor(.smu, for: .normal)
-        button.setTitleColor(.gray, for: .highlighted)
-        button.addTarget(self, action: #selector(gotoMainVCAction(sender:)), for: .touchUpInside)
-        return button
-    }()
-    
+
     let chatTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "  메시지를 입력하세요"
@@ -36,7 +26,7 @@ class ChatViewController: UIViewController {
         let button = UIButton()
         button.setTitle(" Send ", for: .normal)
         button.titleLabel?.adjustsFontSizeToFitWidth = true
-        button.titleLabel?.font = .systemFont(ofSize: 30)
+        button.titleLabel?.font = .systemFont(ofSize: 20)
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 10
         button.backgroundColor = .smu
@@ -57,21 +47,25 @@ class ChatViewController: UIViewController {
         return uiView
     }()
     
+    let backBarButtonItem: UIBarButtonItem = {
+        let barbutton = UIBarButtonItem(title: "Back",
+                                                                style: .done,
+                                                                 target: self,
+                                                                 action: nil)
+        return barbutton
+    }()
+    
     var keyboardHeightAnchor: NSLayoutConstraint?
-    
-    @objc func gotoMainVCAction(sender: UIButton) {
-        let mainVC = MainViewController()
-        mainVC.modalPresentationStyle = .fullScreen
-        mainVC.modalTransitionStyle = .flipHorizontal
-        self.present(mainVC, animated: true, completion: nil)
-    }
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
         
-        setConstraints()
+        setView()
+        
+        setRx()
+    }
+    
+    func setRx() {
         let result = sendButton.rx.tap.asDriver()
             .flatMapLatest { [unowned self] in
                 self.model.responseDjango(sendText: self.chatTextField.text ?? "")
@@ -80,6 +74,13 @@ class ChatViewController: UIViewController {
         
         result
             .drive(textView.rx.text)
+            .disposed(by: disposeBag)
+        
+        backBarButtonItem.rx.tap
+            .subscribe(onNext: { [unowned self] _ in
+                self.navigationController?.navigationBar.isHidden = true
+                self.navigationController?.popViewController(animated: true)
+            })
             .disposed(by: disposeBag)
         
         let keyboardWillShowNotiObservable = NotificationCenter.default.rx.notification(UIResponder.keyboardWillShowNotification)
@@ -103,18 +104,20 @@ class ChatViewController: UIViewController {
                 }
             })
             .disposed(by: disposeBag)
-        
-        
     }
     
-    func setConstraints() {
-        view.initAutoLayout(UIViews: [mainViewButton, textView, chatTextField, sendButton, keyboardView])
+    func setView() {
+        view.backgroundColor = .white
+    
+        self.navigationController?.navigationBar.isHidden = false
+        self.navigationItem.leftBarButtonItem = backBarButtonItem
+        self.navigationController?.navigationBar.backgroundColor = .smu
+        
+        view.initAutoLayout(UIViews: [textView, chatTextField, sendButton, keyboardView])
         keyboardHeightAnchor = keyboardView.heightAnchor.constraint(equalToConstant: 0)
         keyboardHeightAnchor?.isActive = true
         NSLayoutConstraint.activate([
-            mainViewButton.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
-            mainViewButton.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor, constant: 10),
-            
+             
             chatTextField.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             chatTextField.bottomAnchor.constraint(equalTo: sendButton.bottomAnchor),
             chatTextField.trailingAnchor.constraint(equalTo: sendButton.leadingAnchor, constant: -5),
@@ -122,12 +125,12 @@ class ChatViewController: UIViewController {
             
             sendButton.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
             sendButton.bottomAnchor.constraint(equalTo: keyboardView.topAnchor),
-            sendButton.widthAnchor.constraint(equalToConstant: 60),
-            sendButton.heightAnchor.constraint(equalToConstant: 40),
+            sendButton.widthAnchor.constraint(equalToConstant: 40),
+            sendButton.heightAnchor.constraint(equalToConstant: 30),
             
-            textView.topAnchor.constraint(equalTo: mainViewButton.bottomAnchor, constant: 5),
-            textView.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
-            textView.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
+            textView.topAnchor.constraint(equalTo: view.topAnchor),
+            textView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            textView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             textView.bottomAnchor.constraint(equalTo: sendButton.topAnchor, constant: -5),
             
             keyboardView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
