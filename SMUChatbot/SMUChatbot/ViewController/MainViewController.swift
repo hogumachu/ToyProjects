@@ -42,7 +42,7 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setConstraints()
+        setView()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -50,7 +50,7 @@ class MainViewController: UIViewController {
         self.viewModel.gotoInfoVCAfterAnimate([smuLabel, capstoneLabel, teamNameLabel], self)
         
     }
-    func setConstraints() {
+    func setView() {
         view.backgroundColor = .smu
         view.initAutoLayout(UIViews: [smuLabel, capstoneLabel, teamNameLabel])
         NSLayoutConstraint.activate([
