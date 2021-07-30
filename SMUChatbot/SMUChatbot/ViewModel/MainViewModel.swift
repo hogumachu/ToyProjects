@@ -12,7 +12,7 @@ import RxCocoa
 class MainViewModel {
     func gotoInfoVC(_ vc: UIViewController) {
         guard let nav = vc.navigationController else {
-            print("Error")
+            print(#function, "NavigationController Error")
             return
         }
         let infoVC = InfoViewController()
@@ -30,6 +30,7 @@ class MainViewModel {
                     label.textColor = .white
                 }
             }
+            
             timeInterval += 0.5
         }
         
