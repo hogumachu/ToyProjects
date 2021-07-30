@@ -8,6 +8,7 @@
 import UIKit
 
 class MainViewController: UIViewController {
+    var viewModel = MainViewModel()
     
     let smuLabel: UILabel = {
         let label = UILabel()
@@ -39,40 +40,14 @@ class MainViewController: UIViewController {
         return label
     }()
     
-    func animateAndGoInfoVC() {
-        UIView.transition(with: self.smuLabel, duration: 1, options: .transitionCrossDissolve) {
-            self.smuLabel.textColor = .white
-        } completion: { _ in
-            UIView.transition(with: self.capstoneLabel, duration: 1, options: .transitionCrossDissolve) {
-                self.capstoneLabel.textColor = .white
-            } completion: { _ in
-                UIView.transition(with: self.teamNameLabel, duration: 1, options: .transitionCrossDissolve) {
-                    self.teamNameLabel.textColor = .white
-                } completion: {  _ in
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        self.goInfoVC()
-                    }
-                }
-            }
-        }
-    }
-    
-    func goInfoVC() {
-        let infoVC = InfoViewController()
-        infoVC.modalPresentationStyle = .fullScreen
-        infoVC.modalTransitionStyle = .crossDissolve
-        self.present(infoVC, animated: true)
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setConstraints()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        animateAndGoInfoVC()
+        self.viewModel.gotoInfoVCAfterAnimate([smuLabel, capstoneLabel, teamNameLabel], self)
         
     }
     func setConstraints() {
