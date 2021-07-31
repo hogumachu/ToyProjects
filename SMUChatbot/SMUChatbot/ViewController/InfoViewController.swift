@@ -1,21 +1,11 @@
-//
-//  InfoViewController.swift
-//  SMUChatbot
-//
-//  Created by 홍성준 on 2021/07/21.
-//
-
 import UIKit
 import RxSwift
 import RxCocoa
 
-
-class InfoViewController: UIViewController {
+class InfoViewController: BaseViewController {
     var viewModel = InfoViewModel()
     
-    
     lazy var collectionObservable = Observable.of(myChatbotInfo)
-    
     
     let listCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -27,19 +17,8 @@ class InfoViewController: UIViewController {
         return collectionView
     }()
     
-    var disposeBag = DisposeBag()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        
-        setView()
-        
-        setRx()
-        
-    }
-    
-    func setRx() {
+    override func configureUI() {
         collectionObservable.bind(to: listCollectionView.rx.items(cellIdentifier: "InfoCollectionViewCell", cellType: InfoCollectionViewCell.self)) { index, item, cell in
             cell.layer.cornerRadius = cell.frame.height / 2
             cell.backgroundColor = .smu
@@ -64,9 +43,7 @@ class InfoViewController: UIViewController {
         
         listCollectionView.rx.setDelegate(self)
             .disposed(by: disposeBag)
-    }
-    
-    func setView() {
+        
         listCollectionView.register(InfoCollectionViewCell.self, forCellWithReuseIdentifier: "InfoCollectionViewCell")
         
         view.initAutoLayout(UIViews: [listCollectionView])

@@ -1,17 +1,9 @@
-//
-//  ChatViewController.swift
-//  SMUChatbot
-//
-//  Created by 홍성준 on 2021/07/21.
-// 
-
 import UIKit
 import RxSwift
 import RxCocoa
 
-class ChatViewController: UIViewController {
+class ChatViewController: BaseViewController {
     let model = Model()
-    var disposeBag = DisposeBag()
 
     let chatTextField: UITextField = {
         let textField = UITextField()
@@ -57,15 +49,7 @@ class ChatViewController: UIViewController {
     
     var keyboardHeightAnchor: NSLayoutConstraint?
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        setView()
-        
-        setRx()
-    }
-    
-    func setRx() {
+    override func configureUI() {
         let result = sendButton.rx.tap.asDriver()
             .flatMapLatest { [unowned self] in
                 self.model.responseDjango(sendText: self.chatTextField.text ?? "")
@@ -104,9 +88,7 @@ class ChatViewController: UIViewController {
                 }
             })
             .disposed(by: disposeBag)
-    }
-    
-    func setView() {
+        
         view.backgroundColor = .white
     
         self.navigationController?.navigationBar.isHidden = false
