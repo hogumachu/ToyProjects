@@ -1,10 +1,3 @@
-//
-//  SceneDelegate.swift
-//  SMUChatbot
-//
-//  Created by 홍성준 on 2021/07/21.
-//
-
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -13,15 +6,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        guard let windowScene = scene as? UIWindowScene else {
+        guard let scene = scene as? UIWindowScene else {
             return
         }
-        window = UIWindow(windowScene: windowScene)
-        let nav = UINavigationController(rootViewController: MainViewController(nibName: nil, bundle: nil))
-        nav.navigationBar.isHidden = true
-        window?.rootViewController = nav
-        
-        window?.makeKeyAndVisible()
+        window = UIWindow(windowScene: scene)
+        let coordinator = AppDependency.resolve().coordinator
+        if let window = window {
+            coordinator.start(window: window, rootViewController: MainViewController())
+            window.makeKeyAndVisible()
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
