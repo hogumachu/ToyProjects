@@ -1,10 +1,3 @@
-//
-//  ChatbotInfo.swift
-//  SMUChatbot
-//
-//  Created by 홍성준 on 2021/07/26.
-//
-
 import Foundation
 
 struct ChatbotInfo {

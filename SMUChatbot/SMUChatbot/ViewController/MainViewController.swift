@@ -1,13 +1,6 @@
-//
-//  MainViewController.swift
-//  SMUChatbot
-//
-//  Created by 홍성준 on 2021/07/21.
-//
-
 import UIKit
 
-class MainViewController: UIViewController {
+class MainViewController: BaseViewController {
     var viewModel = MainViewModel()
     
     let smuLabel: UILabel = {
@@ -40,17 +33,13 @@ class MainViewController: UIViewController {
         return label
     }()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setView()
-    }
-    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.viewModel.gotoInfoVCAfterAnimate([smuLabel, capstoneLabel, teamNameLabel], self)
         
     }
-    func setView() {
+    
+    override func configureUI() {
         view.backgroundColor = .smu
         view.initAutoLayout(UIViews: [smuLabel, capstoneLabel, teamNameLabel])
         NSLayoutConstraint.activate([
@@ -68,10 +57,4 @@ class MainViewController: UIViewController {
             
         ])
     }
-    
-    
-
-
 }
-
-
