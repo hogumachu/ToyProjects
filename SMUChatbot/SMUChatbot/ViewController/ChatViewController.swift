@@ -3,7 +3,11 @@ import RxSwift
 import RxCocoa
 
 class ChatViewController: BaseViewController {
+    
+    // MARK: - Properties
+    
     let model = Model()
+    var viewModel: ChatViewModel
 
     let chatTextField: UITextField = {
         let textField = UITextField()
@@ -49,6 +53,21 @@ class ChatViewController: BaseViewController {
     
     var keyboardHeightAnchor: NSLayoutConstraint?
     
+    
+    // MARK: - Lifecycles
+    
+    init(viewModel: ChatViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    
+    // MARK: - Configures
     override func configureUI() {
         let result = sendButton.rx.tap.asDriver()
             .flatMapLatest { [unowned self] in
