@@ -6,7 +6,6 @@ class ChatViewController: BaseViewController {
     
     // MARK: - Properties
     
-    let model = Model()
     var viewModel: ChatViewModel
 
     let chatTextField: UITextField = {
@@ -71,9 +70,10 @@ class ChatViewController: BaseViewController {
     override func configureUI() {
         let result = sendButton.rx.tap.asDriver()
             .flatMapLatest { [unowned self] in
-                self.model.responseDjango(sendText: self.chatTextField.text ?? "")
+                self.viewModel.responseDjango(sendText: self.chatTextField.text ?? "")
                     .asDriver(onErrorJustReturn: "Error !!!!!")
             }
+           
         
         result
             .drive(textView.rx.text)
