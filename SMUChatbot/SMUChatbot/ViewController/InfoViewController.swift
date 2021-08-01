@@ -3,7 +3,9 @@ import RxSwift
 import RxCocoa
 
 class InfoViewController: BaseViewController {
-    var viewModel = InfoViewModel()
+    
+    // MARK: - Properties
+    var viewModel: InfoViewModel
     
     lazy var collectionObservable = Observable.of(myChatbotInfo)
     
@@ -16,6 +18,21 @@ class InfoViewController: BaseViewController {
         
         return collectionView
     }()
+    
+    
+    // MARK: - Lifecycles
+    
+    init(viewModel: InfoViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    // MARK: - Configures
     
     
     override func configureUI() {

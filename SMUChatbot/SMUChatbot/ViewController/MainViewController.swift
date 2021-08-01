@@ -1,7 +1,9 @@
 import UIKit
 
 class MainViewController: BaseViewController {
-    var viewModel = MainViewModel()
+    
+    // MARK: - Properties
+    var viewModel: MainViewModel
     
     let smuLabel: UILabel = {
         let label = UILabel()
@@ -33,11 +35,24 @@ class MainViewController: BaseViewController {
         return label
     }()
     
+    // MARK: - Lifecycles
+    
+    init(viewModel: MainViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.viewModel.gotoInfoVCAfterAnimate([smuLabel, capstoneLabel, teamNameLabel], self)
-        
     }
+    
+    
+    // MARK: - Configures
     
     override func configureUI() {
         view.backgroundColor = .smu

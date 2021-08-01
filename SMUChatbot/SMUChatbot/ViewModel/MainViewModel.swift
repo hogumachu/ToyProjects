@@ -8,7 +8,7 @@ class MainViewModel {
             print(#function, "NavigationController Error")
             return
         }
-        let infoVC = InfoViewController()
+        let infoVC = InfoViewController(viewModel: InfoViewModel())
         infoVC.modalPresentationStyle = .fullScreen
         infoVC.modalTransitionStyle = .crossDissolve
         nav.pushViewController(infoVC, animated: true)

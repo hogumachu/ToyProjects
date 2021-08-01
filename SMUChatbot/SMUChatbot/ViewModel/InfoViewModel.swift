@@ -7,7 +7,7 @@ class InfoViewModel {
             return
         }
         
-        let chatVC = ChatViewController()
+        let chatVC = ChatViewController(viewModel: ChatViewModel())
         chatVC.modalTransitionStyle = .flipHorizontal
         chatVC.modalPresentationStyle = .fullScreen
         navigationVC.pushViewController(chatVC, animated: true)

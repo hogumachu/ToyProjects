@@ -17,11 +17,6 @@ class BaseViewController: UIViewController {
     }
     
     func configureUI() {
-        setRx()
-        setView()
     }
-    
-    func setRx() {}
-    func setView() {}
     
 }
