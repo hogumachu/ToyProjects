@@ -32,10 +32,7 @@ class InfoViewController: BaseViewController {
     }
     
     
-    // MARK: - Configures
-    
-    
-    override func configureUI() {
+    override func subscribe() {
         collectionObservable.bind(to: listCollectionView.rx.items(cellIdentifier: "InfoCollectionViewCell", cellType: InfoCollectionViewCell.self)) { index, item, cell in
             cell.layer.cornerRadius = cell.frame.height / 2
             cell.backgroundColor = .smu
@@ -60,6 +57,14 @@ class InfoViewController: BaseViewController {
         
         listCollectionView.rx.setDelegate(self)
             .disposed(by: disposeBag)
+    }
+    
+    
+    // MARK: - Configures
+    
+    
+    override func configureUI() {
+        
         
         listCollectionView.register(InfoCollectionViewCell.self, forCellWithReuseIdentifier: "InfoCollectionViewCell")
         
