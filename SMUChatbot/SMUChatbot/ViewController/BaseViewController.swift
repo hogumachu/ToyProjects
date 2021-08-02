@@ -13,10 +13,12 @@ class BaseViewController: UIViewController {
     }
     
     override func viewDidLoad() {
+        subscribe()
         configureUI()
     }
     
-    func configureUI() {
-    }
+    func configureUI() {}
+    func subscribe() {}
+    
     
 }

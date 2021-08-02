@@ -64,10 +64,7 @@ class ChatViewController: BaseViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
-    
-    // MARK: - Configures
-    override func configureUI() {
+    override func subscribe() {
         let result = sendButton.rx.tap.asDriver()
             .flatMapLatest { [unowned self] in
                 self.viewModel.responseDjango(sendText: self.chatTextField.text ?? "")
@@ -86,10 +83,12 @@ class ChatViewController: BaseViewController {
             })
             .disposed(by: disposeBag)
         
-        let keyboardWillShowNotiObservable = NotificationCenter.default.rx.notification(UIResponder.keyboardWillShowNotification)
+        let keyboardWillShowNotiObservable = NotificationCenter.default.rx
+            .notification(UIResponder.keyboardWillShowNotification)
             .map { ($0.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.height ?? 0}
-        let keyboardWillHideNotiObservable = NotificationCenter.default.rx.notification(UIResponder.keyboardWillHideNotification)
-            .map { notification -> CGFloat in 0}
+        let keyboardWillHideNotiObservable = NotificationCenter.default.rx
+            .notification(UIResponder.keyboardWillHideNotification)
+            .map { notification -> CGFloat in 0 }
         
         Observable.merge(keyboardWillShowNotiObservable, keyboardWillHideNotiObservable)
             .subscribe(onNext: { [weak self] height in
@@ -100,13 +99,19 @@ class ChatViewController: BaseViewController {
                         self?.keyboardHeightAnchor?.isActive = true
                     } else {
                         self?.keyboardHeightAnchor?.isActive = false
-                        self?.keyboardHeightAnchor = self?.keyboardView.topAnchor.constraint(equalTo: (self?.keyboardView.bottomAnchor)!, constant: -height)
+                        self?.keyboardHeightAnchor = self?.keyboardView.topAnchor.constraint(equalTo: (self?.keyboardView.bottomAnchor)!, constant: -height + (self?.view.safeAreaInsets.bottom ?? 0))
                         self?.keyboardHeightAnchor?.isActive = true
                     }
                     self?.view.layoutIfNeeded()
                 }
             })
             .disposed(by: disposeBag)
+    }
+
+    
+    // MARK: - Configures
+    override func configureUI() {
+        
         
         view.backgroundColor = .white
     
@@ -125,7 +130,7 @@ class ChatViewController: BaseViewController {
             chatTextField.heightAnchor.constraint(equalTo: sendButton.heightAnchor),
             
             sendButton.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
-            sendButton.bottomAnchor.constraint(equalTo: keyboardView.topAnchor),
+            sendButton.bottomAnchor.constraint(equalTo: keyboardView.topAnchor, constant: -5),
             sendButton.widthAnchor.constraint(equalToConstant: 40),
             sendButton.heightAnchor.constraint(equalToConstant: 30),
             
