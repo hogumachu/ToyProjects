@@ -4,9 +4,13 @@ import RxCocoa
 
 class ChatViewController: BaseViewController {
     
+    struct Dependency {
+        let viewModel: ChatViewModel
+    }
+    
     // MARK: - Properties
     
-    var viewModel: ChatViewModel
+    let viewModel: ChatViewModel
 
     let chatTextField: UITextField = {
         let textField = UITextField()
@@ -29,12 +33,11 @@ class ChatViewController: BaseViewController {
         return button
     }()
     
-    let textView: UITextView = {
-        let textView = UITextView()
-        textView.textColor = .white
-        textView.backgroundColor = .smu
-        textView.font = .systemFont(ofSize: 20)
-        return textView
+    let chatTableView: UITableView = {
+        let tableView = UITableView()
+        tableView.backgroundColor = UIColor(red: 0, green: 0, blue: 0.5, alpha: 0.2)
+        tableView.separatorStyle = .none
+        return tableView
     }()
     
     let keyboardView: UIView = {
@@ -55,8 +58,8 @@ class ChatViewController: BaseViewController {
     
     // MARK: - Lifecycles
     
-    init(viewModel: ChatViewModel) {
-        self.viewModel = viewModel
+    init(dependency: Dependency, payload: ()) {
+        self.viewModel = dependency.viewModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -72,9 +75,11 @@ class ChatViewController: BaseViewController {
             }
            
         
-        result
-            .drive(textView.rx.text)
-            .disposed(by: disposeBag)
+//        TODO: - 테이블뷰에 채팅 뷰 넣기.
+//        result
+//            .drive(chatTableView.rx.text)
+//            .disposed(by: disposeBag)
+      
         
         backBarButtonItem.rx.tap
             .subscribe(onNext: { [unowned self] _ in
@@ -117,9 +122,9 @@ class ChatViewController: BaseViewController {
     
         self.navigationController?.navigationBar.isHidden = false
         self.navigationItem.leftBarButtonItem = backBarButtonItem
-        self.navigationController?.navigationBar.backgroundColor = .smu
+//        self.navigationController?.navigationBar.backgroundColor = .smu
         
-        view.initAutoLayout(UIViews: [textView, chatTextField, sendButton, keyboardView])
+        view.initAutoLayout(UIViews: [chatTableView, chatTextField, sendButton, keyboardView])
         keyboardHeightAnchor = keyboardView.heightAnchor.constraint(equalToConstant: 0)
         keyboardHeightAnchor?.isActive = true
         NSLayoutConstraint.activate([
@@ -134,10 +139,10 @@ class ChatViewController: BaseViewController {
             sendButton.widthAnchor.constraint(equalToConstant: 40),
             sendButton.heightAnchor.constraint(equalToConstant: 30),
             
-            textView.topAnchor.constraint(equalTo: view.topAnchor),
-            textView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            textView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            textView.bottomAnchor.constraint(equalTo: sendButton.topAnchor, constant: -5),
+            chatTableView.topAnchor.constraint(equalTo: view.topAnchor),
+            chatTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            chatTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            chatTableView.bottomAnchor.constraint(equalTo: sendButton.topAnchor, constant: -5),
             
             keyboardView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             keyboardView.trailingAnchor.constraint(equalTo: view.trailingAnchor),

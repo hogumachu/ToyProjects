@@ -3,6 +3,7 @@ import RxSwift
 
 class ChatViewModel {
     func responseDjango(sendText text: String) -> Observable<String> {
+        print(text)
         let urlRequest = URLRequest(url: URL(string: "http://127.0.0.1:8000/get_info/?data=\(text)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)!)
         
         let response = Observable.just(urlRequest)
@@ -24,4 +25,4 @@ class ChatViewModel {
         }
         
     }
-}
+    }

@@ -2,8 +2,13 @@ import UIKit
 
 class MainViewController: BaseViewController {
     
+    
+    struct Dependency {
+        let viewModel: MainViewModel
+    }
+    
     // MARK: - Properties
-    var viewModel: MainViewModel
+    let viewModel: MainViewModel
     
     let smuLabel: UILabel = {
         let label = UILabel()
@@ -37,8 +42,8 @@ class MainViewController: BaseViewController {
     
     // MARK: - Lifecycles
     
-    init(viewModel: MainViewModel) {
-        self.viewModel = viewModel
+    init(dependency: Dependency, payload: ()) {
+        viewModel = dependency.viewModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -48,7 +53,8 @@ class MainViewController: BaseViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.viewModel.gotoInfoVCAfterAnimate([smuLabel, capstoneLabel, teamNameLabel], self)
+        self.coordinator?.startMainViewContoller()
+//        self.viewModel.gotoInfoVCAfterAnimate([smuLabel, capstoneLabel, teamNameLabel], self)
     }
     
     
