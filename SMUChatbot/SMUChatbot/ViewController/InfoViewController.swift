@@ -4,8 +4,12 @@ import RxCocoa
 
 class InfoViewController: BaseViewController {
     
+    struct Dependency {
+        let viewModel: InfoViewModel
+    }
+    
     // MARK: - Properties
-    var viewModel: InfoViewModel
+    let viewModel: InfoViewModel
     
     lazy var collectionObservable = Observable.of(myChatbotInfo)
     
@@ -22,8 +26,8 @@ class InfoViewController: BaseViewController {
     
     // MARK: - Lifecycles
     
-    init(viewModel: InfoViewModel) {
-        self.viewModel = viewModel
+    init(dependency: Dependency, payload: ()) {
+        self.viewModel = dependency.viewModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -41,19 +45,19 @@ class InfoViewController: BaseViewController {
         }
         .disposed(by: disposeBag)
         
-        listCollectionView.rx.modelSelected(ChatbotInfo.self)
-            .subscribe(onNext: { info in
-                print("\(info.summary), \(info.detailInfo)")
-            })
-            .disposed(by: disposeBag)
-        
-        listCollectionView.rx.itemSelected
-            .subscribe(onNext: { [weak self] indexPath in
-                if indexPath.row == myChatbotInfo.count - 1 {
-                    self?.viewModel.gotoChatVC(self!)
-                }
-            })
-            .disposed(by: disposeBag)
+//        listCollectionView.rx.modelSelected(ChatbotInfo.self)
+//            .subscribe(onNext: { info in
+//                print("\(info.summary), \(info.detailInfo)")
+//            })
+//            .disposed(by: disposeBag)
+//        
+//        listCollectionView.rx.itemSelected
+//            .subscribe(onNext: { [weak self] indexPath in
+//                if indexPath.row == myChatbotInfo.count - 1 {
+//                    self?.viewModel.gotoChatVC(self!)
+//                }
+//            })
+//            .disposed(by: disposeBag)
         
         listCollectionView.rx.setDelegate(self)
             .disposed(by: disposeBag)
@@ -89,5 +93,14 @@ extension InfoViewController: UICollectionViewDelegateFlowLayout {
         let value = (collectionView.frame.width - (flowLayout.sectionInset.left + flowLayout.sectionInset.right + flowLayout.minimumInteritemSpacing)) / 2
         
         return CGSize(width: value, height: value)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        switch indexPath.row {
+        case viewModel.info.count - 1:
+            coordinator?.chatViewSelected()
+        default:
+            print("Not Next Button")
+        }
     }
 }
