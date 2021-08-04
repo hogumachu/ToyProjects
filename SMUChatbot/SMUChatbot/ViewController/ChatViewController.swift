@@ -9,52 +9,15 @@ class ChatViewController: BaseViewController {
     }
     
     // MARK: - Properties
+    // Components - ChatViewControllerComponents
     
     let viewModel: ChatViewModel
-
-    let chatTextField: UITextField = {
-        let textField = UITextField()
-        textField.placeholder = "  메시지를 입력하세요"
-        textField.layer.borderColor = UIColor.smu.cgColor
-        textField.layer.cornerRadius = 10
-        textField.layer.borderWidth = 1
-        return textField
-    }()
-    
-    let sendButton: UIButton = {
-        let button = UIButton()
-        button.setTitle(" Send ", for: .normal)
-        button.titleLabel?.adjustsFontSizeToFitWidth = true
-        button.titleLabel?.font = .systemFont(ofSize: 20)
-        button.setTitleColor(.white, for: .normal)
-        button.layer.cornerRadius = 10
-        button.backgroundColor = .smu
-        button.setTitleColor(.gray, for: .highlighted)
-        return button
-    }()
-    
-    let chatTableView: UITableView = {
-        let tableView = UITableView()
-        tableView.backgroundColor = UIColor(red: 0, green: 0, blue: 0.5, alpha: 0.2)
-        tableView.separatorStyle = .none
-        return tableView
-    }()
-    
-    let keyboardView: UIView = {
-        let uiView = UIView()
-        return uiView
-    }()
-    
-    let backBarButtonItem: UIBarButtonItem = {
-        let barbutton = UIBarButtonItem(title: "Back",
-                                                                style: .done,
-                                                                 target: self,
-                                                                 action: nil)
-        return barbutton
-    }()
-    
+    let chatTextField = ChatTextField()
+    let sendButton = SendButton()
+    let chatTableView = ChatTableView()
+    let keyboardView = UIView()
+    let backBarButtonItem = BackBarButtonItem()
     var keyboardHeightAnchor: NSLayoutConstraint?
-    
     
     // MARK: - Lifecycles
     
@@ -116,19 +79,16 @@ class ChatViewController: BaseViewController {
     
     // MARK: - Configures
     override func configureUI() {
-        
-        
         view.backgroundColor = .white
     
         self.navigationController?.navigationBar.isHidden = false
         self.navigationItem.leftBarButtonItem = backBarButtonItem
-//        self.navigationController?.navigationBar.backgroundColor = .smu
         
         view.initAutoLayout(UIViews: [chatTableView, chatTextField, sendButton, keyboardView])
         keyboardHeightAnchor = keyboardView.heightAnchor.constraint(equalToConstant: 0)
         keyboardHeightAnchor?.isActive = true
+        
         NSLayoutConstraint.activate([
-             
             chatTextField.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             chatTextField.bottomAnchor.constraint(equalTo: sendButton.bottomAnchor),
             chatTextField.trailingAnchor.constraint(equalTo: sendButton.leadingAnchor, constant: -5),
