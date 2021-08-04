@@ -11,21 +11,9 @@ class InfoViewController: BaseViewController {
     // MARK: - Properties
     // Components - InfoViewControllerComponents
     let viewModel: InfoViewModel
-    
     lazy var collectionObservable = Observable.of(myChatbotInfo)
-    
-//    let listCollectionView: UICollectionView = {
-//        let layout = UICollectionViewFlowLayout()
-//        layout.scrollDirection = .vertical
-//        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-//        collectionView.isPagingEnabled = true
-//        collectionView.backgroundColor = .white
-//
-//        return collectionView
-//    }()
-    
     let listCollectionView = ListCollectionView()
-    
+    var cellRow = 2
     // MARK: - Lifecycles
     
     init(dependency: Dependency, payload: ()) {
@@ -39,49 +27,40 @@ class InfoViewController: BaseViewController {
     
     
     override func subscribe() {
-        collectionObservable.bind(to: listCollectionView.rx.items(cellIdentifier: "InfoCollectionViewCell", cellType: InfoCollectionViewCell.self)) { index, item, cell in
-            cell.layer.cornerRadius = cell.frame.height / 2
-            cell.backgroundColor = .smu
-            cell.summaryLabel.text = item.summary
+        collectionObservable.bind(to: listCollectionView.rx.items(cellIdentifier: InfoCollectionViewCell.identifier, cellType: InfoCollectionViewCell.self)) { index, item, cell in
+//            cell.layer.cornerRadius = cell.frame.height / 2
+//            cell.layer.cornerRadius = 10
+//            cell.layer.borderWidth = 10
+//            cell.layer.borderColor = UIColor.smu.cgColor
+//            cell.backgroundColor = .white
+//            cell.titleLabel.textColor = .black
+            cell.titleLabel.text = item.title
             cell.detail = item.detailInfo
         }
         .disposed(by: disposeBag)
-        
-//        listCollectionView.rx.modelSelected(ChatbotInfo.self)
-//            .subscribe(onNext: { info in
-//                print("\(info.summary), \(info.detailInfo)")
-//            })
-//            .disposed(by: disposeBag)
-//        
-//        listCollectionView.rx.itemSelected
-//            .subscribe(onNext: { [weak self] indexPath in
-//                if indexPath.row == myChatbotInfo.count - 1 {
-//                    self?.viewModel.gotoChatVC(self!)
-//                }
-//            })
-//            .disposed(by: disposeBag)
         
         listCollectionView.rx.setDelegate(self)
             .disposed(by: disposeBag)
     }
     
-    
     // MARK: - Configures
     
-    
     override func configureUI() {
-        
-        
         listCollectionView.register(InfoCollectionViewCell.self, forCellWithReuseIdentifier: "InfoCollectionViewCell")
-        
         view.initAutoLayout(UIViews: [listCollectionView])
         view.backgroundColor = .white
+        
         NSLayoutConstraint.activate([
             listCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             listCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             listCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             listCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        cellRow = (previousTraitCollection?.verticalSizeClass == .compact) ? 2 : 3
     }
 }
 
@@ -92,9 +71,9 @@ extension InfoViewController: UICollectionViewDelegateFlowLayout {
             return CGSize.zero
         }
         
-        let value = (collectionView.frame.width - (flowLayout.sectionInset.left + flowLayout.sectionInset.right + flowLayout.minimumInteritemSpacing)) / 2
+        let value = (collectionView.frame.width - (flowLayout.sectionInset.left + flowLayout.sectionInset.right + flowLayout.minimumInteritemSpacing * 2)) / CGFloat(cellRow)
         
-        return CGSize(width: value, height: value)
+        return CGSize(width: value, height: value / 0.6)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

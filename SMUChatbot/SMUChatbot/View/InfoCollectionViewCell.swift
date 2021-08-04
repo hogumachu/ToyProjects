@@ -1,9 +1,10 @@
 import UIKit
 
 class InfoCollectionViewCell: UICollectionViewCell {
-    let summaryLabel: UILabel = {
+    static let identifier = "InfoCollectionViewCell"
+    let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 20)
+        label.font = .boldSystemFont(ofSize: 30)
         label.textColor = .white
         return label
     }()
@@ -12,15 +13,24 @@ class InfoCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.initAutoLayout(UIViews: [summaryLabel])
+        configureUI()
+        contentView.initAutoLayout(UIViews: [titleLabel])
         NSLayoutConstraint.activate([
-            summaryLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            summaryLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+            titleLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            titleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
         ])
         
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func configureUI() {
+        layer.cornerRadius = 10
+        layer.borderWidth = 2
+        layer.borderColor = UIColor.smu.cgColor
+        backgroundColor = .white
+        titleLabel.textColor = .black
     }
 }
