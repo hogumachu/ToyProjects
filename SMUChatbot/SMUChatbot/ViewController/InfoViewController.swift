@@ -9,20 +9,22 @@ class InfoViewController: BaseViewController {
     }
     
     // MARK: - Properties
+    // Components - InfoViewControllerComponents
     let viewModel: InfoViewModel
     
     lazy var collectionObservable = Observable.of(myChatbotInfo)
     
-    let listCollectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.isPagingEnabled = true
-        collectionView.backgroundColor = .white
-        
-        return collectionView
-    }()
+//    let listCollectionView: UICollectionView = {
+//        let layout = UICollectionViewFlowLayout()
+//        layout.scrollDirection = .vertical
+//        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+//        collectionView.isPagingEnabled = true
+//        collectionView.backgroundColor = .white
+//
+//        return collectionView
+//    }()
     
+    let listCollectionView = ListCollectionView()
     
     // MARK: - Lifecycles
     
@@ -100,7 +102,8 @@ extension InfoViewController: UICollectionViewDelegateFlowLayout {
         case viewModel.info.count - 1:
             coordinator?.chatViewSelected()
         default:
-            print("Not Next Button")
+            let info = viewModel.info[indexPath.row]
+            coordinator?.infoDetailViewSelected(info: info)
         }
     }
 }
