@@ -30,10 +30,7 @@ class MainViewController: BaseViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        viewModel.viewAnimate(self)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            self.coordinator?.startMainViewContoller()
-        }
+        coordinator?.startMainViewContoller(self)
     }
     
     // MARK: - Configures
