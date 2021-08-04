@@ -25,6 +25,7 @@ class InfoDetailViewController: BaseViewController {
     override func configureUI() {
         self.navigationController?.navigationBar.isHidden = false
         self.navigationItem.leftBarButtonItem = DetailBackkBarButtonItem
+        self.navigationItem.title = info.title
     }
     
     override func subscribe() {
