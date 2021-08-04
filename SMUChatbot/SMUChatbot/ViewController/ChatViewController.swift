@@ -37,12 +37,10 @@ class ChatViewController: BaseViewController {
                     .asDriver(onErrorJustReturn: "Error !!!!!")
             }
            
-        
 //        TODO: - 테이블뷰에 채팅 뷰 넣기.
 //        result
 //            .drive(chatTableView.rx.text)
 //            .disposed(by: disposeBag)
-      
         
         backBarButtonItem.rx.tap
             .subscribe(onNext: { [unowned self] _ in
@@ -51,14 +49,7 @@ class ChatViewController: BaseViewController {
             })
             .disposed(by: disposeBag)
         
-        let keyboardWillShowNotiObservable = NotificationCenter.default.rx
-            .notification(UIResponder.keyboardWillShowNotification)
-            .map { ($0.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.height ?? 0}
-        let keyboardWillHideNotiObservable = NotificationCenter.default.rx
-            .notification(UIResponder.keyboardWillHideNotification)
-            .map { notification -> CGFloat in 0 }
-        
-        Observable.merge(keyboardWillShowNotiObservable, keyboardWillHideNotiObservable)
+        Observable.merge(viewModel.keyboardWillShowNotiObservable(), viewModel.keyboardWillHideNotiObservable())
             .subscribe(onNext: { [weak self] height in
                 UIView.animate(withDuration: 0.3) {
                     if height == 0 {
