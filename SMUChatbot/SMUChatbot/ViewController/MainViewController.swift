@@ -8,37 +8,14 @@ class MainViewController: BaseViewController {
     }
     
     // MARK: - Properties
+    // Components - MainViewControllerComponents
     let viewModel: MainViewModel
     
-    let smuLabel: UILabel = {
-        let label = UILabel()
-        label.text = "상명대학교"
-        label.textColor = .smu
-        label.textAlignment = .left
-        label.font = .systemFont(ofSize: 70, weight: .heavy)
-        label.adjustsFontSizeToFitWidth = true
-        return label
-    }()
+    let smuLabel = SmuLabel()
     
-    let capstoneLabel: UILabel = {
-        let label = UILabel()
-        label.text = "캡스톤디자인"
-        label.textColor = .smu
-        label.textAlignment = .left
-        label.font = .systemFont(ofSize: 70, weight: .heavy)
-        label.adjustsFontSizeToFitWidth = true
-        return label
-    }()
+    let capstoneLabel = CapstoneLabel()
     
-    let teamNameLabel: UILabel = {
-        let label = UILabel()
-        label.text = "채팅해조"
-        label.textColor = .smu
-        label.textAlignment = .left
-        label.font = .systemFont(ofSize: 70, weight: .heavy)
-        label.adjustsFontSizeToFitWidth = true
-        return label
-    }()
+    let teamNameLabel = TeamNameLabel()
     
     // MARK: - Lifecycles
     
@@ -54,7 +31,6 @@ class MainViewController: BaseViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.coordinator?.startMainViewContoller()
-//        self.viewModel.gotoInfoVCAfterAnimate([smuLabel, capstoneLabel, teamNameLabel], self)
     }
     
     
