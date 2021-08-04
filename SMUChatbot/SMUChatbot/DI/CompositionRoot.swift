@@ -17,7 +17,16 @@ extension AppDependency {
             return .init(dependency: .init(viewModel: .init()), payload: ())
         }
         
-        let coordinator = Coordinator.init(dependency: .init(mainViewControllerFactory: mainViewControllerFactory, chatViewControllerFactory: chatViewControllerFactory, infoViewControllerFactory: infoViewControllerFactory), payload: ())
+        let infoDetailViewControllerFactory: (Info) -> InfoDetailViewController = { info in
+            return .init(dependency: .init(info: info), payload: ())
+        }
+        
+        let coordinator = Coordinator.init(dependency:
+                                            .init(mainViewControllerFactory: mainViewControllerFactory,
+                                                  chatViewControllerFactory: chatViewControllerFactory,
+                                                  infoViewControllerFactory: infoViewControllerFactory,
+                                                  infoDetailViewControllerFactory: infoDetailViewControllerFactory),
+                                           payload: ())
         
         return .init(coordinator: coordinator)
     }

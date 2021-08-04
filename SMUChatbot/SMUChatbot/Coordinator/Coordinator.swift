@@ -6,6 +6,7 @@ class Coordinator {
         let mainViewControllerFactory: () -> MainViewController
         let chatViewControllerFactory: () -> ChatViewController
         let infoViewControllerFactory: () -> InfoViewController
+        let infoDetailViewControllerFactory: (Info) -> InfoDetailViewController
     }
     
     var navigationController: UINavigationController?
@@ -13,11 +14,13 @@ class Coordinator {
     let rootViewController: MainViewController
     let chatViewControllerFactory: () -> ChatViewController
     let infoViewControllerFactory: () -> InfoViewController
+    let infoDetailViewControllerFactory: (Info) -> InfoDetailViewController
     
     required init(dependency: Dependency, payload: ()) {
         rootViewController = dependency.mainViewControllerFactory()
         chatViewControllerFactory = dependency.chatViewControllerFactory
         infoViewControllerFactory = dependency.infoViewControllerFactory
+        infoDetailViewControllerFactory = dependency.infoDetailViewControllerFactory
     }
     
     func start() {
@@ -40,5 +43,11 @@ class Coordinator {
     
     func chatViewBackButtonTapped() {
         navigationController?.popViewController(animated: true)
+    }
+    
+    func infoDetailViewSelected(info: Info) {
+        let vc = infoDetailViewControllerFactory(info)
+        navigationController?.pushViewController(vc, animated: true)
+        
     }
 }
