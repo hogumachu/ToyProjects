@@ -4,20 +4,31 @@ class InfoCollectionViewCell: UICollectionViewCell {
     static let identifier = "InfoCollectionViewCell"
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 30)
+        label.font = .boldSystemFont(ofSize: 50)
         label.textColor = .white
         return label
     }()
     
-    var detail: String = ""
+    let detailLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.font = .systemFont(ofSize: 20)
+        label.textColor = .white
+        return label
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureUI()
-        contentView.initAutoLayout(UIViews: [titleLabel])
+        contentView.initAutoLayout(UIViews: [titleLabel, detailLabel])
         NSLayoutConstraint.activate([
-            titleLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            titleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 20),
+            titleLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 20),
+            titleLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -20),
+            
+            detailLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
+            detailLabel.leftAnchor.constraint(equalTo: titleLabel.leftAnchor),
+            detailLabel.rightAnchor.constraint(equalTo: titleLabel.rightAnchor),
         ])
         
     }
@@ -27,10 +38,14 @@ class InfoCollectionViewCell: UICollectionViewCell {
     }
     
     func configureUI() {
-        layer.cornerRadius = 10
-        layer.borderWidth = 2
-        layer.borderColor = UIColor.smu.cgColor
-        backgroundColor = .white
-        titleLabel.textColor = .black
+        backgroundColor = .smu
+        layer.cornerRadius = 15
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOffset = CGSize(width: 0, height: 0)
+        layer.shadowRadius = 10
+        layer.shadowOpacity = 1
+        layer.masksToBounds = false
+        
+        titleLabel.textColor = .white
     }
 }

@@ -1,14 +1,13 @@
 import UIKit
 
 class MainViewController: BaseViewController {
-    
-    
     struct Dependency {
         let viewModel: MainViewModel
     }
     
     // MARK: - Properties
     // Components - MainViewControllerComponents
+    
     let viewModel: MainViewModel
     
     let smuLabel = SmuLabel()

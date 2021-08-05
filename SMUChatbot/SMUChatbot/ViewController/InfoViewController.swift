@@ -3,17 +3,17 @@ import RxSwift
 import RxCocoa
 
 class InfoViewController: BaseViewController {
-    
     struct Dependency {
         let viewModel: InfoViewModel
     }
     
     // MARK: - Properties
     // Components - InfoViewControllerComponents
+    
     let viewModel: InfoViewModel
-    lazy var collectionObservable = Observable.of(myChatbotInfo)
+    lazy var collectionObservable = Observable.of(viewModel.info)
     let listCollectionView = ListCollectionView()
-    var cellRow = 2
+    
     // MARK: - Lifecycles
     
     init(dependency: Dependency, payload: ()) {
@@ -25,17 +25,10 @@ class InfoViewController: BaseViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
     override func subscribe() {
         collectionObservable.bind(to: listCollectionView.rx.items(cellIdentifier: InfoCollectionViewCell.identifier, cellType: InfoCollectionViewCell.self)) { index, item, cell in
-//            cell.layer.cornerRadius = cell.frame.height / 2
-//            cell.layer.cornerRadius = 10
-//            cell.layer.borderWidth = 10
-//            cell.layer.borderColor = UIColor.smu.cgColor
-//            cell.backgroundColor = .white
-//            cell.titleLabel.textColor = .black
             cell.titleLabel.text = item.title
-            cell.detail = item.detailInfo
+            cell.detailLabel.text = item.detailInfo
         }
         .disposed(by: disposeBag)
         
@@ -46,7 +39,7 @@ class InfoViewController: BaseViewController {
     // MARK: - Configures
     
     override func configureUI() {
-        listCollectionView.register(InfoCollectionViewCell.self, forCellWithReuseIdentifier: "InfoCollectionViewCell")
+        listCollectionView.register(InfoCollectionViewCell.self, forCellWithReuseIdentifier: InfoCollectionViewCell.identifier)
         view.initAutoLayout(UIViews: [listCollectionView])
         view.backgroundColor = .white
         
@@ -57,11 +50,6 @@ class InfoViewController: BaseViewController {
             listCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
     }
-    
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        cellRow = (previousTraitCollection?.verticalSizeClass == .compact) ? 2 : 3
-    }
 }
 
 
@@ -71,9 +59,14 @@ extension InfoViewController: UICollectionViewDelegateFlowLayout {
             return CGSize.zero
         }
         
-        let value = (collectionView.frame.width - (flowLayout.sectionInset.left + flowLayout.sectionInset.right + flowLayout.minimumInteritemSpacing * 2)) / CGFloat(cellRow)
+        flowLayout.sectionInset = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
+        flowLayout.minimumLineSpacing = 20
+        collectionView.collectionViewLayout = flowLayout
         
-        return CGSize(width: value, height: value / 0.6)
+        let width = collectionView.frame.width - (flowLayout.sectionInset.left + flowLayout.sectionInset.right + flowLayout.minimumInteritemSpacing * 2)
+        let height = collectionView.frame.height - (flowLayout.sectionInset.left + flowLayout.sectionInset.right + flowLayout.minimumInteritemSpacing * 2)
+        
+        return CGSize(width: width, height: height)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
