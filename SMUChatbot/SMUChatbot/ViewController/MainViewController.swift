@@ -10,11 +10,11 @@ class MainViewController: BaseViewController {
     
     let viewModel: MainViewModel
     
-    let smuLabel = SmuLabel()
+    let smuLabel = HeavyTitleLabel()
     
-    let capstoneLabel = CapstoneLabel()
+    let capstoneLabel = HeavyTitleLabel()
     
-    let teamNameLabel = TeamNameLabel()
+    let teamNameLabel = HeavyTitleLabel()
     
     // MARK: - Lifecycles
     
@@ -35,6 +35,12 @@ class MainViewController: BaseViewController {
     // MARK: - Configures
     
     override func configureUI() {
+        smuLabel.text = "상명대학교"
+        smuLabel.textColor = .smu
+        capstoneLabel.text = "캡스톤디자인"
+        capstoneLabel.textColor = .smu
+        teamNameLabel.text = "채팅해조"
+        teamNameLabel.textColor = .smu
         view.backgroundColor = .smu
         view.initAutoLayout(UIViews: [smuLabel, capstoneLabel, teamNameLabel])
         NSLayoutConstraint.activate([
