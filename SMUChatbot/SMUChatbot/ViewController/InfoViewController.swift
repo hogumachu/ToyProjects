@@ -29,6 +29,9 @@ class InfoViewController: BaseViewController {
         collectionObservable.bind(to: listCollectionView.rx.items(cellIdentifier: InfoCollectionViewCell.identifier, cellType: InfoCollectionViewCell.self)) { index, item, cell in
             cell.titleLabel.text = item.title
             cell.detailLabel.text = item.detailInfo
+            cell.imageView.backgroundColor = item.color
+//            TODO: - 각 Cell에 대해 내용이 확립이 된다면 이에 따른 이미지를 설정해자.
+//            cell.imageView.image = item.image
         }
         .disposed(by: disposeBag)
         
