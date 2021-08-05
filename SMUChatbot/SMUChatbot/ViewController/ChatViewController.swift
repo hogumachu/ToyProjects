@@ -3,7 +3,6 @@ import RxSwift
 import RxCocoa
 
 class ChatViewController: BaseViewController {
-    
     struct Dependency {
         let viewModel: ChatViewModel
     }
@@ -31,13 +30,12 @@ class ChatViewController: BaseViewController {
     }
     
     override func subscribe() {
-        let result = sendButton.rx.tap.asDriver()
-            .flatMapLatest { [unowned self] in
-                self.viewModel.responseDjango(sendText: self.chatTextField.text ?? "")
-                    .asDriver(onErrorJustReturn: "Error !!!!!")
-            }
-           
 //        TODO: - 테이블뷰에 채팅 뷰 넣기.
+//        let result = sendButton.rx.tap.asDriver()
+//            .flatMapLatest { [unowned self] in
+//                self.viewModel.responseDjango(sendText: self.chatTextField.text ?? "")
+//                    .asDriver(onErrorJustReturn: "Error !!!!!")
+//            }
 //        result
 //            .drive(chatTableView.rx.text)
 //            .disposed(by: disposeBag)
@@ -66,12 +64,11 @@ class ChatViewController: BaseViewController {
             })
             .disposed(by: disposeBag)
     }
-
     
     // MARK: - Configures
+    
     override func configureUI() {
         view.backgroundColor = .white
-    
         self.navigationController?.navigationBar.isHidden = false
         self.navigationItem.leftBarButtonItem = backBarButtonItem
         
