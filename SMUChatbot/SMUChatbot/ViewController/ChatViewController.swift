@@ -8,7 +8,6 @@ class ChatViewController: BaseViewController {
     }
     
     // MARK: - Properties
-    // Components - ChatViewControllerComponents
     
     let viewModel: ChatViewModel
     let chatTextField = ChatTextField()
@@ -29,40 +28,9 @@ class ChatViewController: BaseViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func subscribe() {
-//        TODO: - 테이블뷰에 채팅 뷰 넣기.
-//        let result = sendButton.rx.tap.asDriver()
-//            .flatMapLatest { [unowned self] in
-//                self.viewModel.responseDjango(sendText: self.chatTextField.text ?? "")
-//                    .asDriver(onErrorJustReturn: "Error !!!!!")
-//            }
-//        result
-//            .drive(chatTableView.rx.text)
-//            .disposed(by: disposeBag)
-        
-        backBarButtonItem.rx.tap
-            .subscribe(onNext: { [unowned self] _ in
-                self.navigationController?.navigationBar.isHidden = true
-                self.navigationController?.popViewController(animated: true)
-            })
-            .disposed(by: disposeBag)
-        
-        Observable.merge(viewModel.keyboardWillShowNotiObservable(), viewModel.keyboardWillHideNotiObservable())
-            .subscribe(onNext: { [weak self] height in
-                UIView.animate(withDuration: 0.3) {
-                    if height == 0 {
-                        self?.keyboardHeightAnchor?.isActive = false
-                        self?.keyboardHeightAnchor = self?.keyboardView.topAnchor.constraint(equalTo: (self?.keyboardView.bottomAnchor)!, constant: 0)
-                        self?.keyboardHeightAnchor?.isActive = true
-                    } else {
-                        self?.keyboardHeightAnchor?.isActive = false
-                        self?.keyboardHeightAnchor = self?.keyboardView.topAnchor.constraint(equalTo: (self?.keyboardView.bottomAnchor)!, constant: -height + (self?.view.safeAreaInsets.bottom ?? 0))
-                        self?.keyboardHeightAnchor?.isActive = true
-                    }
-                    self?.view.layoutIfNeeded()
-                }
-            })
-            .disposed(by: disposeBag)
+    override func viewWillDisappear(_ animated: Bool) {
+        resignFirstResponder()
+        super.viewWillAppear(animated)
     }
     
     // MARK: - Configures
@@ -96,5 +64,67 @@ class ChatViewController: BaseViewController {
             keyboardView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             keyboardView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor),
         ])
+    }
+    
+    // MARK: - Subscribes
+    
+    override func subscribe() {
+        
+        viewModel.sendMessage
+            .subscribe { event in
+                if let text = event.element {
+                    print("SendMessage:", text)
+                }
+            }.disposed(by: disposeBag)
+        
+        viewModel.receiveMessage
+            .subscribe { event in
+                if let text = event.element {
+                    print("ReceiveMessage:", text)
+                }
+            }.disposed(by: disposeBag)
+        
+        
+        sendButton.rx.tap
+            .subscribe(onNext: { [unowned self] _ in
+                if let text = self.chatTextField.text, text != "" {
+                    self.viewModel.chatting(sendText: self.chatTextField.text ?? "")
+                    self.chatTextField.text = ""
+                }
+            }).disposed(by: disposeBag)
+        
+//        TODO: - 테이블뷰에 채팅 뷰 넣기.
+//        let result = sendButton.rx.tap.asDriver()
+//            .flatMapLatest { [unowned self] in
+//                self.viewModel.responseDjango(sendText: self.chatTextField.text ?? "")
+//                    .asDriver(onErrorJustReturn: "Error !!!!!")
+//            }
+//        result
+//            .drive(chatTableView.rx.text)
+//            .disposed(by: disposeBag)
+        
+        backBarButtonItem.rx.tap
+            .subscribe(onNext: { [unowned self] _ in
+                self.navigationController?.navigationBar.isHidden = true
+                self.navigationController?.popViewController(animated: true)
+            })
+            .disposed(by: disposeBag)
+        
+        Observable.merge(viewModel.keyboardWillShowNotiObservable(), viewModel.keyboardWillHideNotiObservable())
+            .subscribe(onNext: { [weak self] height in
+                UIView.animate(withDuration: 0.3) {
+                    if height == 0 {
+                        self?.keyboardHeightAnchor?.isActive = false
+                        self?.keyboardHeightAnchor = self?.keyboardView.topAnchor.constraint(equalTo: (self?.keyboardView.bottomAnchor)!, constant: 0)
+                        self?.keyboardHeightAnchor?.isActive = true
+                    } else {
+                        self?.keyboardHeightAnchor?.isActive = false
+                        self?.keyboardHeightAnchor = self?.keyboardView.topAnchor.constraint(equalTo: (self?.keyboardView.bottomAnchor)!, constant: -height + (self?.view.safeAreaInsets.bottom ?? 0))
+                        self?.keyboardHeightAnchor?.isActive = true
+                    }
+                    self?.view.layoutIfNeeded()
+                }
+            })
+            .disposed(by: disposeBag)
     }
 }

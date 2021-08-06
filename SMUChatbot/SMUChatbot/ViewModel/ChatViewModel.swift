@@ -2,16 +2,18 @@ import Foundation
 import RxSwift
 
 class ChatViewModel {
-    func responseDjango(sendText text: String) -> Observable<String> {
-        print(text)
+    let disposeBag = DisposeBag()
+    var sendMessage = PublishSubject<String>()
+    var receiveMessage = PublishSubject<String>()
+    
+    func chatting(sendText text: String){
+        sendMessage.onNext(text)
         let urlRequest = URLRequest(url: URL(string: "http://127.0.0.1:8000/get_info/?data=\(text)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)!)
+        let data = URLSession.shared.rx.data(request: urlRequest)
         
-        let response = Observable.just(urlRequest)
-            .flatMap(URLSession.shared.rx.data(request:))
-            .map { self.decodeData(data: $0) }
-        
-        return response
-        
+        data.subscribe(onNext: { [unowned self] data in
+            self.receiveMessage.onNext((decodeData(data: data)))
+        }).disposed(by: disposeBag)
     }
     
     func decodeData(data: Data) -> String {
