@@ -8,7 +8,6 @@ class InfoViewController: BaseViewController {
     }
     
     // MARK: - Properties
-    // Components - InfoViewControllerComponents
     
     let viewModel: InfoViewModel
     lazy var collectionObservable = Observable.of(viewModel.info)
@@ -25,18 +24,8 @@ class InfoViewController: BaseViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func subscribe() {
-        collectionObservable.bind(to: listCollectionView.rx.items(cellIdentifier: InfoCollectionViewCell.identifier, cellType: InfoCollectionViewCell.self)) { index, item, cell in
-            cell.titleLabel.text = item.title
-            cell.detailLabel.text = item.detailInfo
-            cell.imageView.backgroundColor = item.color
-//            TODO: - 각 Cell에 대해 내용이 확립이 된다면 이에 따른 이미지를 설정해자.
-//            cell.imageView.image = item.image
-        }
-        .disposed(by: disposeBag)
-        
-        listCollectionView.rx.setDelegate(self)
-            .disposed(by: disposeBag)
+    override func viewDidLoad() {
+        super.viewDidLoad()
     }
     
     // MARK: - Configures
@@ -53,6 +42,23 @@ class InfoViewController: BaseViewController {
             listCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
     }
+    
+    // MARK: - Subscribes
+    
+    override func subscribe() {
+        collectionObservable.bind(to: listCollectionView.rx.items(cellIdentifier: InfoCollectionViewCell.identifier, cellType: InfoCollectionViewCell.self)) { index, item, cell in
+            cell.titleLabel.text = item.title
+            cell.detailLabel.text = item.detailInfo
+            cell.imageView.backgroundColor = item.color
+//            TODO: - 각 Cell에 대해 내용이 확립이 된다면 이에 따른 이미지를 설정해자.
+//            cell.imageView.image = item.image
+        }
+        .disposed(by: disposeBag)
+
+        listCollectionView.rx.setDelegate(self)
+            .disposed(by: disposeBag)
+    }
+    
 }
 
 

@@ -11,13 +11,17 @@ class InfoCollectionViewCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.backgroundColor = .systemPink
         imageView.transform = imageView.transform.rotated(by: .pi / 8)
-        imageView.layer.shadowColor = UIColor.black.cgColor
-        imageView.layer.shadowOffset = CGSize(width: 0, height: 0)
-        imageView.layer.shadowRadius = 10
-        imageView.layer.shadowOpacity = 0.3
         imageView.layer.cornerRadius = 15
+        imageView.layer.masksToBounds = false
+        
+        
         return imageView
     }()
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        applyShadows()
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -31,13 +35,11 @@ class InfoCollectionViewCell: UICollectionViewCell {
     func configureUI() {
         backgroundColor = .smu
         layer.cornerRadius = 15
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOffset = CGSize(width: 0, height: 0)
-        layer.shadowRadius = 10
-        layer.shadowOpacity = 1
-//        clipsToBounds = true
-        layer.masksToBounds = false
         
+        
+        // TODO: - clipsToBounds vs. masksToBounds 해결하기. Cell의 shadow 가 정상적으로 작동하도록.
+        clipsToBounds = true
+//        layer.masksToBounds = false
         titleLabel.textColor = .white
         
         contentView.initAutoLayout(UIViews: [titleLabel, detailLabel, imageView])
@@ -56,4 +58,16 @@ class InfoCollectionViewCell: UICollectionViewCell {
             imageView.heightAnchor.constraint(equalToConstant: 300),
         ])
     }
+    
+    func applyShadows() {
+        imageView.layer.shadowPath = UIBezierPath(roundedRect: imageView.bounds, cornerRadius: 10).cgPath
+        imageView.layer.shadowColor = UIColor.black.cgColor
+        imageView.layer.shadowRadius = 15
+        imageView.layer.shadowOpacity = 1
+        imageView.layer.shadowOffset = CGSize(width: 20, height: 0)
+        imageView.layer.shouldRasterize = true
+        imageView.layer.rasterizationScale = UIScreen.main.scale
+    }
+    
 }
+
