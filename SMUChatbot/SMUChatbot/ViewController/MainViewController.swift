@@ -6,14 +6,10 @@ class MainViewController: BaseViewController {
     }
     
     // MARK: - Properties
-    // Components - MainViewControllerComponents
     
     let viewModel: MainViewModel
-    
     let smuLabel = HeavyTitleLabel()
-    
     let capstoneLabel = HeavyTitleLabel()
-    
     let teamNameLabel = HeavyTitleLabel()
     
     // MARK: - Lifecycles
