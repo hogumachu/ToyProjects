@@ -61,6 +61,7 @@ class InfoViewController: BaseViewController {
     
 }
 
+// MARK: - Extensions
 
 extension InfoViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
