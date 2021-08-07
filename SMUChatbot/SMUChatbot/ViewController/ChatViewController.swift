@@ -16,6 +16,7 @@ class ChatViewController: BaseViewController {
     let keyboardView = UIView()
     let backBarButtonItem = BackBarButtonItem()
     var keyboardHeightAnchor: NSLayoutConstraint?
+    lazy var messageObservable = Observable.of(viewModel.messages)
     
     // MARK: - Lifecycles
     
@@ -69,17 +70,16 @@ class ChatViewController: BaseViewController {
     // MARK: - Subscribes
     
     override func subscribe() {
-        
         viewModel.sendMessage
             .subscribe { event in
-                if let text = event.element {
+                if let text = event.element, text != "" {
                     print("SendMessage:", text)
                 }
             }.disposed(by: disposeBag)
         
         viewModel.receiveMessage
             .subscribe { event in
-                if let text = event.element {
+                if let text = event.element, text != "" {
                     print("ReceiveMessage:", text)
                 }
             }.disposed(by: disposeBag)
@@ -88,20 +88,10 @@ class ChatViewController: BaseViewController {
         sendButton.rx.tap
             .subscribe(onNext: { [unowned self] _ in
                 if let text = self.chatTextField.text, text != "" {
-                    self.viewModel.chatting(sendText: self.chatTextField.text ?? "")
+                    self.viewModel.chatting(sendText: text)
                     self.chatTextField.text = ""
                 }
             }).disposed(by: disposeBag)
-        
-//        TODO: - 테이블뷰에 채팅 뷰 넣기.
-//        let result = sendButton.rx.tap.asDriver()
-//            .flatMapLatest { [unowned self] in
-//                self.viewModel.responseDjango(sendText: self.chatTextField.text ?? "")
-//                    .asDriver(onErrorJustReturn: "Error !!!!!")
-//            }
-//        result
-//            .drive(chatTableView.rx.text)
-//            .disposed(by: disposeBag)
         
         backBarButtonItem.rx.tap
             .subscribe(onNext: { [unowned self] _ in
@@ -113,18 +103,28 @@ class ChatViewController: BaseViewController {
         Observable.merge(viewModel.keyboardWillShowNotiObservable(), viewModel.keyboardWillHideNotiObservable())
             .subscribe(onNext: { [weak self] height in
                 UIView.animate(withDuration: 0.3) {
-                    if height == 0 {
-                        self?.keyboardHeightAnchor?.isActive = false
-                        self?.keyboardHeightAnchor = self?.keyboardView.topAnchor.constraint(equalTo: (self?.keyboardView.bottomAnchor)!, constant: 0)
-                        self?.keyboardHeightAnchor?.isActive = true
-                    } else {
-                        self?.keyboardHeightAnchor?.isActive = false
-                        self?.keyboardHeightAnchor = self?.keyboardView.topAnchor.constraint(equalTo: (self?.keyboardView.bottomAnchor)!, constant: -height + (self?.view.safeAreaInsets.bottom ?? 0))
-                        self?.keyboardHeightAnchor?.isActive = true
-                    }
-                    self?.view.layoutIfNeeded()
+                    self?.changeKeyboardHeight(height)
                 }
             })
             .disposed(by: disposeBag)
     }
+    
+    // MARK: - Helper
+    
+    func changeKeyboardHeight(_ height: CGFloat) {
+        if height == 0 {
+            self.keyboardHeightAnchor?.isActive = false
+            self.keyboardHeightAnchor = self.keyboardView.topAnchor.constraint(equalTo: self.keyboardView.bottomAnchor, constant: 0)
+            self.keyboardHeightAnchor?.isActive = true
+        } else {
+            self.keyboardHeightAnchor?.isActive = false
+            self.keyboardHeightAnchor = self.keyboardView.topAnchor.constraint(equalTo: self.keyboardView.bottomAnchor, constant: -height + self.view.safeAreaInsets.bottom)
+            self.keyboardHeightAnchor?.isActive = true
+        }
+        self.view.layoutIfNeeded()
+    }
+}
+
+extension ChatViewController: UIScrollViewDelegate {
+    
 }
