@@ -4,7 +4,6 @@ struct AppDependency {
 
 extension AppDependency {
     static func resolve() -> AppDependency {
-        
         let mainViewControllerFactory: () -> MainViewController = {
             return .init(dependency: .init(viewModel: .init()), payload: ())
         }

@@ -9,7 +9,7 @@ class InfoDetailViewController: BaseViewController {
     // MARK: - Properties
     
     let info: Info
-    let DetailBackkBarButtonItem = BackBarButtonItem()
+    let DetailBackBarButtonItem = BackBarButtonItem()
     
     // MARK: - Lifecycles
     
@@ -20,7 +20,6 @@ class InfoDetailViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .smu
         configureUI()
         subscribe()
     }
@@ -28,15 +27,16 @@ class InfoDetailViewController: BaseViewController {
     // MARK: - Configures
     
     override func configureUI() {
+        view.backgroundColor = .smu
         self.navigationController?.navigationBar.isHidden = false
-        self.navigationItem.leftBarButtonItem = DetailBackkBarButtonItem
+        self.navigationItem.leftBarButtonItem = DetailBackBarButtonItem
         self.navigationItem.title = info.title
     }
     
     // MARK: - Subscribes
     
     override func subscribe() {
-        DetailBackkBarButtonItem.rx.tap
+        DetailBackBarButtonItem.rx.tap
             .subscribe(onNext: { [unowned self] _ in
                 guard let topVC = navigationController?.topViewController else { return }
                 if let _ = topVC as? InfoDetailViewController {

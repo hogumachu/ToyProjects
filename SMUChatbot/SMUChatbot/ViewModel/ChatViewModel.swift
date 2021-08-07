@@ -1,18 +1,23 @@
 import Foundation
 import RxSwift
+import RxCocoa
 
 class ChatViewModel {
     let disposeBag = DisposeBag()
-    var sendMessage = PublishSubject<String>()
-    var receiveMessage = PublishSubject<String>()
+    var sendMessage = BehaviorRelay<String>(value: "")
+    var receiveMessage = BehaviorRelay<String>(value: "")
+    var messages: [String] = []
     
     func chatting(sendText text: String){
-        sendMessage.onNext(text)
+        sendMessage.accept(text)
+        messages.append(text)
         let urlRequest = URLRequest(url: URL(string: "http://127.0.0.1:8000/get_info/?data=\(text)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)!)
         let data = URLSession.shared.rx.data(request: urlRequest)
         
         data.subscribe(onNext: { [unowned self] data in
-            self.receiveMessage.onNext((decodeData(data: data)))
+            let text = decodeData(data: data)
+            self.receiveMessage.accept(text)
+            messages.append(text)
         }).disposed(by: disposeBag)
     }
     
