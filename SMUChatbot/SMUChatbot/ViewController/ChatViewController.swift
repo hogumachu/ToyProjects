@@ -16,7 +16,6 @@ class ChatViewController: BaseViewController {
     let keyboardView = UIView()
     let backBarButtonItem = BackBarButtonItem()
     var keyboardHeightAnchor: NSLayoutConstraint?
-    lazy var messageObservable = Observable.of(viewModel.messages)
     
     // MARK: - Lifecycles
     
@@ -37,6 +36,7 @@ class ChatViewController: BaseViewController {
     // MARK: - Configures
     
     override func configureUI() {
+        chatTableView.register(ChatTableViewCell.self, forCellReuseIdentifier: ChatTableViewCell.identifier)
         view.backgroundColor = .white
         self.navigationController?.navigationBar.isHidden = false
         self.navigationItem.leftBarButtonItem = backBarButtonItem
@@ -107,6 +107,7 @@ class ChatViewController: BaseViewController {
                 }
             })
             .disposed(by: disposeBag)
+        
     }
     
     // MARK: - Helper
@@ -125,6 +126,4 @@ class ChatViewController: BaseViewController {
     }
 }
 
-extension ChatViewController: UIScrollViewDelegate {
-    
-}
+extension ChatViewController: UIScrollViewDelegate { }
