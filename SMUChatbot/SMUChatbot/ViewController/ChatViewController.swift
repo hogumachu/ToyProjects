@@ -16,7 +16,6 @@ class ChatViewController: BaseViewController {
     let keyboardView = UIView()
     let backBarButtonItem = BackBarButtonItem()
     var keyboardHeightAnchor: NSLayoutConstraint?
-    lazy var messageObservable = Observable.of(viewModel.messages)
     
     // MARK: - Lifecycles
     
@@ -101,12 +100,14 @@ class ChatViewController: BaseViewController {
             .disposed(by: disposeBag)
         
         Observable.merge(viewModel.keyboardWillShowNotiObservable(), viewModel.keyboardWillHideNotiObservable())
-            .subscribe(onNext: { [weak self] height in
+            .asDriver(onErrorJustReturn: 0)
+            .drive { height in
                 UIView.animate(withDuration: 0.3) {
-                    self?.changeKeyboardHeight(height)
+                    self.changeKeyboardHeight(height)
                 }
-            })
+            }
             .disposed(by: disposeBag)
+        
     }
     
     // MARK: - Helper
@@ -125,6 +126,4 @@ class ChatViewController: BaseViewController {
     }
 }
 
-extension ChatViewController: UIScrollViewDelegate {
-    
-}
+extension ChatViewController: UIScrollViewDelegate { }
