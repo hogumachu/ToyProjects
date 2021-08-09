@@ -36,7 +36,6 @@ class ChatViewController: BaseViewController {
     // MARK: - Configures
     
     override func configureUI() {
-        chatTableView.register(ChatTableViewCell.self, forCellReuseIdentifier: ChatTableViewCell.identifier)
         view.backgroundColor = .white
         self.navigationController?.navigationBar.isHidden = false
         self.navigationItem.leftBarButtonItem = backBarButtonItem
@@ -101,11 +100,12 @@ class ChatViewController: BaseViewController {
             .disposed(by: disposeBag)
         
         Observable.merge(viewModel.keyboardWillShowNotiObservable(), viewModel.keyboardWillHideNotiObservable())
-            .subscribe(onNext: { [weak self] height in
+            .asDriver(onErrorJustReturn: 0)
+            .drive { height in
                 UIView.animate(withDuration: 0.3) {
-                    self?.changeKeyboardHeight(height)
+                    self.changeKeyboardHeight(height)
                 }
-            })
+            }
             .disposed(by: disposeBag)
         
     }
