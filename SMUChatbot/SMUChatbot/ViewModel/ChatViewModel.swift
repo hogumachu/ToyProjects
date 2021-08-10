@@ -4,20 +4,19 @@ import RxCocoa
 
 class ChatViewModel {
     let disposeBag = DisposeBag()
-    var sendMessage = BehaviorRelay<String>(value: "")
-    var receiveMessage = BehaviorRelay<String>(value: "")
     var messages: [String] = []
+    lazy var messageRelay = BehaviorRelay<[String]>(value: messages)
     
     func chatting(sendText text: String){
-        sendMessage.accept(text)
         messages.append(text)
+        messageRelay.accept(messages)
         let urlRequest = URLRequest(url: URL(string: "http://127.0.0.1:8000/get_info/?data=\(text)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)!)
         let data = URLSession.shared.rx.data(request: urlRequest)
         
         data.subscribe(onNext: { [unowned self] data in
             let text = decodeData(data: data)
-            self.receiveMessage.accept(text)
             messages.append(text)
+            messageRelay.accept(messages)
         }).disposed(by: disposeBag)
     }
     
