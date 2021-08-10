@@ -39,7 +39,7 @@ class ChatViewController: BaseViewController {
         view.backgroundColor = .white
         self.navigationController?.navigationBar.isHidden = false
         self.navigationItem.leftBarButtonItem = backBarButtonItem
-        
+        chatTableView.register(ChatTableViewCell.self, forCellReuseIdentifier: ChatTableViewCell.identifier)
         view.initAutoLayout(UIViews: [chatTableView, chatTextField, sendButton, keyboardView])
         keyboardHeightAnchor = keyboardView.heightAnchor.constraint(equalToConstant: 0)
         keyboardHeightAnchor?.isActive = true
@@ -69,14 +69,9 @@ class ChatViewController: BaseViewController {
     // MARK: - Subscribes
     
     override func subscribe() {
-        viewModel.messageRelay
-            .subscribe(onNext: { messages in
-                print("---Messages---")
-                messages.forEach{
-                    print($0)
-                }
-                print()
-            }).disposed(by: disposeBag)
+        viewModel.messageRelay.bind(to: chatTableView.rx.items(cellIdentifier: ChatTableViewCell.identifier, cellType: ChatTableViewCell.self)) { index, item, cell in
+            cell.chatLabel.text = item
+        }.disposed(by: disposeBag)
         
         sendButton.rx.tap
             .subscribe(onNext: { [unowned self] _ in
