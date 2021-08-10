@@ -69,20 +69,14 @@ class ChatViewController: BaseViewController {
     // MARK: - Subscribes
     
     override func subscribe() {
-        viewModel.sendMessage
-            .subscribe { event in
-                if let text = event.element, text != "" {
-                    print("SendMessage:", text)
+        viewModel.messageRelay
+            .subscribe(onNext: { messages in
+                print("---Messages---")
+                messages.forEach{
+                    print($0)
                 }
-            }.disposed(by: disposeBag)
-        
-        viewModel.receiveMessage
-            .subscribe { event in
-                if let text = event.element, text != "" {
-                    print("ReceiveMessage:", text)
-                }
-            }.disposed(by: disposeBag)
-        
+                print()
+            }).disposed(by: disposeBag)
         
         sendButton.rx.tap
             .subscribe(onNext: { [unowned self] _ in
