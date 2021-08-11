@@ -1,3 +1,1 @@
-class MainViewModel {
-    
-}
+class MainViewModel { }
