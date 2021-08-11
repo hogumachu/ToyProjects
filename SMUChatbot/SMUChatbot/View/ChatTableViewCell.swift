@@ -14,13 +14,20 @@ class ChatTableViewCell: UITableViewCell {
     }
     
     func configureUI() {
-        contentView.initAutoLayout(UIViews: [chatLabel])
+        chatLabel.font = .systemFont(ofSize: 15)
         chatLabel.textColor = .black
-        backgroundColor = .clear
         chatLabel.numberOfLines = 0
+        chatLabel.lineBreakMode = .byWordWrapping
+        
+        backgroundColor = .clear
+        contentView.initAutoLayout(UIViews: [chatLabel])
         
         chatLabel.topAnchor.constraint(equalTo: topAnchor, constant: 5).isActive = true
-        chatLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 10).isActive = true
-        chatLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: 10).isActive = true
+        chatLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10).isActive = true
+        chatLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10).isActive = true
+        contentView.heightAnchor.constraint(equalTo: chatLabel.heightAnchor, constant: 10).isActive = true
+        
+        
     }
+    
 }
