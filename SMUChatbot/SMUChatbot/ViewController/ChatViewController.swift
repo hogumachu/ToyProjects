@@ -27,7 +27,7 @@ class ChatViewController: BaseViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         resignFirstResponder()
         super.viewWillAppear(animated)
@@ -36,10 +36,13 @@ class ChatViewController: BaseViewController {
     // MARK: - Configures
     
     override func configureUI() {
+        
         view.backgroundColor = .white
         self.navigationController?.navigationBar.isHidden = false
         self.navigationItem.leftBarButtonItem = backBarButtonItem
+        
         chatTableView.register(ChatTableViewCell.self, forCellReuseIdentifier: ChatTableViewCell.identifier)
+        
         view.initAutoLayout(UIViews: [chatTableView, chatTextField, sendButton, keyboardView])
         keyboardHeightAnchor = keyboardView.heightAnchor.constraint(equalToConstant: 0)
         keyboardHeightAnchor?.isActive = true
@@ -64,13 +67,16 @@ class ChatViewController: BaseViewController {
             keyboardView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             keyboardView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor),
         ])
+        
+        
     }
     
     // MARK: - Subscribes
     
     override func subscribe() {
         viewModel.messageRelay.bind(to: chatTableView.rx.items(cellIdentifier: ChatTableViewCell.identifier, cellType: ChatTableViewCell.self)) { index, item, cell in
-            cell.chatLabel.text = item
+            cell.chatLabel.text = item.text
+            cell.isSender(item.isSender)
         }.disposed(by: disposeBag)
         
         sendButton.rx.tap
@@ -114,5 +120,6 @@ class ChatViewController: BaseViewController {
         self.view.layoutIfNeeded()
     }
 }
+
 
 extension ChatViewController: UIScrollViewDelegate { }
