@@ -2,21 +2,26 @@ import Foundation
 import RxSwift
 import RxCocoa
 
+struct Message {
+    let text: String
+    let isSender: Bool
+}
+
 class ChatViewModel {
     let disposeBag = DisposeBag()
-    var messages: [String] = []
-    lazy var messageRelay = BehaviorRelay<[String]>(value: messages)
-    
+    var messages: [Message] = []
+    lazy var messageRelay = BehaviorRelay<[Message]>(value: messages)
     func chatting(sendText text: String){
-        messages.append(text)
+        messages.append(Message(text: text, isSender: true))
         messageRelay.accept(messages)
         let urlRequest = URLRequest(url: URL(string: "http://127.0.0.1:8000/get_info/?data=\(text)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)!)
         let data = URLSession.shared.rx.data(request: urlRequest)
         
         data.subscribe(onNext: { [unowned self] data in
             let text = decodeData(data: data)
-            messages.append(text)
+            messages.append(Message(text: text, isSender: false))
             messageRelay.accept(messages)
+            print(messages)
         }).disposed(by: disposeBag)
     }
     
@@ -42,6 +47,4 @@ class ChatViewModel {
             .notification(UIResponder.keyboardWillHideNotification)
             .map { notification -> CGFloat in 0 }
     }
-    
-    
 }
