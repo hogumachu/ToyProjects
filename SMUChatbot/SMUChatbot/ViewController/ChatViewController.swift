@@ -72,9 +72,18 @@ class ChatViewController: BaseViewController {
     // MARK: - Subscribes
     
     override func subscribe() {
-        viewModel.messageRelay.bind(to: chatTableView.rx.items(cellIdentifier: ChatTableViewCell.identifier, cellType: ChatTableViewCell.self)) { index, item, cell in
-            cell.chatLabel.text = item.text
-            cell.isSender(item.isSender)
+        
+        viewModel.messageRelay.bind(to: chatTableView.rx.items(cellIdentifier: ChatTableViewCell.identifier, cellType: ChatTableViewCell.self)) {  index, item, cell in
+            if item.text != "" {
+                cell.chatLabel.text = item.text
+                cell.isSender(item.isSender)
+            } else {
+                cell.chatLabel.text = " "
+                cell.isSender(true)
+                cell.chatBubbleView.backgroundColor = .clear
+                self.scrollToBottom()
+            }
+            
         }.disposed(by: disposeBag)
         
         sendButton.rx.tap
@@ -104,6 +113,14 @@ class ChatViewController: BaseViewController {
     
     // MARK: - Helper
     
+    func scrollToBottom() {
+        guard !viewModel.messages.isEmpty else { return }
+        DispatchQueue.main.async {
+            self.chatTableView.scrollToRow(at: IndexPath(row: self.viewModel.messages.count - 1, section: 0), at: .bottom, animated: true)
+        }
+    }
+    
+    
     func changeKeyboardHeight(_ height: CGFloat) {
         if height == 0 {
             self.keyboardHeightAnchor?.isActive = false
@@ -115,6 +132,7 @@ class ChatViewController: BaseViewController {
             self.keyboardHeightAnchor?.isActive = true
         }
         self.view.layoutIfNeeded()
+        scrollToBottom()
     }
 }
 
