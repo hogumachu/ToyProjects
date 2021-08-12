@@ -36,6 +36,7 @@ class ChatTableView: UITableView {
         super.init(frame: frame, style: style)
         backgroundColor = UIColor(red: 0, green: 0, blue: 0.5, alpha: 0.2)
         separatorStyle = .none
+        allowsSelection = false
     }
     
     required init?(coder: NSCoder) {
