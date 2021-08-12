@@ -23,7 +23,8 @@ class ChatViewModel {
             messages.append(Message(text: text, isSender: false))
             messageRelay.accept(messages)
             print("Loading End")
-//            print(messages)
+            messages.append(Message(text: "", isSender: false))
+            messageRelay.accept(messages)
         }).disposed(by: disposeBag)
     }
     

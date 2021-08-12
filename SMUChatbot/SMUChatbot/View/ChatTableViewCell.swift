@@ -19,8 +19,6 @@ class ChatTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
-    
     func configureUI() {
         chatLabel.font = .systemFont(ofSize: 15)
         chatLabel.textColor = .black
@@ -32,7 +30,7 @@ class ChatTableViewCell: UITableViewCell {
         contentView.initAutoLayout(UIViews: [chatBubbleView, chatLabel])
         
         
-        chatBubbleView.topAnchor.constraint(equalTo: topAnchor, constant: 10).isActive = true
+        chatBubbleView.topAnchor.constraint(equalTo: topAnchor, constant: 15).isActive = true
         chatBubbleView.bottomAnchor.constraint(equalTo: chatLabel.bottomAnchor, constant: 5).isActive = true
         
         chatLabel.topAnchor.constraint(equalTo: chatBubbleView.topAnchor, constant: 5).isActive = true
@@ -45,12 +43,12 @@ class ChatTableViewCell: UITableViewCell {
     func isSender(_ compare: Bool) {
         if compare {
             chatBubbleView.backgroundColor = .yellow
-            chatBubbleView.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 10).isActive = true
+            chatBubbleView.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 60).isActive = true
             chatBubbleView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10).isActive = true
         } else {
             chatBubbleView.backgroundColor = .white
             chatBubbleView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10).isActive = true
-            chatBubbleView.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -10).isActive = true
+            chatBubbleView.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -60).isActive = true
         }
     }
     
