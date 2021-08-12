@@ -14,6 +14,7 @@ class ChatViewModel {
     func chatting(sendText text: String){
         messages.append(Message(text: text, isSender: true))
         messageRelay.accept(messages)
+        print("Loading Start")
         let urlRequest = URLRequest(url: URL(string: "http://127.0.0.1:8000/get_info/?data=\(text)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)!)
         let data = URLSession.shared.rx.data(request: urlRequest)
         
@@ -21,7 +22,8 @@ class ChatViewModel {
             let text = decodeData(data: data)
             messages.append(Message(text: text, isSender: false))
             messageRelay.accept(messages)
-            print(messages)
+            print("Loading End")
+//            print(messages)
         }).disposed(by: disposeBag)
     }
     

@@ -67,8 +67,6 @@ class ChatViewController: BaseViewController {
             keyboardView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             keyboardView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor),
         ])
-        
-        
     }
     
     // MARK: - Subscribes
@@ -102,7 +100,6 @@ class ChatViewController: BaseViewController {
                 }
             }
             .disposed(by: disposeBag)
-        
     }
     
     // MARK: - Helper
