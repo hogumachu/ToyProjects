@@ -44,16 +44,4 @@ class ChatViewModel {
             return "decodeData Error"
         }
     }
-    
-    func keyboardWillShowNotiObservable() -> Observable<CGFloat> {
-        return NotificationCenter.default.rx
-            .notification(UIResponder.keyboardWillShowNotification)
-            .map { ($0.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.height ?? 0}
-    }
-    
-    func keyboardWillHideNotiObservable() -> Observable<CGFloat> {
-        return NotificationCenter.default.rx
-            .notification(UIResponder.keyboardWillHideNotification)
-            .map { notification -> CGFloat in 0 }
-    }
 }
