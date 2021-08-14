@@ -1,6 +1,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import RxKeyboard
 
 class ChatViewController: BaseViewController {
     struct Dependency {
@@ -88,7 +89,6 @@ class ChatViewController: BaseViewController {
                 cell.chatBubbleView.backgroundColor = .clear
                 self.scrollToBottom()
             }
-            
         }.disposed(by: disposeBag)
         
         sendButton.rx.tap
@@ -106,15 +106,6 @@ class ChatViewController: BaseViewController {
             })
             .disposed(by: disposeBag)
         
-        Observable.merge(viewModel.keyboardWillShowNotiObservable(), viewModel.keyboardWillHideNotiObservable())
-            .asDriver(onErrorJustReturn: 0)
-            .drive { height in
-                UIView.animate(withDuration: 0.3) {
-                    self.changeKeyboardHeight(height)
-                }
-            }
-            .disposed(by: disposeBag)
-        
         viewModel.loadingRelay
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [unowned self] isLoading in
@@ -127,6 +118,15 @@ class ChatViewController: BaseViewController {
             }
         })
         .disposed(by: disposeBag)
+        
+        RxKeyboard.instance.visibleHeight
+            .drive(onNext: { keyboardVisibleHeight in
+                self.keyboardHeightAnchor?.isActive = false
+                self.keyboardHeightAnchor = self.keyboardView.topAnchor.constraint(equalTo: self.keyboardView.bottomAnchor, constant: -keyboardVisibleHeight + self.view.safeAreaInsets.bottom)
+                self.keyboardHeightAnchor?.isActive = true
+                self.view.layoutIfNeeded()
+            })
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Helper
@@ -136,21 +136,6 @@ class ChatViewController: BaseViewController {
         DispatchQueue.main.async {
             self.chatTableView.scrollToRow(at: IndexPath(row: self.viewModel.messages.count - 1, section: 0), at: .bottom, animated: true)
         }
-    }
-    
-    
-    func changeKeyboardHeight(_ height: CGFloat) {
-        if height == 0 {
-            self.keyboardHeightAnchor?.isActive = false
-            self.keyboardHeightAnchor = self.keyboardView.topAnchor.constraint(equalTo: self.keyboardView.bottomAnchor, constant: 0)
-            self.keyboardHeightAnchor?.isActive = true
-        } else {
-            self.keyboardHeightAnchor?.isActive = false
-            self.keyboardHeightAnchor = self.keyboardView.topAnchor.constraint(equalTo: self.keyboardView.bottomAnchor, constant: -height + self.view.safeAreaInsets.bottom)
-            self.keyboardHeightAnchor?.isActive = true
-        }
-        self.view.layoutIfNeeded()
-        scrollToBottom()
     }
 }
 
