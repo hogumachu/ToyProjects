@@ -15,6 +15,7 @@ class ChatViewController: BaseViewController {
     let chatTableView = ChatTableView()
     let keyboardView = UIView()
     let backBarButtonItem = BackBarButtonItem()
+    let loadingIndicator = UIActivityIndicatorView()
     var keyboardHeightAnchor: NSLayoutConstraint?
     
     // MARK: - Lifecycles
@@ -40,10 +41,14 @@ class ChatViewController: BaseViewController {
         view.backgroundColor = .white
         self.navigationController?.navigationBar.isHidden = false
         self.navigationItem.leftBarButtonItem = backBarButtonItem
+        self.navigationItem.titleView = loadingIndicator
         
         chatTableView.register(ChatTableViewCell.self, forCellReuseIdentifier: ChatTableViewCell.identifier)
         
         view.initAutoLayout(UIViews: [chatTableView, chatTextField, sendButton, keyboardView])
+        
+        loadingIndicator.isHidden = true
+        
         keyboardHeightAnchor = keyboardView.heightAnchor.constraint(equalToConstant: 0)
         keyboardHeightAnchor?.isActive = true
         
@@ -109,6 +114,19 @@ class ChatViewController: BaseViewController {
                 }
             }
             .disposed(by: disposeBag)
+        
+        viewModel.loadingRelay
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [unowned self] isLoading in
+            if isLoading {
+                loadingIndicator.isHidden = false
+                loadingIndicator.startAnimating()
+            } else {
+                loadingIndicator.stopAnimating()
+                loadingIndicator.isHidden = true
+            }
+        })
+        .disposed(by: disposeBag)
     }
     
     // MARK: - Helper
