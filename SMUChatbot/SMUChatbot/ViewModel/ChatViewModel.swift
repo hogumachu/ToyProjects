@@ -11,10 +11,14 @@ class ChatViewModel {
     let disposeBag = DisposeBag()
     var messages: [Message] = []
     lazy var messageRelay = BehaviorRelay<[Message]>(value: messages)
+    var loadingRelay = BehaviorRelay<Bool>(value: false)
+    
     func chatting(sendText text: String){
         messages.append(Message(text: text, isSender: true))
         messageRelay.accept(messages)
-        print("Loading Start")
+        
+        loadingRelay.accept(true)
+        
         let urlRequest = URLRequest(url: URL(string: "http://127.0.0.1:8000/get_info/?data=\(text)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)!)
         let data = URLSession.shared.rx.data(request: urlRequest)
         
@@ -22,7 +26,9 @@ class ChatViewModel {
             let text = decodeData(data: data)
             messages.append(Message(text: text, isSender: false))
             messageRelay.accept(messages)
-            print("Loading End")
+            
+            loadingRelay.accept(false)
+            
             messages.append(Message(text: "", isSender: false))
             messageRelay.accept(messages)
         }).disposed(by: disposeBag)
