@@ -9,6 +9,11 @@ class ChatTableViewCell: UITableViewCell {
         uiView.layer.cornerRadius = 8
         return uiView
     }()
+    let characterImageView: UIImageView = {
+        let uiImageView = UIImageView(image: UIImage(named: "testImage"))
+        uiImageView.clipsToBounds = true
+        return uiImageView
+    }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -17,6 +22,11 @@ class ChatTableViewCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        characterImageView.layer.cornerRadius = characterImageView.frame.width / 2
     }
     
     func configureUI() {
@@ -46,9 +56,18 @@ class ChatTableViewCell: UITableViewCell {
             chatBubbleView.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 60).isActive = true
             chatBubbleView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10).isActive = true
         } else {
+            contentView.initAutoLayout(UIViews: [characterImageView])
+            
+            characterImageView.topAnchor.constraint(equalTo: chatBubbleView.topAnchor).isActive = true
+            characterImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10).isActive = true
+            characterImageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
+            characterImageView.widthAnchor.constraint(equalToConstant: 50).isActive = true
+            
             chatBubbleView.backgroundColor = .white
-            chatBubbleView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10).isActive = true
+            chatBubbleView.leadingAnchor.constraint(equalTo: characterImageView.trailingAnchor, constant: 10).isActive = true
             chatBubbleView.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -60).isActive = true
+            
+            
         }
     }
     
