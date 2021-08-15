@@ -1,4 +1,5 @@
 import UIKit
+import RxSwift
 
 class MainViewController: BaseViewController {
     struct Dependency {
@@ -25,7 +26,8 @@ class MainViewController: BaseViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        coordinator?.startMainViewContoller(self)
+        
+        nextViewController()
     }
     
     // MARK: - Configures
@@ -53,5 +55,27 @@ class MainViewController: BaseViewController {
             teamNameLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             
         ])
+    }
+    
+    // MARK: - Subscribe
+    
+    func nextViewController() {
+        Observable.concat([
+            viewModel.appear(smuLabel, duration: 1),
+            viewModel.appear(capstoneLabel, duration: 1),
+            viewModel.appear(teamNameLabel, duration: 1),
+            gotoInfoView()
+        ]).subscribe()
+        .disposed(by: disposeBag)
+    }
+    
+    func gotoInfoView() -> Observable<Void> {
+        return Observable<Void>.create { [unowned self] observer in
+            observer.onNext(())
+            coordinator?.gotoInfoViewController()
+            observer.onCompleted()
+            
+            return Disposables.create()
+        }
     }
 }
