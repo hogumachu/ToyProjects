@@ -2,6 +2,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 import RxKeyboard
+import SnapKit
 
 class ChatViewController: BaseViewController {
     struct Dependency {
@@ -38,6 +39,7 @@ class ChatViewController: BaseViewController {
     // MARK: - Configures
     
     override func configureUI() {
+        loadingIndicator.color = .purple
         
         view.backgroundColor = .white
         self.navigationController?.navigationBar.isHidden = false
@@ -50,35 +52,38 @@ class ChatViewController: BaseViewController {
         
         loadingIndicator.isHidden = true
         
+        // keyboardHeightAnchor 에 대해서도 SnapKit 로 해봤는데 정상적으로 동작하지 않아 Anchor 로 진행하였음. 추후 수정하기.
         keyboardHeightAnchor = keyboardView.heightAnchor.constraint(equalToConstant: 0)
         keyboardHeightAnchor?.isActive = true
         
-        NSLayoutConstraint.activate([
-            chatTextField.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
-            chatTextField.bottomAnchor.constraint(equalTo: sendButton.bottomAnchor),
-            chatTextField.trailingAnchor.constraint(equalTo: sendButton.leadingAnchor, constant: -5),
-            chatTextField.heightAnchor.constraint(equalTo: sendButton.heightAnchor),
-            
-            sendButton.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
-            sendButton.bottomAnchor.constraint(equalTo: keyboardView.topAnchor, constant: -5),
-            sendButton.widthAnchor.constraint(equalToConstant: 40),
-            sendButton.heightAnchor.constraint(equalToConstant: 30),
-            
-            chatTableView.topAnchor.constraint(equalTo: view.topAnchor),
-            chatTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            chatTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            chatTableView.bottomAnchor.constraint(equalTo: sendButton.topAnchor, constant: -5),
-            
-            keyboardView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            keyboardView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            keyboardView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor),
-        ])
+        
+        chatTextField.snp.makeConstraints  {
+            $0.leading.equalTo(view.layoutMarginsGuide)
+            $0.bottom.height.equalTo(sendButton)
+            $0.trailing.equalTo(sendButton.snp.leading).offset(-5)
+        }
+        
+        sendButton.snp.makeConstraints {
+            $0.trailing.equalTo(view.layoutMarginsGuide)
+            $0.bottom.equalTo(keyboardView.snp.top).offset(-5)
+            $0.width.equalTo(40)
+            $0.height.equalTo(30)
+        }
+        
+        chatTableView.snp.makeConstraints {
+            $0.top.leading.trailing.equalTo(view)
+            $0.bottom.equalTo(sendButton.snp.top).offset(-5)
+        }
+        
+        keyboardView.snp.makeConstraints {
+            $0.leading.trailing.equalTo(view)
+            $0.bottom.equalTo(view.layoutMarginsGuide.snp.bottom)
+        }
     }
     
     // MARK: - Subscribes
     
     override func subscribe() {
-        
         viewModel.messageRelay.bind(to: chatTableView.rx.items(cellIdentifier: ChatTableViewCell.identifier, cellType: ChatTableViewCell.self)) {  index, item, cell in
             if item.text != "" {
                 cell.chatLabel.text = item.text

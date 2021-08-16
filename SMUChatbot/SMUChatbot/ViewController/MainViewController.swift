@@ -1,5 +1,6 @@
 import UIKit
 import RxSwift
+import SnapKit
 
 class MainViewController: BaseViewController {
     struct Dependency {
@@ -34,27 +35,35 @@ class MainViewController: BaseViewController {
     
     override func configureUI() {
         smuLabel.text = "상명대학교"
-        smuLabel.textColor = .smu
+        smuLabel.textColor = .white
+        smuLabel.alpha = 0
+        
         capstoneLabel.text = "캡스톤디자인"
-        capstoneLabel.textColor = .smu
+        capstoneLabel.textColor = .white
+        capstoneLabel.alpha = 0
+        
         teamNameLabel.text = "채팅해조"
-        teamNameLabel.textColor = .smu
+        teamNameLabel.textColor = .white
+        teamNameLabel.alpha = 0
+        
         view.backgroundColor = .smu
         view.initAutoLayout(UIViews: [smuLabel, capstoneLabel, teamNameLabel])
-        NSLayoutConstraint.activate([
-            smuLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            smuLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
-            smuLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
-            
-            capstoneLabel.topAnchor.constraint(equalTo: smuLabel.bottomAnchor, constant: 5),
-            capstoneLabel.leadingAnchor.constraint(equalTo: smuLabel.leadingAnchor),
-            capstoneLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
-            
-            teamNameLabel.topAnchor.constraint(equalTo: capstoneLabel.bottomAnchor, constant: 5),
-            teamNameLabel.leadingAnchor.constraint(equalTo: capstoneLabel.leadingAnchor),
-            teamNameLabel.trailingAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
-            
-        ])
+        
+        smuLabel.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide).offset(20)
+            $0.leading.equalTo(view.safeAreaLayoutGuide).offset(10)
+            $0.trailing.lessThanOrEqualTo(view.safeAreaLayoutGuide).offset(-20)
+        }
+        
+        capstoneLabel.snp.makeConstraints {
+            $0.top.equalTo(smuLabel.snp.bottom).offset(5)
+            $0.leading.trailing.equalTo(smuLabel)
+        }
+        
+        teamNameLabel.snp.makeConstraints {
+            $0.top.equalTo(capstoneLabel.snp.bottom).offset(5)
+            $0.leading.trailing.equalTo(capstoneLabel)
+        }
     }
     
     // MARK: - Subscribe

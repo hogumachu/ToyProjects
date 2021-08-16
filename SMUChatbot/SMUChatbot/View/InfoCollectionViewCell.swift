@@ -1,4 +1,5 @@
 import UIKit
+import SnapKit
 
 class InfoCollectionViewCell: UICollectionViewCell {
     static let identifier = "InfoCollectionViewCell"
@@ -43,20 +44,22 @@ class InfoCollectionViewCell: UICollectionViewCell {
         titleLabel.textColor = .white
         
         contentView.initAutoLayout(UIViews: [titleLabel, detailLabel, imageView])
-        NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 20),
-            titleLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 20),
-            titleLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -20),
-            
-            detailLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
-            detailLabel.leftAnchor.constraint(equalTo: titleLabel.leftAnchor),
-            detailLabel.rightAnchor.constraint(equalTo: titleLabel.rightAnchor),
-            
-            imageView.centerXAnchor.constraint(equalTo: centerXAnchor, constant: frame.width / 3),
-            imageView.centerYAnchor.constraint(equalTo: centerYAnchor, constant: frame.height / 5),
-            imageView.widthAnchor.constraint(equalToConstant: 300),
-            imageView.heightAnchor.constraint(equalToConstant: 300),
-        ])
+        
+        titleLabel.snp.makeConstraints {
+            $0.top.left.equalToSuperview().offset(20)
+            $0.right.equalToSuperview().offset(-20)
+        }
+        
+        detailLabel.snp.makeConstraints {
+            $0.top.equalTo(titleLabel.snp.bottom).offset(20)
+            $0.left.right.equalTo(titleLabel)
+        }
+        
+        imageView.snp.makeConstraints {
+            $0.centerX.equalToSuperview().offset(frame.width / 3)
+            $0.centerY.equalToSuperview().offset(frame.height / 5)
+            $0.width.height.equalTo(300)
+        }
     }
     
     func applyShadows() {
