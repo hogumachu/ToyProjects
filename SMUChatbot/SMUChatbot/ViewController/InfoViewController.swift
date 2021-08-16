@@ -1,6 +1,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import SnapKit
 
 class InfoViewController: BaseViewController {
     struct Dependency {
@@ -35,12 +36,10 @@ class InfoViewController: BaseViewController {
         view.initAutoLayout(UIViews: [listCollectionView])
         view.backgroundColor = .white
         
-        NSLayoutConstraint.activate([
-            listCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            listCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            listCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            listCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-        ])
+        listCollectionView.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.leading.trailing.bottom.equalTo(view)
+        }
     }
     
     // MARK: - Subscribes

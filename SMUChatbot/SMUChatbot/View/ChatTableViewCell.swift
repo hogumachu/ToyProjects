@@ -1,4 +1,5 @@
 import UIKit
+import SnapKit
 
 class ChatTableViewCell: UITableViewCell {
     static let identifier = "ChatTableViewCell"
@@ -39,35 +40,54 @@ class ChatTableViewCell: UITableViewCell {
         backgroundColor = .clear
         contentView.initAutoLayout(UIViews: [chatBubbleView, chatLabel])
         
+        chatLabel.snp.makeConstraints {
+            $0.top.equalTo(chatBubbleView).offset(5)
+            $0.leading.equalTo(chatBubbleView).offset(8)
+            $0.trailing.equalTo(chatBubbleView).offset(-8)
+        }
         
-        chatBubbleView.topAnchor.constraint(equalTo: topAnchor, constant: 15).isActive = true
-        chatBubbleView.bottomAnchor.constraint(equalTo: chatLabel.bottomAnchor, constant: 5).isActive = true
         
-        chatLabel.topAnchor.constraint(equalTo: chatBubbleView.topAnchor, constant: 5).isActive = true
-        chatLabel.leadingAnchor.constraint(equalTo: chatBubbleView.leadingAnchor, constant: 8).isActive = true
-        chatLabel.trailingAnchor.constraint(equalTo: chatBubbleView.trailingAnchor, constant: -8).isActive = true
+        contentView.snp.makeConstraints {
+            $0.top.leading.trailing.bottom.equalToSuperview()
+            $0.height.equalTo(chatLabel).offset(10)
+        }
         
-        contentView.heightAnchor.constraint(equalTo: chatLabel.heightAnchor, constant: 10).isActive = true
     }
     
+    // ChatBubbleView Layout
+    
     func isSender(_ compare: Bool) {
+        
         if compare {
+            print("Sender")
             chatBubbleView.backgroundColor = .yellow
-            chatBubbleView.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 60).isActive = true
-            chatBubbleView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10).isActive = true
+            
+            chatBubbleView.snp.remakeConstraints {
+                $0.top.equalToSuperview().offset(15)
+                $0.bottom.equalTo(chatLabel.snp.bottom).offset(5)
+                $0.leading.greaterThanOrEqualTo(snp.leading).offset(60)
+                $0.trailing.equalTo(snp.trailing).offset(-10)
+            }
         } else {
             contentView.initAutoLayout(UIViews: [characterImageView])
             
-            characterImageView.topAnchor.constraint(equalTo: chatBubbleView.topAnchor).isActive = true
-            characterImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10).isActive = true
-            characterImageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
-            characterImageView.widthAnchor.constraint(equalToConstant: 50).isActive = true
-            
             chatBubbleView.backgroundColor = .white
-            chatBubbleView.leadingAnchor.constraint(equalTo: characterImageView.trailingAnchor, constant: 10).isActive = true
-            chatBubbleView.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -60).isActive = true
+            
+            chatBubbleView.snp.remakeConstraints {
+                $0.top.equalToSuperview().offset(15)
+                $0.bottom.equalTo(chatLabel.snp.bottom).offset(5)
+                $0.leading.equalTo(characterImageView.snp.trailing).offset(10)
+                $0.trailing.lessThanOrEqualTo(snp.trailing).offset(-60)
+            }
+            
+            characterImageView.snp.makeConstraints {
+                $0.top.equalTo(chatBubbleView)
+                $0.leading.equalTo(snp.leading).offset(10)
+                $0.width.height.equalTo(50)
+            }
             
             
+        
         }
     }
     
