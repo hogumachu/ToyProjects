@@ -35,26 +35,6 @@ class Coordinator {
         navigationController?.pushViewController(vc, animated: true)
     }
     
-//    func startMainViewContoller(_ mainVC: MainViewController) {
-//        var timeInterval = 0.5
-//        let labels = [mainVC.smuLabel, mainVC.capstoneLabel, mainVC.teamNameLabel]
-//        
-//        labels.forEach { label in
-//            DispatchQueue.main.asyncAfter(deadline: .now() + timeInterval) {
-//                UIView.transition(with: label, duration: 0.5, options: .transitionCrossDissolve) {
-//                    label.textColor = .white
-//                }
-//            }
-//            timeInterval += 0.5
-//        }
-//        
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [unowned self] in
-//            let vc = infoViewControllerFactory()
-//            vc.coordinator = self
-//            navigationController?.pushViewController(vc, animated: true)
-//        }
-//    }
-    
     func chatViewSelected() {
         let vc = chatViewControllerFactory()
         vc.coordinator = self
