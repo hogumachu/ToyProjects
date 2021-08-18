@@ -816,3 +816,4 @@ Shaker/Podfile.lock
 Shaker/Podfile
 .DS_Store
 >>>>>>> Stashed changes
+Shaker/Shaker/Repository/APiRepository.swift
