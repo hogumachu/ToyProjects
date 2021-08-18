@@ -2,10 +2,7 @@ import UIKit
 import SnapKit
 import RxSwift
 import RxCocoa
-<<<<<<< Updated upstream
-=======
 import RxKeyboard
->>>>>>> Stashed changes
 
 class MainViewController: BaseViewController {
     struct Dependency {
@@ -29,26 +26,23 @@ class MainViewController: BaseViewController {
     
     let textView: UITextView = {
         let uiTextView = UITextView()
-<<<<<<< Updated upstream
-=======
+        uiTextView.font = UIFont.systemFont(ofSize: 20)
         uiTextView.isSelectable = false
->>>>>>> Stashed changes
         return uiTextView
     }()
     
     let textField: UITextField = {
         let uiTextField = UITextField()
+        uiTextField.textColor = .white
+        uiTextField.layer.borderWidth = 1
+        uiTextField.layer.borderColor = UIColor.white.cgColor
         return uiTextField
     }()
     
-<<<<<<< Updated upstream
-=======
     let keyboardPaddingView: UIView = {
         let uiView = UIView()
         return uiView
     }()
-    
->>>>>>> Stashed changes
     
     // MARK: - Lifecycles
     
@@ -71,10 +65,7 @@ class MainViewController: BaseViewController {
         view.addSubview(startButton)
         view.addSubview(textView)
         view.addSubview(textField)
-<<<<<<< Updated upstream
-=======
         view.addSubview(keyboardPaddingView)
->>>>>>> Stashed changes
         
         textView.snp.makeConstraints {
             $0.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
@@ -82,21 +73,14 @@ class MainViewController: BaseViewController {
         }
         
         textField.snp.makeConstraints {
-<<<<<<< Updated upstream
-            $0.leading.bottom.equalTo(view.safeAreaLayoutGuide)
-=======
             $0.leading.equalTo(view.safeAreaLayoutGuide)
             $0.bottom.equalTo(startButton.snp.bottom)
->>>>>>> Stashed changes
             $0.trailing.equalTo(startButton.snp.leading).offset(-5)
             $0.height.equalTo(startButton)
         }
         
         startButton.snp.makeConstraints {
             $0.width.height.equalTo(50)
-<<<<<<< Updated upstream
-            $0.bottom.trailing.equalTo(view.safeAreaLayoutGuide)
-=======
             $0.trailing.equalTo(view.safeAreaLayoutGuide)
             $0.bottom.equalTo(keyboardPaddingView.snp.top)
         }
@@ -104,7 +88,6 @@ class MainViewController: BaseViewController {
         keyboardPaddingView.snp.makeConstraints {
             $0.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
             $0.top.equalTo(keyboardPaddingView.snp.bottom)
->>>>>>> Stashed changes
         }
         
     }
@@ -137,9 +120,6 @@ class MainViewController: BaseViewController {
                     }
                     textView.text += "\n"
                 }
-<<<<<<< Updated upstream
-            }).disposed(by: disposeBag)
-=======
             })
             .disposed(by: disposeBag)
         
@@ -151,6 +131,5 @@ class MainViewController: BaseViewController {
                 view.layoutIfNeeded()
             })
             .disposed(by: disposeBag)
->>>>>>> Stashed changes
     }
 }
