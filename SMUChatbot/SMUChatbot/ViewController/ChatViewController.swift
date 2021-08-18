@@ -18,7 +18,6 @@ class ChatViewController: BaseViewController {
     let keyboardView = UIView()
     let backBarButtonItem = BackBarButtonItem()
     let loadingIndicator = UIActivityIndicatorView()
-    var keyboardHeightAnchor: NSLayoutConstraint?
     
     // MARK: - Lifecycles
     
@@ -52,11 +51,6 @@ class ChatViewController: BaseViewController {
         
         loadingIndicator.isHidden = true
         
-        // keyboardHeightAnchor 에 대해서도 SnapKit 로 해봤는데 정상적으로 동작하지 않아 Anchor 로 진행하였음. 추후 수정하기.
-        keyboardHeightAnchor = keyboardView.heightAnchor.constraint(equalToConstant: 0)
-        keyboardHeightAnchor?.isActive = true
-        
-        
         chatTextField.snp.makeConstraints  {
             $0.leading.equalTo(view.layoutMarginsGuide)
             $0.bottom.height.equalTo(sendButton)
@@ -78,6 +72,7 @@ class ChatViewController: BaseViewController {
         keyboardView.snp.makeConstraints {
             $0.leading.trailing.equalTo(view)
             $0.bottom.equalTo(view.layoutMarginsGuide.snp.bottom)
+            $0.top.equalTo(keyboardView.snp.bottom)
         }
     }
     
@@ -125,11 +120,11 @@ class ChatViewController: BaseViewController {
         .disposed(by: disposeBag)
         
         RxKeyboard.instance.visibleHeight
-            .drive(onNext: { keyboardVisibleHeight in
-                self.keyboardHeightAnchor?.isActive = false
-                self.keyboardHeightAnchor = self.keyboardView.topAnchor.constraint(equalTo: self.keyboardView.bottomAnchor, constant: -keyboardVisibleHeight + self.view.safeAreaInsets.bottom)
-                self.keyboardHeightAnchor?.isActive = true
-                self.view.layoutIfNeeded()
+            .drive(onNext: { [unowned self] keyboardVisibleHeight in
+                keyboardView.snp.updateConstraints {
+                    $0.top.equalTo(keyboardView.snp.bottom).offset(-keyboardVisibleHeight)
+                }
+                view.layoutIfNeeded()
             })
             .disposed(by: disposeBag)
     }
