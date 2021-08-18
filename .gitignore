@@ -811,3 +811,4 @@ Shaker/Shaker.xcodeproj/xcuserdata/hong.xcuserdatad/xcschemes/xcschememanagement
 Shaker/Shaker/Assets.xcassets/AccentColor.colorset/Contents.json
 Shaker/Shaker/Assets.xcassets/AppIcon.appiconset/Contents.json
 Shaker/Shaker/Assets.xcassets/Contents.json
+Shaker/Shaker/Repository/APiRepository.swift
