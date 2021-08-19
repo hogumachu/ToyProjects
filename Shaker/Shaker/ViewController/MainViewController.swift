@@ -13,6 +13,14 @@ class MainViewController: BaseViewController {
     
     let viewModel: MainViewModel
     
+    let shakerLabel: UILabel = {
+        let uiLabel = UILabel()
+        uiLabel.text = "SHAKER"
+        uiLabel.textColor = .systemGreen
+        uiLabel.font = .systemFont(ofSize: 50, weight: .heavy)
+        return uiLabel
+    }()
+    
     let sendButton: UIButton = {
         let uiButton = UIButton()
         uiButton.setTitle(" Send ", for: .normal)
@@ -24,31 +32,22 @@ class MainViewController: BaseViewController {
         return uiButton
     }()
     
-    let textView: UITextView = {
-        let uiTextView = UITextView()
-        uiTextView.font = UIFont.systemFont(ofSize: 20)
-        uiTextView.isSelectable = false
-        return uiTextView
+    let searchView: UIView = {
+        let uiView = UIView()
+        uiView.layer.cornerRadius = 15
+        uiView.layer.borderWidth = 1
+        uiView.layer.borderColor = UIColor.systemGreen.cgColor
+        return uiView
     }()
     
     let textField: UITextField = {
         let uiTextField = UITextField()
-        uiTextField.layer.borderWidth = 1
-        uiTextField.layer.borderColor = UIColor.systemGray.cgColor
-        uiTextField.layer.cornerRadius = 10
         return uiTextField
     }()
     
     let keyboardPaddingView: UIView = {
         let uiView = UIView()
         return uiView
-    }()
-    
-    let mapButton: UIBarButtonItem = {
-        let uiBarButton = UIBarButtonItem()
-        uiBarButton.title = "Map"
-        uiBarButton.tintColor = .systemGreen
-        return uiBarButton
     }()
     
     // MARK: - Lifecycles
@@ -66,88 +65,52 @@ class MainViewController: BaseViewController {
     // MARK: - Configures
     
     override func configureUI() {
-        title = "MainViewController"
         view.backgroundColor = .white
         
-        view.addSubview(sendButton)
-        view.addSubview(textView)
-        view.addSubview(textField)
+        view.addSubview(shakerLabel)
+        view.addSubview(searchView)
         view.addSubview(keyboardPaddingView)
         
-        navigationItem.rightBarButtonItem = mapButton
+        searchView.addSubview(sendButton)
+        searchView.addSubview(textField)
         
-        textView.snp.makeConstraints {
-            $0.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
-            $0.bottom.equalTo(textField.snp.top).offset(-5)
+        shakerLabel.snp.makeConstraints {
+            $0.centerX.equalTo(view)
+            $0.bottom.equalTo(searchView.snp.top).offset(-20)
         }
         
-        textField.snp.makeConstraints {
-            $0.leading.equalTo(view.safeAreaLayoutGuide).offset(5)
-            $0.bottom.equalTo(sendButton.snp.bottom)
-            $0.trailing.equalTo(sendButton.snp.leading).offset(-5)
-            $0.height.equalTo(sendButton)
+        searchView.snp.makeConstraints {
+            $0.centerX.centerY.equalTo(view)
+            $0.height.equalTo(50)
+            
+            $0.leading.equalTo(view).offset(10)
+            $0.trailing.equalTo(view).offset(-10)
         }
         
         sendButton.snp.makeConstraints {
+            $0.trailing.equalToSuperview().offset(-5)
+            $0.top.equalToSuperview().offset(5)
+            $0.bottom.equalToSuperview().offset(-5)
             $0.width.equalTo(50)
-            $0.height.equalTo(30)
-            $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-5)
-            $0.bottom.equalTo(keyboardPaddingView.snp.top).offset(-5)
         }
         
-        keyboardPaddingView.snp.makeConstraints {
-            $0.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
-            $0.top.equalTo(keyboardPaddingView.snp.bottom)
+        textField.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.leading.equalToSuperview().offset(10)
+            $0.trailing.equalTo(sendButton.snp.leading).offset(-5)
         }
         
     }
     
+    // MARK: - Subscribe
+    
     override func subscribe() {
         sendButton.rx.tap
             .subscribe(onNext: { [unowned self] _ in
-                viewModel.searchRequest(textField.text!)
-                textField.text = ""
-            })
-            .disposed(by: disposeBag)
-        
-        mapButton.rx.tap
-            .subscribe(onNext: { [unowned self] _ in
-                coordinator?.pushMapViewController()
-            })
-            .disposed(by: disposeBag)
-        
-        viewModel.searchRelay
-            .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { [unowned self] items in
-                textView.text = ""
-                items.forEach {
-                    if let title = $0.title {
-                        textView.text += title.htmlRemove
-                        textView.text += "\n"
-                    }
-                    if let address = $0.roadAddress {
-                        textView.text += address.htmlRemove
-                        textView.text += "\n"
-                    }
-                    
-                    if let telephon = $0.telephon {
-                        textView.text += telephon.htmlRemove
-                        textView.text += "\n"
-                    }
-                    textView.text += "\n"
+                if let text = textField.text {
+                    coordinator?.pushSearchViewController(searchText: text)
                 }
             })
             .disposed(by: disposeBag)
-        
-        RxKeyboard.instance.visibleHeight
-            .drive(onNext: { [unowned self] keyboardHeight in
-                keyboardPaddingView.snp.updateConstraints {
-                    $0.top.equalTo(keyboardPaddingView.snp.bottom).offset(-keyboardHeight)
-                }
-                view.layoutIfNeeded()
-            })
-            .disposed(by: disposeBag)
-        
-        
     }
 }
