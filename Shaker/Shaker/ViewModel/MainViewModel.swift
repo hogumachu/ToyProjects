@@ -12,8 +12,8 @@ class MainViewModel {
         
         urlRequest.httpMethod = "GET"
         
-        urlRequest.setValue(APIRepository.clientId, forHTTPHeaderField: "X-Naver-Client-Id")
-        urlRequest.setValue(APIRepository.clientSecret, forHTTPHeaderField: "X-Naver-Client-Secret")
+        urlRequest.setValue(APIRepository.searchClientId, forHTTPHeaderField: "X-Naver-Client-Id")
+        urlRequest.setValue(APIRepository.searchClientSecret, forHTTPHeaderField: "X-Naver-Client-Secret")
         
         let data = URLSession.shared.rx.data(request: urlRequest)
         data.subscribe(onNext: { [unowned self] data in

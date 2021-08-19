@@ -13,13 +13,13 @@ class MainViewController: BaseViewController {
     
     let viewModel: MainViewModel
     
-    let startButton: UIButton = {
+    let sendButton: UIButton = {
         let uiButton = UIButton()
-        uiButton.setTitle(" Start ", for: .normal)
+        uiButton.setTitle(" Send ", for: .normal)
         uiButton.setTitleColor(.white, for: .normal)
-        uiButton.backgroundColor = .systemPink
+        uiButton.backgroundColor = .systemGreen
         uiButton.layer.masksToBounds = true
-        uiButton.layer.cornerRadius = 8
+        uiButton.layer.cornerRadius = 10
         
         return uiButton
     }()
@@ -33,15 +33,22 @@ class MainViewController: BaseViewController {
     
     let textField: UITextField = {
         let uiTextField = UITextField()
-        uiTextField.textColor = .white
         uiTextField.layer.borderWidth = 1
-        uiTextField.layer.borderColor = UIColor.white.cgColor
+        uiTextField.layer.borderColor = UIColor.systemGray.cgColor
+        uiTextField.layer.cornerRadius = 10
         return uiTextField
     }()
     
     let keyboardPaddingView: UIView = {
         let uiView = UIView()
         return uiView
+    }()
+    
+    let mapButton: UIBarButtonItem = {
+        let uiBarButton = UIBarButtonItem()
+        uiBarButton.title = "Map"
+        uiBarButton.tintColor = .systemGreen
+        return uiBarButton
     }()
     
     // MARK: - Lifecycles
@@ -60,12 +67,14 @@ class MainViewController: BaseViewController {
     
     override func configureUI() {
         title = "MainViewController"
-        view.backgroundColor = .purple
+        view.backgroundColor = .white
         
-        view.addSubview(startButton)
+        view.addSubview(sendButton)
         view.addSubview(textView)
         view.addSubview(textField)
         view.addSubview(keyboardPaddingView)
+        
+        navigationItem.rightBarButtonItem = mapButton
         
         textView.snp.makeConstraints {
             $0.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
@@ -73,16 +82,17 @@ class MainViewController: BaseViewController {
         }
         
         textField.snp.makeConstraints {
-            $0.leading.equalTo(view.safeAreaLayoutGuide)
-            $0.bottom.equalTo(startButton.snp.bottom)
-            $0.trailing.equalTo(startButton.snp.leading).offset(-5)
-            $0.height.equalTo(startButton)
+            $0.leading.equalTo(view.safeAreaLayoutGuide).offset(5)
+            $0.bottom.equalTo(sendButton.snp.bottom)
+            $0.trailing.equalTo(sendButton.snp.leading).offset(-5)
+            $0.height.equalTo(sendButton)
         }
         
-        startButton.snp.makeConstraints {
-            $0.width.height.equalTo(50)
-            $0.trailing.equalTo(view.safeAreaLayoutGuide)
-            $0.bottom.equalTo(keyboardPaddingView.snp.top)
+        sendButton.snp.makeConstraints {
+            $0.width.equalTo(50)
+            $0.height.equalTo(30)
+            $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-5)
+            $0.bottom.equalTo(keyboardPaddingView.snp.top).offset(-5)
         }
         
         keyboardPaddingView.snp.makeConstraints {
@@ -93,10 +103,16 @@ class MainViewController: BaseViewController {
     }
     
     override func subscribe() {
-        startButton.rx.tap
+        sendButton.rx.tap
             .subscribe(onNext: { [unowned self] _ in
                 viewModel.searchRequest(textField.text!)
                 textField.text = ""
+            })
+            .disposed(by: disposeBag)
+        
+        mapButton.rx.tap
+            .subscribe(onNext: { [unowned self] _ in
+                coordinator?.pushMapViewController()
             })
             .disposed(by: disposeBag)
         
@@ -131,5 +147,7 @@ class MainViewController: BaseViewController {
                 view.layoutIfNeeded()
             })
             .disposed(by: disposeBag)
+        
+        
     }
 }
