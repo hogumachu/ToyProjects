@@ -8,11 +8,16 @@ extension AppDependency {
             return .init(dependency: .init(viewModel: .init()), payload: ())
         }
         
+        let searchViewControllerFactory: () -> SearchViewController = {
+            return .init(dependency: .init(viewModel: .init()), payload: ())
+        }
+        
         let mapViewControllerFactory: () -> MapViewController = {
             return .init()
         }
         
         let coordinator = Coordinator.init(dependency: .init(mainViewControllerFactory: mainViewControllerFactory,
+                                                             searchViewControllerFactory: searchViewControllerFactory,
                                                              mapViewControllerFactory: mapViewControllerFactory),
                                            payload: ())
         return .init(coordinator: coordinator)
