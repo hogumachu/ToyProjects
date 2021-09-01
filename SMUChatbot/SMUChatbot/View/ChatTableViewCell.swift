@@ -1,8 +1,10 @@
 import UIKit
 import SnapKit
+import RxSwift
 
 class ChatTableViewCell: UITableViewCell {
     static let identifier = "ChatTableViewCell"
+    let disposeBag = DisposeBag()
     let chatLabel = DetailLabel()
     let chatBubbleView: UIView = {
         let uiView = UIView()
@@ -38,7 +40,7 @@ class ChatTableViewCell: UITableViewCell {
         chatLabel.backgroundColor = .clear
         
         backgroundColor = .clear
-        contentView.initAutoLayout(UIViews: [chatBubbleView, chatLabel])
+        contentView.initAutoLayout(UIViews: [chatBubbleView, chatLabel, characterImageView])
         
         chatLabel.snp.makeConstraints {
             $0.top.equalTo(chatBubbleView).offset(5)
@@ -46,22 +48,19 @@ class ChatTableViewCell: UITableViewCell {
             $0.trailing.equalTo(chatBubbleView).offset(-8)
         }
         
-        
         contentView.snp.makeConstraints {
             $0.top.leading.trailing.bottom.equalToSuperview()
             $0.height.equalTo(chatLabel).offset(10)
         }
-        
     }
     
     // ChatBubbleView Layout
     
     func isSender(_ compare: Bool) {
-        
         if compare {
-            print("Sender")
+            print("노란색 채팅")
             chatBubbleView.backgroundColor = .yellow
-            
+            characterImageView.isHidden = true
             chatBubbleView.snp.remakeConstraints {
                 $0.top.equalToSuperview().offset(15)
                 $0.bottom.equalTo(chatLabel.snp.bottom).offset(5)
@@ -69,10 +68,9 @@ class ChatTableViewCell: UITableViewCell {
                 $0.trailing.equalTo(snp.trailing).offset(-10)
             }
         } else {
-            contentView.initAutoLayout(UIViews: [characterImageView])
-            
+            print("흰색 채팅")
             chatBubbleView.backgroundColor = .white
-            
+            characterImageView.isHidden = false
             chatBubbleView.snp.remakeConstraints {
                 $0.top.equalToSuperview().offset(15)
                 $0.bottom.equalTo(chatLabel.snp.bottom).offset(5)
@@ -85,9 +83,6 @@ class ChatTableViewCell: UITableViewCell {
                 $0.leading.equalTo(snp.leading).offset(10)
                 $0.width.height.equalTo(50)
             }
-            
-            
-        
         }
     }
     
