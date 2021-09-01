@@ -60,7 +60,7 @@ class ChatViewController: BaseViewController {
         sendButton.snp.makeConstraints {
             $0.trailing.equalTo(view.layoutMarginsGuide)
             $0.bottom.equalTo(keyboardView.snp.top).offset(-5)
-            $0.width.equalTo(40)
+            $0.width.equalTo(50)
             $0.height.equalTo(30)
         }
         
@@ -85,7 +85,7 @@ class ChatViewController: BaseViewController {
                 cell.isSender(item.isSender)
             } else {
                 cell.chatLabel.text = " "
-                cell.isSender(true)
+                cell.isSender(item.isSender)
                 cell.chatBubbleView.backgroundColor = .clear
                 self.scrollToBottom()
             }
@@ -122,7 +122,7 @@ class ChatViewController: BaseViewController {
         RxKeyboard.instance.visibleHeight
             .drive(onNext: { [unowned self] keyboardVisibleHeight in
                 keyboardView.snp.updateConstraints {
-                    $0.top.equalTo(keyboardView.snp.bottom).offset(-keyboardVisibleHeight)
+                    $0.top.equalTo(keyboardView.snp.bottom).offset(-keyboardVisibleHeight + view.safeAreaInsets.bottom)
                 }
                 view.layoutIfNeeded()
             })

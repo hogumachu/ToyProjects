@@ -51,9 +51,6 @@ class InfoViewController: BaseViewController {
             cell.detailLabel.text = item.detailInfo
             cell.imageView.backgroundColor = item.color
             cell.imageTitleLabel.text = item.title
-            
-//            TODO: - 각 Cell에 대해 내용이 확립이 된다면 이에 따른 이미지를 설정해자.
-//            cell.imageView.image = item.image
         }
         .disposed(by: disposeBag)
 
