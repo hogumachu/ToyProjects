@@ -28,9 +28,6 @@ class ChatViewModel {
             messageRelay.accept(messages)
             
             loadingRelay.accept(false)
-            
-            messages.append(Message(text: "", isSender: false))
-            messageRelay.accept(messages)
         }).disposed(by: disposeBag)
     }
     
