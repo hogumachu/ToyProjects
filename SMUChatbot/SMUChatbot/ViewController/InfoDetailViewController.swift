@@ -10,6 +10,7 @@ class InfoDetailViewController: BaseViewController {
     
     let info: Info
     let DetailBackBarButtonItem = BackBarButtonItem()
+    let titleLabel = HeavyTitleLabel()
     
     // MARK: - Lifecycles
     
@@ -27,10 +28,20 @@ class InfoDetailViewController: BaseViewController {
     // MARK: - Configures
     
     override func configureUI() {
-        view.backgroundColor = .smu
+        view.backgroundColor = info.color
         self.navigationController?.navigationBar.isHidden = false
         self.navigationItem.leftBarButtonItem = DetailBackBarButtonItem
         self.navigationItem.title = info.title
+        
+        view.initAutoLayout(UIViews: [titleLabel])
+        
+        titleLabel.textColor = .white
+        titleLabel.text = info.title
+        
+        titleLabel.snp.makeConstraints {
+            $0.top.equalTo(view.snp.topMargin)
+            $0.leading.equalToSuperview().offset(10)
+        }
     }
     
     // MARK: - Subscribes
