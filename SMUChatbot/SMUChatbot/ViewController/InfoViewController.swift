@@ -36,6 +36,7 @@ class InfoViewController: BaseViewController {
         view.initAutoLayout(UIViews: [listCollectionView])
         view.backgroundColor = .white
         
+        listCollectionView.isPagingEnabled = false
         listCollectionView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.leading.trailing.bottom.equalTo(view)
@@ -49,6 +50,8 @@ class InfoViewController: BaseViewController {
             cell.titleLabel.text = item.title
             cell.detailLabel.text = item.detailInfo
             cell.imageView.backgroundColor = item.color
+            cell.imageTitleLabel.text = item.title
+            
 //            TODO: - 각 Cell에 대해 내용이 확립이 된다면 이에 따른 이미지를 설정해자.
 //            cell.imageView.image = item.image
         }
