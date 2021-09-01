@@ -17,6 +17,8 @@ class InfoCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
+    let imageTitleLabel = HeavyTitleLabel()
+    
     // MARK: - Lifecycles
     
     override func layoutSubviews() {
@@ -42,8 +44,14 @@ class InfoCollectionViewCell: UICollectionViewCell {
         // TODO: - clipsToBounds vs. masksToBounds 해결하기. Cell의 shadow 가 정상적으로 작동하도록.
         clipsToBounds = true
         titleLabel.textColor = .white
+        titleLabel.numberOfLines = 0
+        imageTitleLabel.textColor = .white
+        imageTitleLabel.textAlignment = .center
+        imageTitleLabel.numberOfLines = 0
+        imageTitleLabel.font = .systemFont(ofSize: 50, weight: .heavy)
         
         contentView.initAutoLayout(UIViews: [titleLabel, detailLabel, imageView])
+        imageView.initAutoLayout(UIViews: [imageTitleLabel])
         
         titleLabel.snp.makeConstraints {
             $0.top.left.equalToSuperview().offset(20)
@@ -59,6 +67,11 @@ class InfoCollectionViewCell: UICollectionViewCell {
             $0.centerX.equalToSuperview().offset(frame.width / 3)
             $0.centerY.equalToSuperview().offset(frame.height / 5)
             $0.width.height.equalTo(300)
+        }
+        
+        imageTitleLabel.snp.makeConstraints {
+            $0.top.leading.equalToSuperview().offset(20)
+            $0.bottom.trailing.equalToSuperview().offset(-20)
         }
     }
     
