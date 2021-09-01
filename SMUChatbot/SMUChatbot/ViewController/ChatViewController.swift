@@ -45,7 +45,8 @@ class ChatViewController: BaseViewController {
         self.navigationItem.leftBarButtonItem = backBarButtonItem
         self.navigationItem.titleView = loadingIndicator
         
-        chatTableView.register(ChatTableViewCell.self, forCellReuseIdentifier: ChatTableViewCell.identifier)
+        chatTableView.register(ChatTableViewCellLeft.self, forCellReuseIdentifier: ChatTableViewCellLeft.identifier)
+        chatTableView.register(ChatTableViewCellRight.self, forCellReuseIdentifier: ChatTableViewCellRight.identifier)
         
         view.initAutoLayout(UIViews: [chatTableView, chatTextField, sendButton, keyboardView])
         
@@ -79,15 +80,17 @@ class ChatViewController: BaseViewController {
     // MARK: - Subscribes
     
     override func subscribe() {
-        viewModel.messageRelay.bind(to: chatTableView.rx.items(cellIdentifier: ChatTableViewCell.identifier, cellType: ChatTableViewCell.self)) {  index, item, cell in
-            if item.text != "" {
+        viewModel.messageRelay.bind(to: chatTableView.rx.items) { tableViewCell, row, item -> UITableViewCell in
+            if item.isSender {
+                let cell = tableViewCell.dequeueReusableCell(withIdentifier: ChatTableViewCellRight.identifier, for: IndexPath.init(row: row, section: 0)) as! ChatTableViewCellRight
+                
                 cell.chatLabel.text = item.text
-                cell.isSender(item.isSender)
+                return cell
             } else {
-                cell.chatLabel.text = " "
-                cell.isSender(item.isSender)
-                cell.chatBubbleView.backgroundColor = .clear
-                self.scrollToBottom()
+                let cell = tableViewCell.dequeueReusableCell(withIdentifier: ChatTableViewCellLeft.identifier, for: IndexPath.init(row: row, section: 0)) as! ChatTableViewCellLeft
+                
+                cell.chatLabel.text = item.text
+                return cell
             }
         }.disposed(by: disposeBag)
         
