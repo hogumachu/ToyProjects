@@ -45,8 +45,8 @@ class ChatViewController: BaseViewController {
         self.navigationItem.leftBarButtonItem = backBarButtonItem
         self.navigationItem.titleView = loadingIndicator
         
-        chatTableView.register(ChatTableViewCellLeft.self, forCellReuseIdentifier: ChatTableViewCellLeft.identifier)
-        chatTableView.register(ChatTableViewCellRight.self, forCellReuseIdentifier: ChatTableViewCellRight.identifier)
+        chatTableView.register(ChatTableViewSenderCell.self, forCellReuseIdentifier: ChatTableViewSenderCell.identifier)
+        chatTableView.register(ChatTableViewReceiverCell.self, forCellReuseIdentifier: ChatTableViewReceiverCell.identifier)
         
         view.initAutoLayout(UIViews: [chatTableView, chatTextField, sendButton, keyboardView])
         
@@ -80,16 +80,17 @@ class ChatViewController: BaseViewController {
     // MARK: - Subscribes
     
     override func subscribe() {
-        viewModel.messageRelay.bind(to: chatTableView.rx.items) { tableViewCell, row, item -> UITableViewCell in
+        viewModel.messageRelay.bind(to: chatTableView.rx.items) { [weak self] tableViewCell, row, item -> UITableViewCell in
             if item.isSender {
-                let cell = tableViewCell.dequeueReusableCell(withIdentifier: ChatTableViewCellRight.identifier, for: IndexPath.init(row: row, section: 0)) as! ChatTableViewCellRight
+                let cell = tableViewCell.dequeueReusableCell(withIdentifier: ChatTableViewReceiverCell.identifier, for: IndexPath.init(row: row, section: 0)) as! ChatTableViewReceiverCell
                 
                 cell.chatLabel.text = item.text
                 return cell
             } else {
-                let cell = tableViewCell.dequeueReusableCell(withIdentifier: ChatTableViewCellLeft.identifier, for: IndexPath.init(row: row, section: 0)) as! ChatTableViewCellLeft
+                let cell = tableViewCell.dequeueReusableCell(withIdentifier: ChatTableViewSenderCell.identifier, for: IndexPath.init(row: row, section: 0)) as! ChatTableViewSenderCell
                 
                 cell.chatLabel.text = item.text
+                self?.scrollToBottom()
                 return cell
             }
         }.disposed(by: disposeBag)

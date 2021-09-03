@@ -2,8 +2,8 @@ import UIKit
 import SnapKit
 import RxSwift
 
-class ChatTableViewCellRight: UITableViewCell {
-    static let identifier = "ChatTableViewCellRight"
+class ChatTableViewReceiverCell: UITableViewCell {
+    static let identifier = "ChatTableViewReceiverCell"
     let disposeBag = DisposeBag()
     let chatLabel = DetailLabel()
     let chatBubbleView: UIView = {
@@ -45,7 +45,7 @@ class ChatTableViewCellRight: UITableViewCell {
         
         contentView.snp.makeConstraints {
             $0.top.leading.trailing.bottom.equalToSuperview()
-            $0.height.equalTo(chatBubbleView.snp.height).offset(10)
+            $0.height.equalTo(chatBubbleView.snp.height).offset(20)
         }
         
         chatBubbleView.snp.remakeConstraints {

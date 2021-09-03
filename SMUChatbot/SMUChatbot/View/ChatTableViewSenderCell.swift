@@ -2,8 +2,8 @@ import UIKit
 import SnapKit
 import RxSwift
 
-class ChatTableViewCellLeft: UITableViewCell {
-    static let identifier = "ChatTableViewCellLeft"
+class ChatTableViewSenderCell: UITableViewCell {
+    static let identifier = "ChatTableViewSenderCell"
     let disposeBag = DisposeBag()
     let chatLabel = DetailLabel()
     let chatBubbleView: UIView = {
@@ -13,7 +13,7 @@ class ChatTableViewCellLeft: UITableViewCell {
         return uiView
     }()
     let characterImageView: UIImageView = {
-        let uiImageView = UIImageView(image: UIImage(named: "testImage"))
+        let uiImageView = UIImageView(image: UIImage(named: "smuImage"))
         uiImageView.clipsToBounds = true
         return uiImageView
     }()
@@ -24,13 +24,6 @@ class ChatTableViewCellLeft: UITableViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    
-    // TODO: characterImageView 동그랗게 만드는 거 즉각적으로 실행되게 하기
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        characterImageView.layer.cornerRadius = characterImageView.frame.width / 2
     }
     
     func configureUI() {
@@ -46,7 +39,7 @@ class ChatTableViewCellLeft: UITableViewCell {
         
         contentView.snp.makeConstraints {
             $0.top.leading.trailing.bottom.equalToSuperview()
-            $0.height.equalTo(chatBubbleView).offset(10)
+            $0.height.equalTo(chatBubbleView).offset(20)
         }
         
         chatBubbleView.snp.makeConstraints {
