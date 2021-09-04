@@ -81,6 +81,12 @@ class ChatViewController: BaseViewController {
     
     override func subscribe() {
         viewModel.messageRelay.bind(to: chatTableView.rx.items) { [weak self] tableViewCell, row, item -> UITableViewCell in
+            if let can = self?.viewModel.canScrollBottom() {
+                if can {
+                    self?.scrollToBottom()
+                }
+            }
+           
             if item.isSender {
                 let cell = tableViewCell.dequeueReusableCell(withIdentifier: ChatTableViewReceiverCell.identifier, for: IndexPath.init(row: row, section: 0)) as! ChatTableViewReceiverCell
                 
@@ -90,7 +96,6 @@ class ChatViewController: BaseViewController {
                 let cell = tableViewCell.dequeueReusableCell(withIdentifier: ChatTableViewSenderCell.identifier, for: IndexPath.init(row: row, section: 0)) as! ChatTableViewSenderCell
                 
                 cell.chatLabel.text = item.text
-                self?.scrollToBottom()
                 return cell
             }
         }.disposed(by: disposeBag)
@@ -142,6 +147,5 @@ class ChatViewController: BaseViewController {
         }
     }
 }
-
 
 extension ChatViewController: UIScrollViewDelegate { }

@@ -12,6 +12,7 @@ class ChatViewModel {
     var messages: [Message] = []
     lazy var messageRelay = BehaviorRelay<[Message]>(value: messages)
     var loadingRelay = BehaviorRelay<Bool>(value: false)
+    var messageCount = 0
     let baseUrl = "http://127.0.0.1:8000"
     
     func chatting(sendText text: String){
@@ -44,6 +45,15 @@ class ChatViewModel {
         } catch {
             print(error)
             return "decodeData Error"
+        }
+    }
+    
+    func canScrollBottom() -> Bool {
+        if messageCount == messages.count {
+            return false
+        } else {
+            messageCount = messages.count
+            return true
         }
     }
 }
