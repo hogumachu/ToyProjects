@@ -39,7 +39,7 @@ class ChatTableViewSenderCell: UITableViewCell {
         
         contentView.snp.makeConstraints {
             $0.top.leading.trailing.bottom.equalToSuperview()
-            $0.height.equalTo(chatBubbleView).offset(20)
+            $0.height.equalTo(chatBubbleView).offset(40)
         }
         
         chatBubbleView.snp.makeConstraints {

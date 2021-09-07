@@ -50,7 +50,7 @@ class InfoCollectionViewCell: UICollectionViewCell {
         imageTitleLabel.numberOfLines = 0
         imageTitleLabel.font = .systemFont(ofSize: 50, weight: .heavy)
         
-        contentView.initAutoLayout(UIViews: [titleLabel, detailLabel, imageView])
+        contentView.initAutoLayout(UIViews: [imageView, titleLabel, detailLabel])
         imageView.initAutoLayout(UIViews: [imageTitleLabel])
         
         titleLabel.snp.makeConstraints {

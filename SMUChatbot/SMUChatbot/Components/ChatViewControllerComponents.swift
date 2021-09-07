@@ -47,6 +47,7 @@ class ChatTableView: UITableView {
 class BackBarButtonItem: UIBarButtonItem {
     override init() {
         super.init()
+//        image = UIImage(named: "backImage")
         title = "Back"
         style = .done
         target = self

@@ -17,7 +17,13 @@ class ChatViewController: BaseViewController {
     let chatTableView = ChatTableView()
     let keyboardView = UIView()
     let backBarButtonItem = BackBarButtonItem()
-    let loadingIndicator = UIActivityIndicatorView()
+    let loadingIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView()
+        indicator.contentMode = .scaleAspectFit
+        indicator.frame = UIView(frame: CGRect(x: 0, y: 0, width: 44, height: 44)).bounds
+        return indicator
+    }()
+    let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
     
     // MARK: - Lifecycles
     
@@ -41,9 +47,11 @@ class ChatViewController: BaseViewController {
         loadingIndicator.color = .purple
         
         view.backgroundColor = .white
+        
         self.navigationController?.navigationBar.isHidden = false
-        self.navigationItem.leftBarButtonItem = backBarButtonItem
+            
         self.navigationItem.titleView = loadingIndicator
+        self.navigationItem.leftBarButtonItem = backBarButtonItem
         
         chatTableView.register(ChatTableViewSenderCell.self, forCellReuseIdentifier: ChatTableViewSenderCell.identifier)
         chatTableView.register(ChatTableViewReceiverCell.self, forCellReuseIdentifier: ChatTableViewReceiverCell.identifier)
