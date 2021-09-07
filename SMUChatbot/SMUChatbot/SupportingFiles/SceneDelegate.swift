@@ -11,6 +11,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         window = UIWindow(windowScene: scene)
         let navigationController = UINavigationController()
+        navigationController.navigationItem.setHidesBackButton(true, animated: false)
         let coordinator = AppDependency.resolve().coordinator
         coordinator.navigationController = navigationController
         coordinator.start()
