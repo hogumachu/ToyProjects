@@ -11,7 +11,7 @@ class InfoDetailViewController: BaseViewController {
     let info: Info
     let DetailBackBarButtonItem = BackBarButtonItem()
     let titleLabel = HeavyTitleLabel()
-    
+    let detailLabel = DetailLabel()
     // MARK: - Lifecycles
     
     required init(dependency: Dependency, payload: ()) {
@@ -33,14 +33,25 @@ class InfoDetailViewController: BaseViewController {
         self.navigationItem.leftBarButtonItem = DetailBackBarButtonItem
         self.navigationItem.title = info.title
         
-        view.initAutoLayout(UIViews: [titleLabel])
+        view.initAutoLayout(UIViews: [titleLabel, detailLabel])
         
+        titleLabel.font = .systemFont(ofSize: 40, weight: .heavy)
         titleLabel.textColor = .white
         titleLabel.text = info.title
+        titleLabel.numberOfLines = 0
+        
+        detailLabel.textColor = .white
+        detailLabel.text = info.detailInfo
+        detailLabel.numberOfLines = 0
         
         titleLabel.snp.makeConstraints {
             $0.top.equalTo(view.snp.topMargin)
-            $0.leading.equalToSuperview().offset(10)
+            $0.leading.trailing.equalToSuperview().offset(10)
+        }
+        
+        detailLabel.snp.makeConstraints {
+            $0.top.equalTo(titleLabel.snp.bottom).offset(5)
+            $0.leading.trailing.equalTo(titleLabel)
         }
     }
     
