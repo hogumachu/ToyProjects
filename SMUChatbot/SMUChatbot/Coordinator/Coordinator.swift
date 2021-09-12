@@ -1,7 +1,6 @@
 import UIKit
 
 class Coordinator {
-    
     struct Dependency {
         let mainViewControllerFactory: () -> MainViewController
         let chatViewControllerFactory: () -> ChatViewController
