@@ -47,7 +47,10 @@ class ChatTableView: UITableView {
 class BackBarButtonItem: UIBarButtonItem {
     override init() {
         super.init()
+        // MARK: - TODO
+        // image 설정할 때 가운데 타이틀 위치로 옮겨지는 거 변경하기
 //        image = UIImage(named: "backImage")
+        
         title = "Back"
         style = .done
         target = self
