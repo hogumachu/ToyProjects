@@ -99,11 +99,17 @@ class ChatViewController: BaseViewController {
                 let cell = tableViewCell.dequeueReusableCell(withIdentifier: ChatTableViewReceiverCell.identifier, for: IndexPath.init(row: row, section: 0)) as! ChatTableViewReceiverCell
                 
                 cell.chatLabel.text = item.text
+                
+                // TODO: - dateStamp 추가
+                print(item.dateString)
                 return cell
             } else {
                 let cell = tableViewCell.dequeueReusableCell(withIdentifier: ChatTableViewSenderCell.identifier, for: IndexPath.init(row: row, section: 0)) as! ChatTableViewSenderCell
                 
                 cell.chatLabel.text = item.text
+                
+                // TODO: - dateStamp 추가
+                print(item.dateString)
                 return cell
             }
         }.disposed(by: disposeBag)

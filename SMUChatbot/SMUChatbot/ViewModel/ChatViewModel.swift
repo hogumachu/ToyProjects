@@ -5,6 +5,7 @@ import RxCocoa
 struct Message {
     let text: String
     let isSender: Bool
+    let dateString: String
 }
 
 class ChatViewModel {
@@ -17,7 +18,7 @@ class ChatViewModel {
     let baseUrl = "http://127.0.0.1:8000"
     
     func chatting(sendText text: String){
-        messages.append(Message(text: text, isSender: true))
+        messages.append(Message(text: text, isSender: true, dateString: nowDateString()))
         messageRelay.accept(messages)
         
         loadingRelay.accept(true)
@@ -27,15 +28,28 @@ class ChatViewModel {
         URLSession.shared.rx.data(request: urlRequest)
             .subscribe(onNext: { [unowned self] data in
                 let text = decodeData(data: data)
-                messages.append(Message(text: text, isSender: false))
+                messages.append(Message(text: text, isSender: false, dateString: nowDateString()))
                 messageRelay.accept(messages)
                 loadingRelay.accept(false)
             }, onError: { [unowned self] _ in
-                messages.append(Message(text: "챗봇이 작동하지 않고 있습니다.", isSender: false))
+                messages.append(Message(text: "챗봇이 작동하지 않고 있습니다.", isSender: false, dateString: nowDateString()))
                 messageRelay.accept(messages)
                 loadingRelay.accept(false)
             }
             ).disposed(by: disposeBag)
+    }
+    
+    private func nowDateString() -> String {
+        let hour = Calendar.current.component(.hour, from: Date())
+        let minute = Calendar.current.component(.minute, from: Date())
+        
+        if hour == 12 {
+            return "오후 \(hour):\(minute)"
+        } else if hour > 12 {
+            return "오후 \(hour - 12):\(minute)"
+        } else {
+            return "오전 \(hour):\(minute)"
+        }
     }
     
     private func decodeData(data: Data) -> String {
