@@ -40,16 +40,12 @@ class ChatViewModel {
     }
     
     private func nowDateString() -> String {
-        let hour = Calendar.current.component(.hour, from: Date())
-        let minute = Calendar.current.component(.minute, from: Date())
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "a hh:mm"
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+        let dateString = dateFormatter.string(from: Date())
         
-        if hour == 12 {
-            return "오후 \(hour):\(minute)"
-        } else if hour > 12 {
-            return "오후 \(hour - 12):\(minute)"
-        } else {
-            return "오전 \(hour):\(minute)"
-        }
+        return dateString
     }
     
     private func decodeData(data: Data) -> String {
