@@ -4,6 +4,7 @@ import RxSwift
 
 class ChatTableViewReceiverCell: UITableViewCell {
     static let identifier = "ChatTableViewReceiverCell"
+    
     let disposeBag = DisposeBag()
     let chatLabel = DetailLabel()
     let chatBubbleView: UIView = {
@@ -11,6 +12,17 @@ class ChatTableViewReceiverCell: UITableViewCell {
         uiView.layer.masksToBounds = true
         uiView.layer.cornerRadius = 8
         return uiView
+    }()
+    let characterImageView: UIImageView = {
+        let uiImageView = UIImageView(image: UIImage(named: "smuImage"))
+        uiImageView.clipsToBounds = true
+        return uiImageView
+    }()
+    let dateLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .systemGray
+        label.font = .systemFont(ofSize: 13)
+        return label
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -22,20 +34,34 @@ class ChatTableViewReceiverCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-    }
-    
     func configureUI() {
         chatLabel.font = .systemFont(ofSize: 15)
         chatLabel.textColor = .black
         chatLabel.numberOfLines = 0
         chatLabel.lineBreakMode = .byWordWrapping
         chatLabel.backgroundColor = .clear
-        chatBubbleView.backgroundColor = .yellow
+        chatBubbleView.backgroundColor = .white
         
         backgroundColor = .clear
-        contentView.initAutoLayout(UIViews: [chatBubbleView, chatLabel])
+        contentView.initAutoLayout(UIViews: [chatBubbleView, characterImageView, chatLabel, dateLabel])
+        
+        contentView.snp.makeConstraints {
+            $0.top.leading.trailing.bottom.equalToSuperview()
+            $0.height.equalTo(chatBubbleView).offset(40)
+        }
+        
+        chatBubbleView.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(15)
+            $0.bottom.equalTo(chatLabel.snp.bottom).offset(5)
+            $0.leading.equalTo(characterImageView.snp.trailing).offset(10)
+            $0.trailing.lessThanOrEqualTo(snp.trailing).offset(-100)
+        }
+        
+        characterImageView.snp.makeConstraints {
+            $0.top.equalTo(chatBubbleView)
+            $0.leading.equalTo(snp.leading).offset(10)
+            $0.width.height.equalTo(50)
+        }
         
         chatLabel.snp.makeConstraints {
             $0.top.equalTo(chatBubbleView).offset(5)
@@ -43,17 +69,11 @@ class ChatTableViewReceiverCell: UITableViewCell {
             $0.trailing.equalTo(chatBubbleView).offset(-8)
         }
         
-        contentView.snp.makeConstraints {
-            $0.top.leading.trailing.bottom.equalToSuperview()
-            $0.height.equalTo(chatBubbleView.snp.height).offset(20)
+        dateLabel.snp.makeConstraints {
+            $0.height.equalTo(10)
+            $0.leading.equalTo(chatBubbleView.snp.trailing).offset(10)
+            $0.bottom.equalTo(chatBubbleView.snp.bottom).offset(-5)
         }
         
-        chatBubbleView.snp.remakeConstraints {
-            $0.top.equalToSuperview().offset(15)
-            $0.bottom.equalTo(chatLabel.snp.bottom).offset(5)
-            $0.leading.greaterThanOrEqualTo(snp.leading).offset(60)
-            $0.trailing.equalTo(snp.trailing).offset(-10)
-        }
     }
-    
 }

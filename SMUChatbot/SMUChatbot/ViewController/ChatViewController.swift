@@ -96,20 +96,16 @@ class ChatViewController: BaseViewController {
             }
            
             if item.isSender {
-                let cell = tableViewCell.dequeueReusableCell(withIdentifier: ChatTableViewReceiverCell.identifier, for: IndexPath.init(row: row, section: 0)) as! ChatTableViewReceiverCell
-                
-                cell.chatLabel.text = item.text
-                
-                // TODO: - dateStamp 추가
-                print(item.dateString)
-                return cell
-            } else {
                 let cell = tableViewCell.dequeueReusableCell(withIdentifier: ChatTableViewSenderCell.identifier, for: IndexPath.init(row: row, section: 0)) as! ChatTableViewSenderCell
                 
                 cell.chatLabel.text = item.text
+                cell.dateLabel.text = item.dateString
+                return cell
+            } else {
+                let cell = tableViewCell.dequeueReusableCell(withIdentifier: ChatTableViewReceiverCell.identifier, for: IndexPath.init(row: row, section: 0)) as! ChatTableViewReceiverCell
                 
-                // TODO: - dateStamp 추가
-                print(item.dateString)
+                cell.chatLabel.text = item.text
+                cell.dateLabel.text = item.dateString
                 return cell
             }
         }.disposed(by: disposeBag)
