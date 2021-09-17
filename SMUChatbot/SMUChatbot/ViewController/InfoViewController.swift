@@ -79,12 +79,6 @@ extension InfoViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        switch indexPath.row {
-        case viewModel.info.count - 1:
-            coordinator?.chatViewSelected()
-        default:
-            let info = viewModel.info[indexPath.row]
-            coordinator?.infoDetailViewSelected(info: info)
-        }
+        coordinator?.infoDetailViewSelected(cellNumber: indexPath.row, info: viewModel.info[indexPath.row])
     }
 }
