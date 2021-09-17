@@ -12,7 +12,7 @@ class InfoDetailViewController: BaseViewController {
     let DetailBackBarButtonItem = BackBarButtonItem()
     let titleLabel = HeavyTitleLabel()
     let detailLabel = DetailLabel()
-    lazy var detailView = info.detailView
+    
     let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         return scrollView
@@ -40,7 +40,6 @@ class InfoDetailViewController: BaseViewController {
         self.navigationItem.title = info.title
         
         view.initAutoLayout(UIViews: [titleLabel, detailLabel, scrollView])
-        scrollView.initAutoLayout(UIViews: [detailView])
         
         titleLabel.font = .systemFont(ofSize: 40, weight: .heavy)
         titleLabel.textColor = .white
@@ -51,7 +50,6 @@ class InfoDetailViewController: BaseViewController {
         detailLabel.text = info.detailInfo
         detailLabel.numberOfLines = 0
         
-        detailView.backgroundColor = .white
         
         titleLabel.snp.makeConstraints {
             $0.top.equalTo(view.snp.topMargin)
@@ -67,15 +65,6 @@ class InfoDetailViewController: BaseViewController {
             $0.top.equalTo(detailLabel.snp.bottom).offset(5)
             $0.leading.trailing.bottom.equalToSuperview()
         }
-        
-        detailView.snp.makeConstraints {
-            $0.top.leading.trailing.bottom.equalToSuperview()
-        }
-        
-        scrollView.contentSize = detailView.bounds.size
-        
-        
-        
     }
     
     // MARK: - Subscribes
