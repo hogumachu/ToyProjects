@@ -21,9 +21,9 @@ class ChatViewController: BaseViewController {
         let indicator = UIActivityIndicatorView()
         indicator.contentMode = .scaleAspectFit
         indicator.frame = UIView(frame: CGRect(x: 0, y: 0, width: 44, height: 44)).bounds
+        indicator.color = .purple
         return indicator
     }()
-    let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
     
     // MARK: - Lifecycles
     
@@ -44,12 +44,9 @@ class ChatViewController: BaseViewController {
     // MARK: - Configures
     
     override func configureUI() {
-        loadingIndicator.color = .purple
-        
         view.backgroundColor = .white
         
         self.navigationController?.navigationBar.isHidden = false
-            
         self.navigationItem.titleView = loadingIndicator
         self.navigationItem.leftBarButtonItem = backBarButtonItem
         
