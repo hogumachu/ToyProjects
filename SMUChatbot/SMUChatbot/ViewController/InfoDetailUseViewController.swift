@@ -8,6 +8,7 @@ class InfoDetailUseViewController: BaseViewController {
     }
     let info: Info
     
+    
     init(dependency: Dependency, payload: ()) {
         self.info = dependency.info
         super.init(nibName: nil, bundle: nil)
@@ -16,4 +17,20 @@ class InfoDetailUseViewController: BaseViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+    
+    override func configureUI() {
+        
+    }
+    
+    
+    override func subscribe() {
+        
+    }
+    
+    
+    
 }
