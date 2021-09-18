@@ -65,8 +65,5 @@ class Coordinator {
         default:
             print("Cell Select Error", #function)
         }
-//        let vc = infoDetailViewControllerFactory(info)
-//        navigationController?.pushViewController(vc, animated: true)
-        
     }
 }
