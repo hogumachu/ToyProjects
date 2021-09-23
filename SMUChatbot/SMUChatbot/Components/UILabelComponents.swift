@@ -4,7 +4,7 @@ class HeavyTitleLabel: UILabel {
     override init(frame: CGRect) {
         super.init(frame: frame)
         textAlignment = .left
-        font = .systemFont(ofSize: 70, weight: .heavy)
+        font = .systemFont(ofSize: 60, weight: .heavy)
         adjustsFontSizeToFitWidth = true
     }
     
