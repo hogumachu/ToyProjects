@@ -79,6 +79,6 @@ extension InfoViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        coordinator?.infoDetailViewSelected(cellNumber: indexPath.row, info: viewModel.info[indexPath.row])
+        coordinator?.infoDetailViewSelected(cellNumber: indexPath.row)
     }
 }
