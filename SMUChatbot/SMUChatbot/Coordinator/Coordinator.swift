@@ -5,9 +5,8 @@ class Coordinator {
         let mainViewControllerFactory: () -> MainViewController
         let chatViewControllerFactory: () -> ChatViewController
         let infoViewControllerFactory: () -> InfoViewController
-        let infoDetailUseViewControllerFactory: (Info) -> InfoDetailUseViewController
-        let infoDetailTeamViewControllerFactory: (Info) -> InfoDetailTeamViewController
-//        let infoDetailViewControllerFactory: (Info) -> InfoDetailViewController
+        let infoDetailUseViewControllerFactory: () -> InfoDetailUseViewController
+        let infoDetailTeamViewControllerFactory: () -> InfoDetailTeamViewController
     }
     
     var navigationController: UINavigationController?
@@ -15,9 +14,8 @@ class Coordinator {
     let rootViewController: MainViewController
     let chatViewControllerFactory: () -> ChatViewController
     let infoViewControllerFactory: () -> InfoViewController
-    let infoDetailUseViewControllerFactory: (Info) -> InfoDetailUseViewController
-    let infoDetailTeamViewControllerFactory: (Info) -> InfoDetailTeamViewController
-//    let infoDetailViewControllerFactory: (Info) -> InfoDetailViewController
+    let infoDetailUseViewControllerFactory: () -> InfoDetailUseViewController
+    let infoDetailTeamViewControllerFactory: () -> InfoDetailTeamViewController
     
     required init(dependency: Dependency, payload: ()) {
         rootViewController = dependency.mainViewControllerFactory()
@@ -25,7 +23,6 @@ class Coordinator {
         infoViewControllerFactory = dependency.infoViewControllerFactory
         infoDetailUseViewControllerFactory = dependency.infoDetailUseViewControllerFactory
         infoDetailTeamViewControllerFactory = dependency.infoDetailTeamViewControllerFactory
-//        infoDetailViewControllerFactory = dependency.infoDetailViewControllerFactory
     }
     
     func start() {
@@ -40,22 +37,18 @@ class Coordinator {
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    func chatViewSelected() {
-        
-    }
-    
     func chatViewBackButtonTapped() {
         navigationController?.popViewController(animated: true)
     }
     
-    func infoDetailViewSelected(cellNumber: Int, info: Info) {
+    func infoDetailViewSelected(cellNumber: Int) {
         switch cellNumber {
         case 0:
-            let vc = infoDetailUseViewControllerFactory(info)
+            let vc = infoDetailUseViewControllerFactory()
             vc.coordinator = self
             navigationController?.pushViewController(vc, animated: true)
         case 1:
-            let vc = infoDetailTeamViewControllerFactory(info)
+            let vc = infoDetailTeamViewControllerFactory()
             vc.coordinator = self
             navigationController?.pushViewController(vc, animated: true)
         case 2:

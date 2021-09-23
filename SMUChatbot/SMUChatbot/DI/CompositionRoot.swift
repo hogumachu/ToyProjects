@@ -16,16 +16,12 @@ extension AppDependency {
             return .init(dependency: .init(viewModel: .init()), payload: ())
         }
         
-//        let infoDetailViewControllerFactory: (Info) -> InfoDetailViewController = { info in
-//            return .init(dependency: .init(info: info), payload: ())
-//        }
-        
-        let infoDetailUseViewControllerFactory: (Info) -> InfoDetailUseViewController = { info in
-            return .init(dependency: .init(info: info), payload: ())
+        let infoDetailUseViewControllerFactory: () -> InfoDetailUseViewController = {
+            return .init()
         }
         
-        let infoDetailTeamViewControllerFactory: (Info) -> InfoDetailTeamViewController = { info in
-            return .init(dependency: .init(info: info), payload: ())
+        let infoDetailTeamViewControllerFactory: () -> InfoDetailTeamViewController = {
+            return .init(dependency: .init(viewModel: .init()), payload: ())
         }
         
         let coordinator = Coordinator.init(dependency:
