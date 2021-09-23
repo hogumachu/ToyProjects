@@ -5,54 +5,47 @@ import Kingfisher
 
 class InfoDetailTeamViewController: BaseViewController {
     struct Dependency {
-        let info: Info
+        let viewModel: InfoDetailTeamViewModel
     }
     
     // MARK: - Properties
     
-    let info: Info
-    let backBarButtonItem = BackBarButtonItem()
+    let viewModel: InfoDetailTeamViewModel
     let imageView = AnimatedImageView()
-//    let pageControl = UIPageControl()
-//    let iOSGitButton: UIButton = {
-//        let button = UIButton()
-//        button.setImage(UIImage(named: "github_logo"), for: .normal)
-//        return button
-//    }()
-//    let djangoGitButton: UIButton = {
-//        let button = UIButton()
-//        button.setImage(UIImage(named: "github_logo"), for: .normal)
-//        return button
-//    }()
-//    let iOSLabel: UILabel = {
-//        let label = UILabel()
-//        label.text = "iOS"
-//        return label
-//    }()
-//    let djangoLabel: UILabel = {
-//        let label = UILabel()
-//        label.text = "Django"
-//        return label
-//    }()
-//    let documentLabel: UILabel = {
-//        let label = UILabel()
-//        label.font = .systemFont(ofSize: 50, weight: .heavy)
-//        label.text = "개발 문서 보기"
-//        return label
-//    }()
+    let previousButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("  이전  ", for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
+        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(.gray, for: .highlighted)
+        button.layer.cornerRadius = 10
+        button.backgroundColor = .smu
+        return button
+    }()
+    let nextButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("  다음  ", for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
+        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(.gray, for: .highlighted)
+        button.layer.cornerRadius = 10
+        button.backgroundColor = .smu
+        return button
+    }()
+    var currentPage = 0
     let descripLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 20, weight: .semibold)
-        label.text = "❶ 이전 페이지에서 우측으로 이동합니다"
+        label.font = .systemFont(ofSize: 20, weight: .bold)
+        label.textColor = .smu
         label.numberOfLines = 0
-        label.textAlignment = .left
+        label.textAlignment = .center
         return label
     }()
     
     // MARK: - Lifecycles
     
     init(dependency: Dependency, payload: ()) {
-        self.info = dependency.info
+        self.viewModel = dependency.viewModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -63,7 +56,7 @@ class InfoDetailTeamViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // TODO: - urlString Model 로 옮기기
-        downloadImage(urlString: "https://user-images.githubusercontent.com/74225754/133364875-b18ca2e5-85da-479d-856c-e008440e82bf.gif")
+        configurePages()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -74,18 +67,15 @@ class InfoDetailTeamViewController: BaseViewController {
     // MARK: - Configures
     
     override func configureUI() {
-        self.navigationController?.navigationBar.isHidden = false
-        self.navigationItem.leftBarButtonItem = backBarButtonItem
         view.backgroundColor = .white
-        view.initAutoLayout(UIViews: [imageView, descripLabel])
-        
-        imageView.layer.cornerRadius = 10
+        view.initAutoLayout(UIViews: [imageView, descripLabel, previousButton, nextButton])
+        imageView.contentMode = .scaleAspectFit
         
         imageView.snp.makeConstraints {
             $0.top.equalTo(descripLabel.snp.bottom).offset(20)
-            $0.leading.equalTo(view.safeAreaLayoutGuide).offset(10)
-            $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-10)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide)
+            $0.leading.equalTo(view.safeAreaLayoutGuide).offset(30)
+            $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-30)
+            $0.bottom.equalTo(previousButton.snp.top).offset(-10)
         }
         
         descripLabel.snp.makeConstraints {
@@ -94,78 +84,53 @@ class InfoDetailTeamViewController: BaseViewController {
             $0.trailing.lessThanOrEqualToSuperview().offset(-20)
         }
         
+        previousButton.snp.makeConstraints {
+            $0.height.equalTo(30)
+            $0.leading.equalTo(view.safeAreaLayoutGuide).offset(30)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-10)
+        }
         
-//        view.initAutoLayout(UIViews: [documentLabel, iOSGitButton, iOSLabel, djangoGitButton, djangoLabel, pageControl])
-//        pageControl.numberOfPages = 3
-//        pageControl.currentPage = 0
-//        pageControl.pageIndicatorTintColor = .systemGray
-//        pageControl.currentPageIndicatorTintColor = .black
-//
-//        pageControl.snp.makeConstraints {
-//            $0.centerX.equalToSuperview()
-//            $0.bottom.equalToSuperview().offset(-20)
-//        }
-//
-//        documentLabel.snp.makeConstraints {
-//            $0.top.leading.equalTo(view.safeAreaLayoutGuide).offset(5)
-//        }
-//
-//        iOSGitButton.snp.makeConstraints {
-//            $0.top.equalTo(documentLabel.snp.bottom).offset(10)
-//            $0.leading.equalTo(documentLabel)
-//            $0.width.height.equalTo(40)
-//        }
-//
-//        iOSLabel.snp.makeConstraints {
-//            $0.centerY.equalTo(iOSGitButton)
-//            $0.leading.equalTo(iOSGitButton.snp.trailing).offset(10)
-//        }
-//
-//        djangoGitButton.snp.makeConstraints {
-//            $0.top.equalTo(iOSGitButton.snp.bottom).offset(10)
-//            $0.leading.equalTo(iOSGitButton)
-//            $0.width.height.equalTo(40)
-//        }
-//
-//        djangoLabel.snp.makeConstraints {
-//            $0.centerY.equalTo(djangoGitButton)
-//            $0.leading.equalTo(djangoGitButton.snp.trailing).offset(10)
-//        }
+        nextButton.snp.makeConstraints {
+            $0.height.equalTo(previousButton)
+            $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-30)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-10)
+        }
         
-        backBarButtonItem.rx.tap
-            .subscribe(onNext: { [unowned self] _ in
-                self.navigationController?.navigationBar.isHidden = true
-                self.navigationController?.popViewController(animated: true)
-            })
-            .disposed(by: disposeBag)
     }
     
-    func downloadImage(urlString: String) {
-        guard let url = URL(string: urlString) else { return }
-        imageView.kf.setImage(with: url) { [weak self] result in
-            switch result {
-            case .success(_):
-                self?.imageView.startAnimating()
-            case .failure(let error):
-                print(error)
-            }
-        }
+    func configurePages() {
+        imageView.kf.setImage(with: viewModel.downloadImage(urlString: viewModel.info[currentPage].imageUrlString))
+        descripLabel.text = viewModel.info[currentPage].description
     }
     
     // MARK: - Subscribes
     
     override func subscribe() {
-//        iOSGitButton.rx.tap
-//            .subscribe(onNext: {
-//                print("TODO: iOS Github 페이지로 가기")
-//            })
-//            .disposed(by: disposeBag)
-//
-//        djangoGitButton.rx.tap
-//            .subscribe(onNext: {
-//                print("TODO: Django Github 페이지로 가기")
-//            })
-//            .disposed(by: disposeBag)
+        nextButton.rx.tap
+            .subscribe(onNext: { [unowned self] in
+                buttonAction(1)
+            })
+            .disposed(by: disposeBag)
+        
+        previousButton.rx.tap
+            .subscribe(onNext: { [unowned self] in
+                buttonAction(-1)
+            })
+            .disposed(by: disposeBag)
     }
-
+    
+    // MARK: - helper
+    
+    func buttonAction(_ num: Int) {
+        let order = viewModel.changePage(next: currentPage + num)
+        switch order {
+        case .inPage:
+            currentPage += num
+            configurePages()
+        case .popViewController:
+            navigationController?.popViewController(animated: true)
+        case .chatViewController:
+            coordinator?.infoDetailViewSelected(cellNumber: 2)
+        }
+    }
 }
