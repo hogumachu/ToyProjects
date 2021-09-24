@@ -16,20 +16,25 @@ extension AppDependency {
             return .init(dependency: .init(viewModel: .init()), payload: ())
         }
         
-        let infoDetailUseViewControllerFactory: () -> InfoDetailUseViewController = {
-            return .init()
-        }
-        
         let infoDetailTeamViewControllerFactory: () -> InfoDetailTeamViewController = {
             return .init(dependency: .init(viewModel: .init()), payload: ())
+        }
+        
+        let infoDetailUseViewControllerFactory: () -> InfoDetailUseViewController = {
+            return .init(dependency: .init(viewModel: .init()), payload: ())
+        }
+        
+        let infoPopupViewControllerFactory: () -> InfoPopupViewController = {
+            return .init(nibName: nil, bundle: nil)
         }
         
         let coordinator = Coordinator.init(dependency:
                                             .init(mainViewControllerFactory: mainViewControllerFactory,
                                                   chatViewControllerFactory: chatViewControllerFactory,
                                                   infoViewControllerFactory: infoViewControllerFactory,
-                                                  infoDetailUseViewControllerFactory : infoDetailUseViewControllerFactory,
-                                                  infoDetailTeamViewControllerFactory: infoDetailTeamViewControllerFactory
+                                                  infoDetailTeamViewControllerFactory : infoDetailTeamViewControllerFactory,
+                                                  infoDetailUseViewControllerFactory: infoDetailUseViewControllerFactory,
+                                                  infoPopupViewControllerFactory: infoPopupViewControllerFactory
                                             ),
                                            payload: ())
         
