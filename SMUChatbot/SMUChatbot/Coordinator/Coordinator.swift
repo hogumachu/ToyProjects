@@ -5,8 +5,9 @@ class Coordinator {
         let mainViewControllerFactory: () -> MainViewController
         let chatViewControllerFactory: () -> ChatViewController
         let infoViewControllerFactory: () -> InfoViewController
-        let infoDetailUseViewControllerFactory: () -> InfoDetailUseViewController
         let infoDetailTeamViewControllerFactory: () -> InfoDetailTeamViewController
+        let infoDetailUseViewControllerFactory: () -> InfoDetailUseViewController
+        let infoPopupViewControllerFactory: () -> InfoPopupViewController
     }
     
     var navigationController: UINavigationController?
@@ -14,15 +15,17 @@ class Coordinator {
     let rootViewController: MainViewController
     let chatViewControllerFactory: () -> ChatViewController
     let infoViewControllerFactory: () -> InfoViewController
-    let infoDetailUseViewControllerFactory: () -> InfoDetailUseViewController
     let infoDetailTeamViewControllerFactory: () -> InfoDetailTeamViewController
+    let infoDetailUseViewControllerFactory: () -> InfoDetailUseViewController
+    let infoPopupViewControllerFactory: () -> InfoPopupViewController
     
     required init(dependency: Dependency, payload: ()) {
         rootViewController = dependency.mainViewControllerFactory()
         chatViewControllerFactory = dependency.chatViewControllerFactory
         infoViewControllerFactory = dependency.infoViewControllerFactory
-        infoDetailUseViewControllerFactory = dependency.infoDetailUseViewControllerFactory
         infoDetailTeamViewControllerFactory = dependency.infoDetailTeamViewControllerFactory
+        infoDetailUseViewControllerFactory = dependency.infoDetailUseViewControllerFactory
+        infoPopupViewControllerFactory = dependency.infoPopupViewControllerFactory
     }
     
     func start() {
@@ -44,11 +47,11 @@ class Coordinator {
     func infoDetailViewSelected(cellNumber: Int) {
         switch cellNumber {
         case 0:
-            let vc = infoDetailUseViewControllerFactory()
+            let vc = infoDetailTeamViewControllerFactory()
             vc.coordinator = self
             navigationController?.pushViewController(vc, animated: true)
         case 1:
-            let vc = infoDetailTeamViewControllerFactory()
+            let vc = infoDetailUseViewControllerFactory()
             vc.coordinator = self
             navigationController?.pushViewController(vc, animated: true)
         case 2:
@@ -58,5 +61,12 @@ class Coordinator {
         default:
             print("Cell Select Error", #function)
         }
+    }
+    
+    func infoPopup() {
+        let vc = infoPopupViewControllerFactory()
+        vc.coordinator = self
+        vc.modalPresentationStyle = .overCurrentContext
+        navigationController?.present(vc, animated: false, completion: nil)
     }
 }
