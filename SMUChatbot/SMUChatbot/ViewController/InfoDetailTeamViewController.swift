@@ -8,20 +8,8 @@ class InfoDetailTeamViewController: BaseViewController {
         let viewModel: InfoDetailTeamViewModel
     }
     
-    // MARK: - Properties
-    
     let viewModel: InfoDetailTeamViewModel
     let imageView = AnimatedImageView()
-    let previousButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("  이전  ", for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
-        button.setTitleColor(.white, for: .normal)
-        button.setTitleColor(.gray, for: .highlighted)
-        button.layer.cornerRadius = 10
-        button.backgroundColor = .smu
-        return button
-    }()
     let nextButton: UIButton = {
         let button = UIButton()
         button.setTitle("  다음  ", for: .normal)
@@ -32,17 +20,18 @@ class InfoDetailTeamViewController: BaseViewController {
         button.backgroundColor = .smu
         return button
     }()
-    var currentPage = 0
-    let descripLabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 20, weight: .bold)
-        label.textColor = .smu
-        label.numberOfLines = 0
-        label.textAlignment = .center
-        return label
+    let infoButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("  정보  ", for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
+        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(.gray, for: .highlighted)
+        button.layer.cornerRadius = 10
+        button.backgroundColor = .smu
+        button.isHidden = true
+        return button
     }()
-    
-    // MARK: - Lifecycles
+    var currentPage = 0
     
     init(dependency: Dependency, payload: ()) {
         self.viewModel = dependency.viewModel
@@ -55,82 +44,60 @@ class InfoDetailTeamViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // TODO: - urlString Model 로 옮기기
         configurePages()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        imageView.stopAnimating()
-    }
-    
-    // MARK: - Configures
-    
     override func configureUI() {
         view.backgroundColor = .white
-        view.initAutoLayout(UIViews: [imageView, descripLabel, previousButton, nextButton])
+        view.initAutoLayout(UIViews: [imageView, nextButton, infoButton])
         imageView.contentMode = .scaleAspectFit
         
         imageView.snp.makeConstraints {
-            $0.top.equalTo(descripLabel.snp.bottom).offset(20)
-            $0.leading.equalTo(view.safeAreaLayoutGuide).offset(30)
-            $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-30)
-            $0.bottom.equalTo(previousButton.snp.top).offset(-10)
+            $0.leading.trailing.equalToSuperview()
+            $0.top.equalTo(infoButton.snp.bottom).offset(10)
+            $0.bottom.equalTo(nextButton.snp.top).offset(-10)
         }
-        
-        descripLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(10)
-            $0.leading.equalToSuperview().offset(20)
-            $0.trailing.lessThanOrEqualToSuperview().offset(-20)
-        }
-        
-        previousButton.snp.makeConstraints {
-            $0.height.equalTo(30)
-            $0.leading.equalTo(view.safeAreaLayoutGuide).offset(30)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-10)
-        }
-        
         nextButton.snp.makeConstraints {
-            $0.height.equalTo(previousButton)
-            $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-30)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide).offset(-10)
+            $0.trailing.bottom.equalTo(view.safeAreaLayoutGuide).offset(-10)
         }
         
+        infoButton.snp.makeConstraints {
+            $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(-10)
+            $0.top.equalTo(view.safeAreaLayoutGuide).offset(10)
+        }
     }
     
     func configurePages() {
-        imageView.kf.setImage(with: viewModel.downloadImage(urlString: viewModel.info[currentPage].imageUrlString))
-        descripLabel.text = viewModel.info[currentPage].description
+        imageView.kf.setImage(with: viewModel.downloadImage(urlString: viewModel.info[currentPage]))
     }
-    
-    // MARK: - Subscribes
     
     override func subscribe() {
         nextButton.rx.tap
-            .subscribe(onNext: { [unowned self] in
-                buttonAction(1)
+            .subscribe(onNext: { [weak self] in
+                self?.nextButtonAction()
             })
             .disposed(by: disposeBag)
         
-        previousButton.rx.tap
-            .subscribe(onNext: { [unowned self] in
-                buttonAction(-1)
+        infoButton.rx.tap
+            .subscribe(onNext: { [weak self] in
+                self?.infoButtonAction()
             })
             .disposed(by: disposeBag)
     }
     
-    // MARK: - helper
+    func infoButtonAction() {
+        coordinator?.infoPopup()
+    }
     
-    func buttonAction(_ num: Int) {
-        let order = viewModel.changePage(next: currentPage + num)
-        switch order {
-        case .inPage:
-            currentPage += num
+    func nextButtonAction() {
+        if viewModel.changePage(next: currentPage + 1) {
+            currentPage += 1
             configurePages()
-        case .popViewController:
-            navigationController?.popViewController(animated: true)
-        case .chatViewController:
-            coordinator?.infoDetailViewSelected(cellNumber: 2)
+            if currentPage == viewModel.info.count - 1 {
+                infoButton.isHidden = false
+            }
+        } else {
+            coordinator?.navigationController?.popViewController(animated: true)
         }
     }
 }
