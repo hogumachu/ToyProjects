@@ -28,13 +28,18 @@ extension AppDependency {
             return .init(nibName: nil, bundle: nil)
         }
         
+        let webViewControllerFactory: (_ url: String) -> WebViewController = {url in
+            return .init(dependency: .init(url: url), payload: ())
+        }
+        
         let coordinator = Coordinator.init(dependency:
                                             .init(mainViewControllerFactory: mainViewControllerFactory,
                                                   chatViewControllerFactory: chatViewControllerFactory,
                                                   infoViewControllerFactory: infoViewControllerFactory,
                                                   infoDetailTeamViewControllerFactory : infoDetailTeamViewControllerFactory,
                                                   infoDetailUseViewControllerFactory: infoDetailUseViewControllerFactory,
-                                                  infoPopupViewControllerFactory: infoPopupViewControllerFactory
+                                                  infoPopupViewControllerFactory: infoPopupViewControllerFactory,
+                                                  webViewControllerFactory: webViewControllerFactory
                                             ),
                                            payload: ())
         

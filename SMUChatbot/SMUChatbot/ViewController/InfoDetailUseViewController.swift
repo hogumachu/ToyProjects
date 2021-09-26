@@ -129,6 +129,7 @@ class InfoDetailUseViewController: BaseViewController {
         case .popViewController:
             navigationController?.popViewController(animated: true)
         case .chatViewController:
+            navigationController?.popViewController(animated: false)
             coordinator?.infoDetailViewSelected(cellNumber: 2)
         }
     }
