@@ -8,6 +8,7 @@ class Coordinator {
         let infoDetailTeamViewControllerFactory: () -> InfoDetailTeamViewController
         let infoDetailUseViewControllerFactory: () -> InfoDetailUseViewController
         let infoPopupViewControllerFactory: () -> InfoPopupViewController
+        let webViewControllerFactory: (_ url: String) -> WebViewController
     }
     
     var navigationController: UINavigationController?
@@ -18,6 +19,7 @@ class Coordinator {
     let infoDetailTeamViewControllerFactory: () -> InfoDetailTeamViewController
     let infoDetailUseViewControllerFactory: () -> InfoDetailUseViewController
     let infoPopupViewControllerFactory: () -> InfoPopupViewController
+    let webViewControllerFactory: (_ url: String) -> WebViewController
     
     required init(dependency: Dependency, payload: ()) {
         rootViewController = dependency.mainViewControllerFactory()
@@ -26,6 +28,7 @@ class Coordinator {
         infoDetailTeamViewControllerFactory = dependency.infoDetailTeamViewControllerFactory
         infoDetailUseViewControllerFactory = dependency.infoDetailUseViewControllerFactory
         infoPopupViewControllerFactory = dependency.infoPopupViewControllerFactory
+        webViewControllerFactory = dependency.webViewControllerFactory
     }
     
     func start() {
@@ -68,5 +71,12 @@ class Coordinator {
         vc.coordinator = self
         vc.modalPresentationStyle = .overCurrentContext
         navigationController?.present(vc, animated: false, completion: nil)
+    }
+    
+    func loadWebViewController(_ url: String) {
+        let vc = webViewControllerFactory(url)
+        vc.coordinator = self
+        vc.modalPresentationStyle = .overCurrentContext
+        navigationController?.present(vc, animated: true, completion: nil)
     }
 }
