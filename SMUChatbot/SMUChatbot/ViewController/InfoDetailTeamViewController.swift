@@ -8,6 +8,8 @@ class InfoDetailTeamViewController: BaseViewController {
         let viewModel: InfoDetailTeamViewModel
     }
     
+    // MARK: - Properties
+    
     let viewModel: InfoDetailTeamViewModel
     let imageView = AnimatedImageView()
     let nextButton: UIButton = {
@@ -33,6 +35,8 @@ class InfoDetailTeamViewController: BaseViewController {
     }()
     var currentPage = 0
     
+    // MARK: - Lifecycles
+    
     init(dependency: Dependency, payload: ()) {
         self.viewModel = dependency.viewModel
         super.init(nibName: nil, bundle: nil)
@@ -47,6 +51,8 @@ class InfoDetailTeamViewController: BaseViewController {
         configurePages()
     }
     
+    // MARK: - Configures
+    
     override func configureUI() {
         view.backgroundColor = .white
         view.initAutoLayout(UIViews: [imageView, nextButton, infoButton])
@@ -54,8 +60,7 @@ class InfoDetailTeamViewController: BaseViewController {
         
         imageView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
-            $0.top.equalTo(infoButton.snp.bottom).offset(10)
-            $0.bottom.equalTo(nextButton.snp.top).offset(-10)
+            $0.centerY.equalToSuperview()
         }
         nextButton.snp.makeConstraints {
             $0.trailing.bottom.equalTo(view.safeAreaLayoutGuide).offset(-10)
@@ -71,6 +76,8 @@ class InfoDetailTeamViewController: BaseViewController {
         imageView.kf.setImage(with: viewModel.downloadImage(urlString: viewModel.info[currentPage]))
     }
     
+    // MARK: - Subscribes
+    
     override func subscribe() {
         nextButton.rx.tap
             .subscribe(onNext: { [weak self] in
@@ -84,6 +91,8 @@ class InfoDetailTeamViewController: BaseViewController {
             })
             .disposed(by: disposeBag)
     }
+    
+    // MARK: - Helper
     
     func infoButtonAction() {
         coordinator?.infoPopup()
