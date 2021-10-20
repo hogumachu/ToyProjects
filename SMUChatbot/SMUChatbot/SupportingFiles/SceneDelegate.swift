@@ -13,14 +13,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let navigationController = UINavigationController()
         navigationController.navigationItem.setHidesBackButton(true, animated: false)
         let coordinator = AppDependency.resolve().coordinator
+        
         coordinator.navigationController = navigationController
-        coordinator.start()
+        coordinator.sceneChange(scene: .mainViewController, style: .root, animated: false)
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
-//        if let window = window {
-//            coordinator.start(window: window, rootViewController: MainViewController(viewModel: MainViewModel()))
-//            window.makeKeyAndVisible()
-//        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

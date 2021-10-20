@@ -15,7 +15,8 @@ class ChatViewModel {
     var loadingRelay = BehaviorRelay<Bool>(value: false)
     var messageCount = 0
     // TODO: - 추후 로컬이 아닌 서버로 돌리기
-    let baseUrl = "http://127.0.0.1:8000"
+//    let baseUrl = "http://127.0.0.1:8000"
+    let baseUrl = "http://192.168.25.32:8000"
     
     func chatting(sendText text: String){
         messages.append(Message(text: text, isSender: true, dateString: nowDateString()))

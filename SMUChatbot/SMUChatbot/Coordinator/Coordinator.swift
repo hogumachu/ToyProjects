@@ -13,7 +13,7 @@ class Coordinator {
     
     var navigationController: UINavigationController?
     
-    let rootViewController: MainViewController
+    let mainViewControllerFactory: () -> MainViewController
     let chatViewControllerFactory: () -> ChatViewController
     let infoViewControllerFactory: () -> InfoViewController
     let infoDetailTeamViewControllerFactory: () -> InfoDetailTeamViewController
@@ -22,7 +22,7 @@ class Coordinator {
     let webViewControllerFactory: (_ url: String) -> WebViewController
     
     required init(dependency: Dependency, payload: ()) {
-        rootViewController = dependency.mainViewControllerFactory()
+        mainViewControllerFactory = dependency.mainViewControllerFactory
         chatViewControllerFactory = dependency.chatViewControllerFactory
         infoViewControllerFactory = dependency.infoViewControllerFactory
         infoDetailTeamViewControllerFactory = dependency.infoDetailTeamViewControllerFactory
@@ -31,52 +31,85 @@ class Coordinator {
         webViewControllerFactory = dependency.webViewControllerFactory
     }
     
-    func start() {
-        rootViewController.coordinator = self
-        navigationController?.navigationBar.isHidden = true
-        navigationController?.setViewControllers([rootViewController], animated: false)
-    }
-    
-    func gotoInfoViewController() {
-        let vc = infoViewControllerFactory()
-        vc.coordinator = self
-        navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    func chatViewBackButtonTapped() {
-        navigationController?.popViewController(animated: true)
-    }
-    
-    func infoDetailViewSelected(cellNumber: Int) {
-        switch cellNumber {
-        case 0:
-            let vc = infoDetailTeamViewControllerFactory()
-            vc.coordinator = self
-            navigationController?.pushViewController(vc, animated: true)
-        case 1:
-            let vc = infoDetailUseViewControllerFactory()
-            vc.coordinator = self
-            navigationController?.pushViewController(vc, animated: true)
-        case 2:
-            let vc = chatViewControllerFactory()
-            vc.coordinator = self
-            navigationController?.pushViewController(vc, animated: true)
-        default:
-            print("Cell Select Error", #function)
+    func sceneChange(scene: Scene = .none, style: SceneTransitionStyle, animated: Bool, url: String = "") {
+        if scene == .none && !(style == .dismiss || style == .pop) {
+            print("Pop 이나 Dismiss 가 아니라면 Scene 를 설정해야 함", #function)
+            return
+        } else if scene == .webViewController && url == "" {
+            print("WebViewController 호출 시 반드시 url 을 추가해야 함", #function)
+            return
+        }
+        
+        let vc = selectScene(scene: scene, url: url)
+        
+        switch style {
+        case .push:
+            navigationController?.pushViewController(vc, animated: animated)
+        case .modal:
+            navigationController?.present(vc, animated: animated)
+        case .root:
+            navigationController?.setViewControllers([vc], animated: animated)
+        case .pop:
+            navigationController?.popViewController(animated: animated)
+        case .dismiss:
+            navigationController?.topViewController?.dismiss(animated: animated)
         }
     }
     
-    func infoPopup() {
-        let vc = infoPopupViewControllerFactory()
-        vc.coordinator = self
-        vc.modalPresentationStyle = .overCurrentContext
-        navigationController?.present(vc, animated: false, completion: nil)
+    private func selectScene(scene: Scene, url: String) -> UIViewController {
+        switch scene {
+        case .none:
+            return UIViewController()
+        case .mainViewController:
+            let vc = mainViewControllerFactory()
+            navigationController?.navigationBar.isHidden = true
+            vc.coordinator = self
+            return vc
+        case .chatViewController:
+            let vc = chatViewControllerFactory()
+            vc.coordinator = self
+            return vc
+        case .infoViewController:
+            let vc = infoViewControllerFactory()
+            vc.coordinator = self
+            return vc
+        case .infoDetailTeamViewController:
+            let vc = infoDetailTeamViewControllerFactory()
+            vc.coordinator = self
+            return vc
+        case .infoDetailUseViewController:
+            let vc = infoDetailUseViewControllerFactory()
+            vc.coordinator = self
+            return vc
+        case .infoPopupViewController:
+            let vc = infoPopupViewControllerFactory()
+            vc.modalPresentationStyle = .overCurrentContext
+            vc.coordinator = self
+            return vc
+        case .webViewController:
+            let vc = webViewControllerFactory(url)
+            vc.modalPresentationStyle = .overCurrentContext
+            vc.coordinator = self
+            return vc
+        }
     }
-    
-    func loadWebViewController(_ url: String) {
-        let vc = webViewControllerFactory(url)
-        vc.coordinator = self
-        vc.modalPresentationStyle = .overCurrentContext
-        navigationController?.present(vc, animated: true, completion: nil)
-    }
+}
+
+enum Scene {
+    case none
+    case mainViewController
+    case chatViewController
+    case infoViewController
+    case infoDetailTeamViewController
+    case infoDetailUseViewController
+    case infoPopupViewController
+    case webViewController
+}
+
+enum SceneTransitionStyle {
+    case push
+    case modal
+    case root
+    case pop
+    case dismiss
 }

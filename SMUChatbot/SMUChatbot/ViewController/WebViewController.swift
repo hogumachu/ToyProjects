@@ -66,7 +66,7 @@ class WebViewController: BaseViewController {
     override func subscribe() {
         closeButton.rx.tap
             .subscribe(onNext: { [weak self] in
-                self?.dismiss(animated: true, completion: nil)
+                self?.coordinator?.sceneChange(style: .dismiss, animated: true)
             })
             .disposed(by: disposeBag)
     }

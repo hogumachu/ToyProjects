@@ -116,7 +116,7 @@ class ChatViewController: BaseViewController {
         backBarButtonItem.rx.tap
             .subscribe(onNext: { [unowned self] _ in
                 self.navigationController?.navigationBar.isHidden = true
-                self.navigationController?.popViewController(animated: true)
+                self.coordinator?.sceneChange(style: .pop, animated: true)
             })
             .disposed(by: disposeBag)
         
