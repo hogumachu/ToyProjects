@@ -33,8 +33,13 @@ class Coordinator {
     
     func sceneChange(scene: Scene = .none, style: SceneTransitionStyle, animated: Bool, url: String = "") {
         if scene == .none && !(style == .dismiss || style == .pop) {
+            print("Pop 이나 Dismiss 가 아니라면 Scene 를 설정해야 함", #function)
+            return
+        } else if scene == .webViewController && url == "" {
+            print("WebViewController 호출 시 반드시 url 을 추가해야 함", #function)
             return
         }
+        
         let vc = selectScene(scene: scene, url: url)
         
         switch style {
