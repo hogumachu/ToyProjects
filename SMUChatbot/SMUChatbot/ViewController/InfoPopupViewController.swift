@@ -95,21 +95,21 @@ class InfoPopupViewController: BaseViewController {
     override func subscribe() {
         iOSButton.rx.tap
             .subscribe(onNext: { [weak self] in
-                self?.dismiss(animated: false, completion: nil)
-                self?.coordinator?.loadWebViewController("https://github.com/hogumachu/ToyProjects")
+                self?.coordinator?.sceneChange(style: .dismiss, animated: false)
+                self?.coordinator?.sceneChange(scene: .webViewController, style: .modal, animated: true, url: "https://github.com/hogumachu/SMUChatbotiOS")
             })
             .disposed(by: disposeBag)
 
         djangoButton.rx.tap
             .subscribe(onNext: { [weak self] in
-                self?.dismiss(animated: false, completion: nil)
-                self?.coordinator?.loadWebViewController("https://github.com/hogumachu/SMUChatbot")
+                self?.coordinator?.sceneChange(style: .dismiss, animated: false)
+                self?.coordinator?.sceneChange(scene: .webViewController, style: .modal, animated: true, url: "https://github.com/hogumachu/SMUChatbot")
             })
             .disposed(by: disposeBag)
         
         backButton.rx.tap
             .subscribe(onNext: { [weak self] in
-                self?.dismiss(animated: false, completion: nil)
+                self?.coordinator?.sceneChange(style: .dismiss, animated: false)
             })
             .disposed(by: disposeBag)
     }

@@ -95,7 +95,7 @@ class InfoDetailTeamViewController: BaseViewController {
     // MARK: - Helper
     
     func infoButtonAction() {
-        coordinator?.infoPopup()
+        coordinator?.sceneChange(scene: .infoPopupViewController, style: .modal, animated: false)
     }
     
     func nextButtonAction() {
@@ -106,7 +106,7 @@ class InfoDetailTeamViewController: BaseViewController {
                 infoButton.isHidden = false
             }
         } else {
-            coordinator?.navigationController?.popViewController(animated: true)
+            coordinator?.sceneChange(style: .pop, animated: true)
         }
     }
 }

@@ -81,7 +81,7 @@ class MainViewController: BaseViewController {
     func gotoInfoView() -> Observable<Void> {
         return Observable<Void>.create { [unowned self] observer in
             observer.onNext(())
-            coordinator?.gotoInfoViewController()
+            coordinator?.sceneChange(scene: .infoViewController, style: .push, animated: true)
             observer.onCompleted()
             
             return Disposables.create()

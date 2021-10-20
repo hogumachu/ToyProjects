@@ -127,10 +127,10 @@ class InfoDetailUseViewController: BaseViewController {
             currentPage += num
             configurePages()
         case .popViewController:
-            navigationController?.popViewController(animated: true)
+            coordinator?.sceneChange(style: .pop, animated: true)
         case .chatViewController:
-            navigationController?.popViewController(animated: false)
-            coordinator?.infoDetailViewSelected(cellNumber: 2)
+            coordinator?.sceneChange(style: .pop, animated: false)
+            coordinator?.sceneChange(scene: .chatViewController, style: .push, animated: true)
         }
     }
 }
