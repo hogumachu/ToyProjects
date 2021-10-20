@@ -31,58 +31,10 @@ class Coordinator {
         webViewControllerFactory = dependency.webViewControllerFactory
     }
     
-    func start() {
-        let vc = mainViewControllerFactory()
-        
-        vc.coordinator = self
-        navigationController?.navigationBar.isHidden = true
-        navigationController?.setViewControllers([vc], animated: false)
-    }
-    
-    func gotoInfoViewController() {
-        let vc = infoViewControllerFactory()
-        vc.coordinator = self
-        navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    func chatViewBackButtonTapped() {
-        navigationController?.popViewController(animated: true)
-    }
-    
-    func infoDetailViewSelected(cellNumber: Int) {
-        switch cellNumber {
-        case 0:
-            let vc = infoDetailTeamViewControllerFactory()
-            vc.coordinator = self
-            navigationController?.pushViewController(vc, animated: true)
-        case 1:
-            let vc = infoDetailUseViewControllerFactory()
-            vc.coordinator = self
-            navigationController?.pushViewController(vc, animated: true)
-        case 2:
-            let vc = chatViewControllerFactory()
-            vc.coordinator = self
-            navigationController?.pushViewController(vc, animated: true)
-        default:
-            print("Cell Select Error", #function)
-        }
-    }
-    
-    func infoPopup() {
-        let vc = infoPopupViewControllerFactory()
-        vc.coordinator = self
-        vc.modalPresentationStyle = .overCurrentContext
-        navigationController?.present(vc, animated: false, completion: nil)
-    }
-    
-    func loadWebViewController(_ url: String) {
-        let vc = webViewControllerFactory(url)
-        vc.coordinator = self
-        vc.modalPresentationStyle = .overCurrentContext
-        navigationController?.present(vc, animated: true, completion: nil)
-    }
-    
     func sceneChange(scene: Scene = .none, style: SceneTransitionStyle, animated: Bool, url: String = "") {
+        if scene == .none && !(style == .dismiss || style == .pop) {
+            return
+        }
         let vc = selectScene(scene: scene, url: url)
         
         switch style {
@@ -97,7 +49,6 @@ class Coordinator {
         case .dismiss:
             navigationController?.topViewController?.dismiss(animated: animated)
         }
-        
     }
     
     private func selectScene(scene: Scene, url: String) -> UIViewController {
