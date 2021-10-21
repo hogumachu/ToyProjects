@@ -10,11 +10,7 @@ class BaseViewController: UIViewController {
         subscribe()
     }
     
-    func configureUI() {
-        
-    }
+    func configureUI() {}
     
-    func subscribe() {
-        
-    }
+    func subscribe() {}
 }

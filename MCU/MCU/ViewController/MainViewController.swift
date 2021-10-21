@@ -5,6 +5,8 @@ class MainViewController: BaseViewController, UIScrollViewDelegate {
     struct Dependency {
         let viewModel: MainViewModel
     }
+    
+    // MARK: - Properties
     let viewModel: MainViewModel
     let scrollView: UIScrollView = {
         let scroll = UIScrollView()
@@ -17,6 +19,7 @@ class MainViewController: BaseViewController, UIScrollViewDelegate {
     }()
     let titleLabel: UILabel = {
         let label = UILabel()
+        label.textColor = UIColor(named: "textColor")
         label.font = .systemFont(ofSize: 25, weight: .bold)
         label.textAlignment = .center
         label.numberOfLines = 0
@@ -24,6 +27,7 @@ class MainViewController: BaseViewController, UIScrollViewDelegate {
     }()
     let releaseLabel: UILabel = {
         let label = UILabel()
+        label.textColor = UIColor(named: "textColor")
         label.font = .systemFont(ofSize: 13)
         label.numberOfLines = 0
         return label
@@ -35,6 +39,7 @@ class MainViewController: BaseViewController, UIScrollViewDelegate {
     }()
     let overviewLabel: UILabel = {
         let label = UILabel()
+        label.textColor = UIColor(named: "textColor")
         label.font = .systemFont(ofSize: 13)
         label.numberOfLines = 0
         label.textAlignment = .left
@@ -43,16 +48,12 @@ class MainViewController: BaseViewController, UIScrollViewDelegate {
     let nextButton: UIButton = {
         let button = UIButton()
         button.isHidden = true
-        button.titleLabel?.numberOfLines = 0
-        button.titleLabel?.textAlignment = .center
-        button.setTitleColor(.white, for: .normal)
-        button.clipsToBounds = true
-        button.layer.cornerRadius = 5
         button.addTarget(self, action: #selector(nextButtonAction), for: .touchUpInside)
         button.configuration = .filled()
         return button
     }()
     
+    // MARK: - Lifecycles
     init(dependency: Dependency) {
         self.viewModel = dependency.viewModel
         super.init(nibName: nil, bundle: nil)
@@ -62,8 +63,9 @@ class MainViewController: BaseViewController, UIScrollViewDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Configures
     override func configureUI() {
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor(named: "backgroundColor")
         navigationController?.navigationBar.isHidden = true
         view.addSubviewsAndAutoresizingFalse(scrollView)
         scrollView.addSubviewsAndAutoresizingFalse(loadingIndicator, titleLabel, releaseLabel, posterView, overviewLabel, nextButton)
@@ -95,6 +97,7 @@ class MainViewController: BaseViewController, UIScrollViewDelegate {
         nextButton.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -10).isActive = true
     }
     
+    // MARK: - Subscribes
     override func subscribe() {
         viewModel.loadingStart = { [weak self] in
             DispatchQueue.main.async {
@@ -119,6 +122,7 @@ class MainViewController: BaseViewController, UIScrollViewDelegate {
         viewModel.fetchOrigin()
     }
     
+    // MARK: - Helper
     private func updateData(_ mcu: Mcu) {
         DispatchQueue.main.async { [weak self] in
             self?.titleLabel.text = "\(mcu.title) (\(mcu.type))"

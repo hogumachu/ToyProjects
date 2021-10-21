@@ -16,16 +16,6 @@ struct Mcu: Codable {
         case type
         case followingProduction = "following_production"
     }
-    
-//    init(daysUntil: Int, overview: String, posterUrl: String, releaseDate: String, title: String, type: String, followingProduction: FollowingProduction?) {
-//        self.daysUntil = daysUntil
-//        self.overview = overview
-//        self.posterUrl = posterUrl
-//        self.releaseDate = releaseDate
-//        self.title = title
-//        self.type = type
-//        self.followingProduction = followingProduction
-//    }
 }
 
 struct FollowingProduction: Codable {
