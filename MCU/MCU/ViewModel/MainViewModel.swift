@@ -6,24 +6,6 @@ class MainViewModel {
     var loadingEnd: () -> Void = {}
     var dataUpdated: () -> Void = {}
     
-//    func fetchOrigin() {
-//        if loading { return }
-//        loading = true
-//        loadingStart()
-//        
-//        Repository.shared.fecthData("") { result in
-//            switch result {
-//            case .success(let mcu):
-//                self.mcuList.append(mcu)
-//                self.dataUpdated()
-//                self.loadingEnd()
-//                self.loading = false
-//            case .failure(let error):
-//                print(error)
-//            }
-//        }
-//    }
-    
     func fecthData(_ date: String = "") {
         if loading { return }
         loading = true
