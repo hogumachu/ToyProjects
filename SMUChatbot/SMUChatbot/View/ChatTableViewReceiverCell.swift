@@ -43,7 +43,7 @@ class ChatTableViewReceiverCell: UITableViewCell {
         chatBubbleView.backgroundColor = .white
         
         backgroundColor = .clear
-        contentView.initAutoLayout(UIViews: [chatBubbleView, characterImageView, chatLabel, dateLabel])
+        contentView.addSubviews(chatBubbleView, characterImageView, chatLabel, dateLabel)
         
         contentView.snp.makeConstraints {
             $0.top.leading.trailing.bottom.equalToSuperview()

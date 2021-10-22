@@ -41,7 +41,7 @@ class ChatTableViewSenderCell: UITableViewCell {
         chatBubbleView.backgroundColor = .yellow
         
         backgroundColor = .clear
-        contentView.initAutoLayout(UIViews: [chatBubbleView, chatLabel, dateLabel])
+        contentView.addSubviews(chatBubbleView, chatLabel, dateLabel)
         
         chatLabel.snp.makeConstraints {
             $0.top.equalTo(chatBubbleView).offset(5)

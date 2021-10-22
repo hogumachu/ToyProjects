@@ -55,7 +55,7 @@ class InfoDetailTeamViewController: BaseViewController {
     
     override func configureUI() {
         view.backgroundColor = .white
-        view.initAutoLayout(UIViews: [imageView, nextButton, infoButton])
+        view.addSubviews(imageView, nextButton, infoButton)
         imageView.contentMode = .scaleAspectFit
         
         imageView.snp.makeConstraints {
