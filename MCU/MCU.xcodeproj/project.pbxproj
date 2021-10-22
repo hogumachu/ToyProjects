@@ -12,7 +12,7 @@
 		F1C4EA1D272139B500DD7450 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C4EA1C272139B500DD7450 /* MainViewController.swift */; };
 		F1C4EA22272139B900DD7450 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F1C4EA21272139B900DD7450 /* Assets.xcassets */; };
 		F1C4EA25272139B900DD7450 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F1C4EA23272139B900DD7450 /* LaunchScreen.storyboard */; };
-		F1C4EA30272139B900DD7450 /* MCUTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C4EA2F272139B900DD7450 /* MCUTests.swift */; };
+		F1C4EA30272139B900DD7450 /* RepositoryTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C4EA2F272139B900DD7450 /* RepositoryTestCase.swift */; };
 		F1C4EA3A272139B900DD7450 /* MCUUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C4EA39272139B900DD7450 /* MCUUITests.swift */; };
 		F1C4EA3C272139B900DD7450 /* MCUUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C4EA3B272139B900DD7450 /* MCUUITestsLaunchTests.swift */; };
 		F1C4EA4B27213C9300DD7450 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C4EA4A27213C9300DD7450 /* Coordinator.swift */; };
@@ -51,7 +51,7 @@
 		F1C4EA24272139B900DD7450 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F1C4EA26272139B900DD7450 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F1C4EA2B272139B900DD7450 /* MCUTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MCUTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		F1C4EA2F272139B900DD7450 /* MCUTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MCUTests.swift; sourceTree = "<group>"; };
+		F1C4EA2F272139B900DD7450 /* RepositoryTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryTestCase.swift; sourceTree = "<group>"; };
 		F1C4EA35272139B900DD7450 /* MCUUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MCUUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F1C4EA39272139B900DD7450 /* MCUUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MCUUITests.swift; sourceTree = "<group>"; };
 		F1C4EA3B272139B900DD7450 /* MCUUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MCUUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -131,7 +131,7 @@
 		F1C4EA2E272139B900DD7450 /* MCUTests */ = {
 			isa = PBXGroup;
 			children = (
-				F1C4EA2F272139B900DD7450 /* MCUTests.swift */,
+				F1C4EA2F272139B900DD7450 /* RepositoryTestCase.swift */,
 			);
 			path = MCUTests;
 			sourceTree = "<group>";
@@ -368,7 +368,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F1C4EA30272139B900DD7450 /* MCUTests.swift in Sources */,
+				F1C4EA30272139B900DD7450 /* RepositoryTestCase.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
