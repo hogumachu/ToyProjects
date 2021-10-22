@@ -41,7 +41,7 @@ class WebViewController: BaseViewController {
     // MARK: Configures
     
     override func configureUI() {
-        view.initAutoLayout(UIViews: [webView, closeButton])
+        view.addSubviews(webView, closeButton)
         view.backgroundColor = .white
         
         webView.snp.makeConstraints {

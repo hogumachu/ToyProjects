@@ -47,7 +47,7 @@ class MainViewController: BaseViewController {
         teamNameLabel.alpha = 0
         
         view.backgroundColor = .smu
-        view.initAutoLayout(UIViews: [smuLabel, capstoneLabel, teamNameLabel])
+        view.addSubviews(smuLabel, capstoneLabel, teamNameLabel)
         
         smuLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(20)

@@ -53,7 +53,7 @@ class ChatViewController: BaseViewController {
         chatTableView.register(ChatTableViewSenderCell.self, forCellReuseIdentifier: ChatTableViewSenderCell.identifier)
         chatTableView.register(ChatTableViewReceiverCell.self, forCellReuseIdentifier: ChatTableViewReceiverCell.identifier)
         
-        view.initAutoLayout(UIViews: [chatTableView, chatTextField, sendButton, keyboardView])
+        view.addSubviews(chatTableView, chatTextField, sendButton, keyboardView)
         
         loadingIndicator.isHidden = true
         

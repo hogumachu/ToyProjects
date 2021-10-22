@@ -33,7 +33,7 @@ class InfoViewController: BaseViewController {
     
     override func configureUI() {
         listCollectionView.register(InfoCollectionViewCell.self, forCellWithReuseIdentifier: InfoCollectionViewCell.identifier)
-        view.initAutoLayout(UIViews: [listCollectionView])
+        view.addSubviews(listCollectionView)
         view.backgroundColor = .white
         
         listCollectionView.isPagingEnabled = false

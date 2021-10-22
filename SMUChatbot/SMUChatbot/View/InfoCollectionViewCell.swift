@@ -40,8 +40,6 @@ class InfoCollectionViewCell: UICollectionViewCell {
     func configureUI() {
         backgroundColor = .smu
         layer.cornerRadius = 15
-        
-        // TODO: - clipsToBounds vs. masksToBounds 해결하기. Cell의 shadow 가 정상적으로 작동하도록.
         clipsToBounds = true
         titleLabel.textColor = .white
         titleLabel.numberOfLines = 0
@@ -50,8 +48,8 @@ class InfoCollectionViewCell: UICollectionViewCell {
         imageTitleLabel.numberOfLines = 0
         imageTitleLabel.font = .systemFont(ofSize: 50, weight: .heavy)
         
-        contentView.initAutoLayout(UIViews: [imageView, titleLabel, detailLabel])
-        imageView.initAutoLayout(UIViews: [imageTitleLabel])
+        contentView.addSubviews(imageView, titleLabel, detailLabel)
+        imageView.addSubviews(imageTitleLabel)
         
         titleLabel.snp.makeConstraints {
             $0.top.left.equalToSuperview().offset(20)
@@ -76,8 +74,6 @@ class InfoCollectionViewCell: UICollectionViewCell {
     }
     
     func applyShadows() {
-        // TODO: - Shadow Path 추가해도 잘 동작하게 하기.
-//        imageView.layer.shadowPath = UIBezierPath(roundedRect: imageView.bounds, cornerRadius: 10).cgPath
         imageView.layer.shadowColor = UIColor.black.cgColor
         imageView.layer.shadowRadius = 15
         imageView.layer.shadowOpacity = 1

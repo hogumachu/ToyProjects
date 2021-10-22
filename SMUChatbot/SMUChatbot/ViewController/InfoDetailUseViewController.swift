@@ -67,7 +67,7 @@ class InfoDetailUseViewController: BaseViewController {
     
     override func configureUI() {
         view.backgroundColor = .white
-        view.initAutoLayout(UIViews: [imageView, descripLabel, previousButton, nextButton])
+        view.addSubviews(imageView, descripLabel, previousButton, nextButton)
         imageView.contentMode = .scaleAspectFit
         
         imageView.snp.makeConstraints {

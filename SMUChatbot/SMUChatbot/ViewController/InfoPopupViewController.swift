@@ -40,11 +40,11 @@ class InfoPopupViewController: BaseViewController {
     override func configureUI() {
         view.backgroundColor = .init(white: 0, alpha: 0.3)
         // view에 넣는 순서 중요
-        view.initAutoLayout(UIViews: [backButton, popUpView])
+        view.addSubviews(backButton, popUpView)
         popUpView.layer.cornerRadius = 20
         popUpView.backgroundColor = .white
         
-        popUpView.initAutoLayout(UIViews: [documentLabel, iOSGitImageView, iOSLabel, djangoGitImageView, djangoLabel, iOSButton, djangoButton])
+        popUpView.addSubviews(documentLabel, iOSGitImageView, iOSLabel, djangoGitImageView, djangoLabel, iOSButton, djangoButton)
         
         backButton.snp.makeConstraints {
             $0.top.leading.trailing.bottom.equalToSuperview()
