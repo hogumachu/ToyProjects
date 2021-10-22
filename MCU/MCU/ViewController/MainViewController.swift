@@ -107,12 +107,12 @@ class MainViewController: BaseViewController, UIScrollViewDelegate {
         overviewLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
         
         nextButton.topAnchor.constraint(equalTo: overviewLabel.bottomAnchor, constant: 10).isActive = true
-        nextButton.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: 10).isActive = true
+        nextButton.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: 40).isActive = true
         nextButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
         
         previousButton.topAnchor.constraint(equalTo: nextButton.bottomAnchor, constant: 5).isActive = true
         previousButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
-        previousButton.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -10).isActive = true
+        previousButton.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -40).isActive = true
         previousButton.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -10).isActive = true
     }
     
@@ -137,7 +137,6 @@ class MainViewController: BaseViewController, UIScrollViewDelegate {
         
         viewModel.dataUpdated = { [weak self] in
             guard let mcu = self?.viewModel.getData() else { return }
-            
             self?.updateData(mcu)
         }
         
