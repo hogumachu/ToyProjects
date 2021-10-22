@@ -8,7 +8,7 @@
 import XCTest
 @testable import MCU
 
-class MCUTests: XCTestCase {
+class RepositoryTestCase: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -18,7 +18,7 @@ class MCUTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-    func testExample() throws {
+    func test_Repository_fecthData() throws {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
         let date = formatter.string(from: Date())
