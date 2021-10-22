@@ -6,7 +6,7 @@ class Repository {
     private let baseUrl = "https://www.whenisthenextmcufilm.com/api"
     private let prefixDateUrl = "?date="
     
-    func fecthData(_ url: String, completion: @escaping (Mcu?) -> Void) {
+    func fecthData(_ url: String, completion: @escaping (Result<Mcu, NetworkError>) -> Void) {
         var url = url
         
         if url.isEmpty {
@@ -18,44 +18,34 @@ class Repository {
         }
         
         if let mcu = Repository.mcuCache[url] {
-            completion(mcu)
+            completion(.success(mcu))
             return
         }
         
         // TODO: - url (String), Url (URL) 이름 변경
         guard let Url = URL(string: url) else {
-            completion(nil)
+            completion(.failure(.invalidURL))
             return
         }
         
         URLSession.shared.dataTask(with: Url) { data, response, error in
-            if let error = error {
-                print(error)
-                completion(nil)
+            if let _ = error {
+                completion(.failure(.dataTaskError))
                 return
             }
             
-            guard let response = response else {
-                print("Response Error")
-                completion(nil)
+            guard let response = response as? HTTPURLResponse else {
+                completion(.failure(.responseError))
                 return
             }
             
-            guard let statusCode = (response as? HTTPURLResponse)?.statusCode else {
-                print("Can't Get StatusCode")
-                completion(nil)
-                return
-            }
-            
-            guard (200...299).contains(statusCode) else {
-                print("StatusCode:", statusCode)
-                completion(nil)
+            guard (200...299).contains(response.statusCode) else {
+                completion(.failure(.statusCodeError))
                 return
             }
             
             guard let data = data else {
-                print("Data Error")
-                completion(nil)
+                completion(.failure(.invalidData))
                 return
             }
             
@@ -64,13 +54,20 @@ class Repository {
                 do {
                     let jsonData = try decoder.decode(Mcu.self, from: data)
                     Repository.mcuCache[url] = jsonData
-                    completion(jsonData)
+                    completion(.success(jsonData))
                 } catch {
-                    print("Can't Decode Data", error)
-                    print(url)
-                    completion(nil)
+                    completion(.failure(.decodeError))
                 }
             }
         }.resume()
     }
+}
+
+enum NetworkError: Error {
+    case invalidURL
+    case dataTaskError
+    case responseError
+    case statusCodeError
+    case invalidData
+    case decodeError
 }

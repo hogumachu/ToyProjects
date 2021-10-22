@@ -6,42 +6,26 @@ class MainViewModel {
     var loadingEnd: () -> Void = {}
     var dataUpdated: () -> Void = {}
     
-    func fetchOrigin() {
+    func fecthData(_ date: String = "") {
         if loading { return }
         loading = true
         loadingStart()
-        
-        Repository.shared.fecthData("") { mcu in
-            if let mcu = mcu {
+        Repository.shared.fecthData(date) { result in
+            switch result {
+            case .success(let mcu):
                 self.mcuList.append(mcu)
+                self.dataUpdated()
+                self.loadingEnd()
+                self.loading = false
+            case .failure(let error):
+                print(error)
             }
-            self.dataUpdated()
-            self.loadingEnd()
-            self.loading = false
-            
-            
-        }
-    }
-    
-    func fetchNext(_ date: String) {
-        if loading { return }
-        loading = true
-        loadingStart()
-        Repository.shared.fecthData(date) { mcu in
-            if let mcu = mcu {
-                self.mcuList.append(mcu)
-            }
-            self.dataUpdated()
-            self.loadingEnd()
-            self.loading = false
         }
     }
     
     func fetchPrevious() {
-        guard !mcuList.isEmpty else { return }
+        if loading || mcuList.isEmpty { return }
         _ = mcuList.removeLast()
-        
-        if loading { return }
         loading = true
         loadingStart()
         dataUpdated()
@@ -50,16 +34,10 @@ class MainViewModel {
     }
     
     func getData() -> Mcu {
-        guard let now = mcuList.last else {
-            return Mcu.empty
-        }
-        return now
+        return mcuList.last ?? Mcu.empty
     }
     
     func getBefore() -> Mcu? {
-        if mcuList.count >= 2 {
-            return mcuList[mcuList.count - 2]
-        }
-        return nil
+        return mcuList.count >= 2 ? mcuList[mcuList.count - 2] : nil
     }
 }

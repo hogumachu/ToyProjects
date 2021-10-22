@@ -141,7 +141,7 @@ class MainViewController: BaseViewController, UIScrollViewDelegate {
             self?.updateData(mcu)
         }
         
-        viewModel.fetchOrigin()
+        viewModel.fecthData()
     }
     
     // MARK: - Helper
@@ -182,7 +182,7 @@ class MainViewController: BaseViewController, UIScrollViewDelegate {
     }
     
     @objc private func nextButtonAction() {
-        viewModel.fetchNext(viewModel.getData().releaseDate)
+        viewModel.fecthData(viewModel.getData().releaseDate)
         scrollView.setContentOffset(CGPoint.zero, animated: true)
     }
     
