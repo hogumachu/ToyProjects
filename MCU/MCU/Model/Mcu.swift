@@ -36,6 +36,13 @@ struct FollowingProduction: Codable {
     }
 }
 
-extension Mcu {
+extension Mcu: Equatable {
     static let empty = Mcu(daysUntil: 0, overview: "", posterUrl: "", releaseDate: "", title: "", type: "", followingProduction: FollowingProduction(daysUntil: nil, overview: nil, posterUrl: nil, releaseDate: nil, title: nil, type: nil))
+    
+    static func == (lhs: Mcu, rhs: Mcu) -> Bool {
+        if lhs.title == rhs.title && lhs.type == rhs.type && lhs.releaseDate == rhs.releaseDate {
+            return true
+        }
+        return false
+    }
 }

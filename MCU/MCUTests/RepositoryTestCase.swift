@@ -41,7 +41,6 @@ class RepositoryTestCase: XCTestCase {
         
         // 현재 시간으로 URL 을 호출하였을 때
         // Base URL 에서 호출했을 때와 값이 같아야함
-        // Mcu 는 Comparable 하지 않기 때문에 Identity 와 같은 title 로 Equal 실행
         Repository.shared.fecthData(date) { mcu in
             guard let mcu = mcu else {
                 XCTFail()
@@ -53,7 +52,7 @@ class RepositoryTestCase: XCTestCase {
                 return
             }
             
-            XCTAssertEqual(mcu.title, compareMcu.title)
+            XCTAssertEqual(mcu, compareMcu)
         }
         
         let baseUrl = "https://www.whenisthenextmcufilm.com/api"
@@ -72,7 +71,7 @@ class RepositoryTestCase: XCTestCase {
                 return
             }
             
-            XCTAssertEqual(mcu.title, compareMcu.title)
+            XCTAssertEqual(mcu, compareMcu)
         }
     }
 
