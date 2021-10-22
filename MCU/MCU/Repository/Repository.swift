@@ -7,28 +7,28 @@ class Repository {
     private let prefixDateUrl = "?date="
     
     func fecthData(_ url: String, completion: @escaping (Result<Mcu, NetworkError>) -> Void) {
-        var url = url
+        var urlStr = url
         
-        if url.isEmpty {
-            url = baseUrl
+        if urlStr.isEmpty {
+            urlStr = baseUrl
         } else {
-            if !url.hasPrefix("https") {
-                url = baseUrl + prefixDateUrl + url
+            if !urlStr.hasPrefix("https") {
+                urlStr = baseUrl + prefixDateUrl + urlStr
             }
         }
         
-        if let mcu = Repository.mcuCache[url] {
+        if let mcu = Repository.mcuCache[urlStr] {
             completion(.success(mcu))
             return
         }
         
         // TODO: - url (String), Url (URL) 이름 변경
-        guard let Url = URL(string: url) else {
+        guard let url = URL(string: urlStr) else {
             completion(.failure(.invalidURL))
             return
         }
         
-        URLSession.shared.dataTask(with: Url) { data, response, error in
+        URLSession.shared.dataTask(with: url) { data, response, error in
             if let _ = error {
                 completion(.failure(.dataTaskError))
                 return
@@ -53,7 +53,7 @@ class Repository {
                 let decoder = JSONDecoder()
                 do {
                     let jsonData = try decoder.decode(Mcu.self, from: data)
-                    Repository.mcuCache[url] = jsonData
+                    Repository.mcuCache[urlStr] = jsonData
                     completion(.success(jsonData))
                 } catch {
                     completion(.failure(.decodeError))

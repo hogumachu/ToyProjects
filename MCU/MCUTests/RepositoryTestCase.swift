@@ -22,37 +22,37 @@ class RepositoryTestCase: XCTestCase {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
         let date = formatter.string(from: Date())
-        var compareMcu: Mcu?
+        var compareMcu: Mcu = .empty
         
-        // 예상치 못한 URL이 들어왔을 때 Nil
-        Repository.shared.fecthData("123123123") { mcu in
-            XCTAssertNil(mcu)
+        // 예상치 못한 URL이 들어왔을 때
+        Repository.shared.fecthData("123123123") { result in
+            XCTAssertTrue(result == .failure(.invalidURL))
         }
         
-        // API 가 가지고 있는 날짜 범위를 초과하였을 때 Nil
-        Repository.shared.fecthData("2999-01-01") { mcu in
-            XCTAssertNil(mcu)
+        // API 가 가지고 있는 날짜 범위를 초과하였을 때
+        Repository.shared.fecthData("2999-01-01") { result in
+            XCTAssertTrue(result == .failure(.invalidURL))
         }
         
         // Base URL 에서 데이터를 호출하였을 때
-        Repository.shared.fecthData("") { mcu  in
-            compareMcu = mcu
+        Repository.shared.fecthData("") { result in
+            switch result {
+            case .success(let mcu):
+                compareMcu = mcu
+            default:
+                XCTFail()
+            }
         }
         
         // 현재 시간으로 URL 을 호출하였을 때
         // Base URL 에서 호출했을 때와 값이 같아야함
-        Repository.shared.fecthData(date) { mcu in
-            guard let mcu = mcu else {
+        Repository.shared.fecthData(date) { result in
+            switch result {
+            case .success(let mcu):
+                XCTAssertEqual(mcu, compareMcu)
+            default:
                 XCTFail()
-                return
             }
-            
-            guard let compareMcu = compareMcu else {
-                XCTFail()
-                return
-            }
-            
-            XCTAssertEqual(mcu, compareMcu)
         }
         
         let baseUrl = "https://www.whenisthenextmcufilm.com/api"
@@ -61,17 +61,13 @@ class RepositoryTestCase: XCTestCase {
         // 추가로 또 Base URL이 주어졌을 때 (Prefix 에 http 존재 유무로 파악)
         // 정상적으로 작동하는 지 파악
         // fecthData("") 와 fetchData(baseUrl) 이 같은 값을 내보내는 지 테스트
-        Repository.shared.fecthData(baseUrl) { mcu in
-            guard let mcu = mcu else {
+        Repository.shared.fecthData(baseUrl) { result in
+            switch result {
+            case .success(let mcu):
+                XCTAssertEqual(mcu, compareMcu)
+            default:
                 XCTFail()
-                return
             }
-            guard let compareMcu = compareMcu else {
-                XCTFail()
-                return
-            }
-            
-            XCTAssertEqual(mcu, compareMcu)
         }
     }
 
