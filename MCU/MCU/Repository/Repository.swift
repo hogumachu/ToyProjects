@@ -2,6 +2,7 @@ import Foundation
 
 class Repository {
     static let shared = Repository()
+    private static var mcuCache: [String: Mcu] = [:]
     private let baseUrl = "https://www.whenisthenextmcufilm.com/api"
     private let prefixDateUrl = "?date="
     
@@ -16,12 +17,18 @@ class Repository {
             }
         }
         
-        guard let url = URL(string: url) else {
+        if let mcu = Repository.mcuCache[url] {
+            completion(mcu)
+            return
+        }
+        
+        // TODO: - url (String), Url (URL) 이름 변경
+        guard let Url = URL(string: url) else {
             completion(nil)
             return
         }
         
-        URLSession.shared.dataTask(with: url) { data, response, error in
+        URLSession.shared.dataTask(with: Url) { data, response, error in
             if let error = error {
                 print(error)
                 completion(nil)
@@ -56,6 +63,7 @@ class Repository {
                 let decoder = JSONDecoder()
                 do {
                     let jsonData = try decoder.decode(Mcu.self, from: data)
+                    Repository.mcuCache[url] = jsonData
                     completion(jsonData)
                 } catch {
                     print("Can't Decode Data", error)

@@ -52,6 +52,13 @@ class MainViewController: BaseViewController, UIScrollViewDelegate {
         button.configuration = .filled()
         return button
     }()
+    let previousButton: UIButton = {
+        let button = UIButton()
+        button.isHidden = true
+        button.addTarget(self, action: #selector(previousButtonAction), for: .touchUpInside)
+        button.configuration = .filled()
+        return button
+    }()
     
     // MARK: - Lifecycles
     init(dependency: Dependency) {
@@ -68,13 +75,21 @@ class MainViewController: BaseViewController, UIScrollViewDelegate {
         view.backgroundColor = UIColor(named: "backgroundColor")
         navigationController?.navigationBar.isHidden = true
         view.addSubviewsAndAutoresizingFalse(scrollView)
-        scrollView.addSubviewsAndAutoresizingFalse(loadingIndicator, titleLabel, releaseLabel, posterView, overviewLabel, nextButton)
+        scrollView.addSubviewsAndAutoresizingFalse(loadingIndicator,
+                                                   titleLabel,
+                                                   releaseLabel,
+                                                   posterView,
+                                                   overviewLabel,
+                                                   nextButton,
+                                                   previousButton)
         
         scrollView.widthAnchor.constraint(equalToConstant: view.bounds.size.width).isActive = true
         scrollView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         
+        loadingIndicator.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
+        loadingIndicator.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         titleLabel.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
         titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
@@ -94,7 +109,11 @@ class MainViewController: BaseViewController, UIScrollViewDelegate {
         nextButton.topAnchor.constraint(equalTo: overviewLabel.bottomAnchor, constant: 10).isActive = true
         nextButton.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: 10).isActive = true
         nextButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10).isActive = true
-        nextButton.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -10).isActive = true
+        
+        previousButton.topAnchor.constraint(equalTo: nextButton.bottomAnchor, constant: 5).isActive = true
+        previousButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
+        previousButton.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor, constant: -10).isActive = true
+        previousButton.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -10).isActive = true
     }
     
     // MARK: - Subscribes
@@ -103,6 +122,7 @@ class MainViewController: BaseViewController, UIScrollViewDelegate {
             DispatchQueue.main.async {
                 self?.loadingIndicator.isHidden = false
                 self?.loadingIndicator.startAnimating()
+                self?.titleLabel.textColor = .clear
             }
             
         }
@@ -111,11 +131,13 @@ class MainViewController: BaseViewController, UIScrollViewDelegate {
             DispatchQueue.main.async {
                 self?.loadingIndicator.stopAnimating()
                 self?.loadingIndicator.isHidden = true
+                self?.titleLabel.textColor = UIColor(named: "textColor")
             }
         }
         
         viewModel.dataUpdated = { [weak self] in
             guard let mcu = self?.viewModel.getData() else { return }
+            
             self?.updateData(mcu)
         }
         
@@ -145,10 +167,27 @@ class MainViewController: BaseViewController, UIScrollViewDelegate {
             self?.nextButton.setTitle("\(title)", for: .normal)
             self?.nextButton.isHidden = false
         }
+        
+        guard let previous = viewModel.getBefore() else {
+            DispatchQueue.main.async { [weak self] in
+                self?.previousButton.isHidden = true
+            }
+            return
+        }
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.previousButton.setTitle("\(previous.title)", for: .normal)
+            self?.previousButton.isHidden = false
+        }
     }
     
-    @objc func nextButtonAction() {
+    @objc private func nextButtonAction() {
         viewModel.fetchNext(viewModel.getData().releaseDate)
+        scrollView.setContentOffset(CGPoint.zero, animated: true)
+    }
+    
+    @objc private func previousButtonAction() {
+        viewModel.fetchPrevious()
         scrollView.setContentOffset(CGPoint.zero, animated: true)
     }
 }
