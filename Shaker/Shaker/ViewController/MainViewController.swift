@@ -67,9 +67,7 @@ class MainViewController: BaseViewController {
     override func configureUI() {
         view.backgroundColor = .white
         
-        view.addSubview(shakerLabel)
-        view.addSubview(searchView)
-        view.addSubview(keyboardPaddingView)
+        view.addSubviews(shakerLabel, searchView, keyboardPaddingView)
         
         searchView.addSubview(sendButton)
         searchView.addSubview(textField)
