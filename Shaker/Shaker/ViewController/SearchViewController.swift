@@ -8,24 +8,24 @@ class SearchViewController: BaseViewController {
     }
     
     // MARK: - Properties
-    
     let viewModel: SearchViewModel
-    
     var searchText: String?
-    
     lazy var titleLabel: UILabel = {
         let uiLabel = UILabel()
         uiLabel.textColor = .systemGreen
         uiLabel.font = .systemFont(ofSize: 30, weight: .heavy)
         uiLabel.numberOfLines = 0
-        
         return uiLabel
     }()
-    
     let loadingIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
         indicator.color = .systemGreen
         return indicator
+    }()
+    let tableView: UITableView = {
+        let tableView = UITableView()
+        
+        return tableView
     }()
     
     // MARK: - Lifecycles
@@ -51,8 +51,9 @@ class SearchViewController: BaseViewController {
     
     override func configureUI() {
         view.backgroundColor = .white
-        view.addSubview(titleLabel)
-        view.addSubview(loadingIndicator)
+        view.addSubviews(titleLabel, loadingIndicator, tableView)
+        
+        tableView.register(SearchTableViewCell.self, forCellReuseIdentifier: SearchTableViewCell.identifier)
         
         titleLabel.snp.makeConstraints {
             $0.top.leading.equalTo(view.safeAreaLayoutGuide).offset(10)
@@ -64,22 +65,28 @@ class SearchViewController: BaseViewController {
             $0.top.equalTo(titleLabel)
             $0.height.width.equalTo(titleLabel.snp.height)
         }
+        
+        tableView.snp.makeConstraints {
+            $0.top.equalTo(titleLabel.snp.bottom).offset(5)
+            $0.leading.equalTo(titleLabel.snp.leading)
+            $0.trailing.equalTo(view.safeAreaLayoutGuide).offset(10)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
     }
     
     // MARK: - Subscribe
     
     override func subscribe() {
-        
         viewModel.searchRelay
-            .subscribe(onNext: {
-                print($0)
-            })
-            .disposed(by: disposeBag)
+            .bind(to: tableView.rx.items(cellIdentifier: SearchTableViewCell.identifier, cellType: SearchTableViewCell.self)) { index, item, cell in
+                cell.titleLabel.text = item.title?.htmlRemove
+                cell.address.text = item.address
+                cell.telephon.text = item.telephon
+            }.disposed(by: disposeBag)
         
         viewModel.loadingRelay
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [unowned self] order in
-                print(order)
                 if order {
                     loadingIndicator.isHidden = false
                     loadingIndicator.startAnimating()

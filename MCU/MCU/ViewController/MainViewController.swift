@@ -151,8 +151,13 @@ class MainViewController: BaseViewController, UIScrollViewDelegate {
             self?.overviewLabel.text = mcu.overview
         }
         
-        ImageLoader.loadImage(url: mcu.posterUrl) { [weak self] image in
-            self?.posterView.image = image
+        ImageLoader.loadImage(url: mcu.posterUrl) { [weak self] result in
+            switch result {
+            case .success(let image):
+                self?.posterView.image = image
+            default:
+                break
+            }
         }
         
         guard let title = mcu.followingProduction.title else {

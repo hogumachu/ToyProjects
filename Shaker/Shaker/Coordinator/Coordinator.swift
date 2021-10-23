@@ -28,7 +28,7 @@ class Coordinator {
     }
     
     func pushSearchViewController(searchText: String) {
-        print(searchText)
+        searchViewController.title = searchText
         searchViewController.searchText = searchText
         navigationController?.isNavigationBarHidden = false
         navigationController?.pushViewController(searchViewController, animated: true)
