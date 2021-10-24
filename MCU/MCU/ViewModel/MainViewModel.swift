@@ -10,14 +10,15 @@ class MainViewModel {
         if loading { return }
         loading = true
         loadingStart()
-        Repository.shared.fecthData(date) { result in
+        
+        Repository.shared.fecth(date) { result in
             switch result {
             case .success(let mcu):
                 self.mcuList.append(mcu)
                 self.dataUpdated()
                 self.loadingEnd()
                 self.loading = false
-            case .failure(let error):
+            case.failure(let error):
                 print(error)
             }
         }
