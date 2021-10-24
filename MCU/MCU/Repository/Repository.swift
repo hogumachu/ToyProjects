@@ -1,12 +1,14 @@
 import Foundation
 
-class Repository {
+class Repository: API {
+    typealias DecodableType = Mcu
+    
     static let shared = Repository()
     private static var mcuCache: [String: Mcu] = [:]
     private let baseUrl = "https://www.whenisthenextmcufilm.com/api"
     private let prefixDateUrl = "?date="
     
-    func fecthData(_ url: String, completion: @escaping (Result<Mcu, NetworkError>) -> Void) {
+    func fecth(_ url: String, completionHandler: @escaping (Result<DecodableType, APIError>) -> Void) {
         var urlStr = url
         
         if urlStr.isEmpty {
@@ -18,48 +20,23 @@ class Repository {
         }
         
         if let mcu = Repository.mcuCache[urlStr] {
-            completion(.success(mcu))
+            completionHandler(.success(mcu))
             return
         }
         
-        // TODO: - url (String), Url (URL) 이름 변경
         guard let url = URL(string: urlStr) else {
-            completion(.failure(.invalidURL))
+            completionHandler(.failure(.invalidURL))
             return
         }
         
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            if let _ = error {
-                completion(.failure(.dataTaskError))
-                return
+        execute(url) { result in
+            switch result {
+            case .success(let data):
+                completionHandler(.success(data))
+            case .failure(let err):
+                completionHandler(.failure(err))
             }
-            
-            guard let response = response as? HTTPURLResponse else {
-                completion(.failure(.responseError))
-                return
-            }
-            
-            guard (200...299).contains(response.statusCode) else {
-                completion(.failure(.statusCodeError))
-                return
-            }
-            
-            guard let data = data else {
-                completion(.failure(.invalidData))
-                return
-            }
-            
-            DispatchQueue.global().async {
-                let decoder = JSONDecoder()
-                do {
-                    let jsonData = try decoder.decode(Mcu.self, from: data)
-                    Repository.mcuCache[urlStr] = jsonData
-                    completion(.success(jsonData))
-                } catch {
-                    completion(.failure(.decodeError))
-                }
-            }
-        }.resume()
+        }
     }
 }
 
