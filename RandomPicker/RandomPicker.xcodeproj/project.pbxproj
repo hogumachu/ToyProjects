@@ -28,6 +28,8 @@
 		F16EF4062727F2910087B90E /* ContentStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16EF4052727F2910087B90E /* ContentStorage.swift */; };
 		F16EF4092727F3A20087B90E /* Storable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16EF4082727F3A20087B90E /* Storable.swift */; };
 		F16EF40B2727F3F40087B90E /* ViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16EF40A2727F3F40087B90E /* ViewModelType.swift */; };
+		F16EF40D27280B8E0087B90E /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16EF40C27280B8E0087B90E /* MainTableViewCell.swift */; };
+		F16EF41027280C9A0087B90E /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = F16EF40F27280C9A0087B90E /* RxDataSources */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +72,7 @@
 		F16EF4052727F2910087B90E /* ContentStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentStorage.swift; sourceTree = "<group>"; };
 		F16EF4082727F3A20087B90E /* Storable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storable.swift; sourceTree = "<group>"; };
 		F16EF40A2727F3F40087B90E /* ViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelType.swift; sourceTree = "<group>"; };
+		F16EF40C27280B8E0087B90E /* MainTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +81,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F16EF3FD2727EE550087B90E /* RxSwift in Frameworks */,
+				F16EF41027280C9A0087B90E /* RxDataSources in Frameworks */,
 				F16EF3FB2727EE550087B90E /* RxCocoa in Frameworks */,
 				F16EF3F82727EE430087B90E /* SnapKit in Frameworks */,
 			);
@@ -130,6 +134,7 @@
 				F16EF3B82727EA570087B90E /* AppDelegate.swift */,
 				F16EF3BA2727EA570087B90E /* SceneDelegate.swift */,
 				F16EF40A2727F3F40087B90E /* ViewModelType.swift */,
+				F16EF40C27280B8E0087B90E /* MainTableViewCell.swift */,
 				F16EF3BC2727EA570087B90E /* MainViewController.swift */,
 				F16EF3FE2727F07F0087B90E /* MainViewModel.swift */,
 				F16EF3F02727EBFE0087B90E /* BaseViewController.swift */,
@@ -212,6 +217,7 @@
 				F16EF3F72727EE430087B90E /* SnapKit */,
 				F16EF3FA2727EE550087B90E /* RxCocoa */,
 				F16EF3FC2727EE550087B90E /* RxSwift */,
+				F16EF40F27280C9A0087B90E /* RxDataSources */,
 			);
 			productName = RandomPicker;
 			productReference = F16EF3B52727EA570087B90E /* RandomPicker.app */;
@@ -288,6 +294,7 @@
 			packageReferences = (
 				F16EF3F62727EE430087B90E /* XCRemoteSwiftPackageReference "SnapKit" */,
 				F16EF3F92727EE550087B90E /* XCRemoteSwiftPackageReference "RxSwift" */,
+				F16EF40E27280C990087B90E /* XCRemoteSwiftPackageReference "RxDataSources" */,
 			);
 			productRefGroup = F16EF3B62727EA570087B90E /* Products */;
 			projectDirPath = "";
@@ -341,6 +348,7 @@
 				F16EF3F12727EBFE0087B90E /* BaseViewController.swift in Sources */,
 				F16EF3F42727ECAE0087B90E /* Scene+Style.swift in Sources */,
 				F16EF4092727F3A20087B90E /* Storable.swift in Sources */,
+				F16EF40D27280B8E0087B90E /* MainTableViewCell.swift in Sources */,
 				F16EF3BB2727EA570087B90E /* SceneDelegate.swift in Sources */,
 				F16EF3FF2727F07F0087B90E /* MainViewModel.swift in Sources */,
 				F16EF40B2727F3F40087B90E /* ViewModelType.swift in Sources */,
@@ -719,6 +727,14 @@
 				kind = branch;
 			};
 		};
+		F16EF40E27280C990087B90E /* XCRemoteSwiftPackageReference "RxDataSources" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RxSwiftCommunity/RxDataSources";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -736,6 +752,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F16EF3F92727EE550087B90E /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxSwift;
+		};
+		F16EF40F27280C9A0087B90E /* RxDataSources */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F16EF40E27280C990087B90E /* XCRemoteSwiftPackageReference "RxDataSources" */;
+			productName = RxDataSources;
 		};
 /* End XCSwiftPackageProductDependency section */
 

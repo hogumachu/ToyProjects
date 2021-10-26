@@ -7,14 +7,10 @@ class MainViewController: BaseViewController {
         let viewModel: MainViewModel
     }
     private let viewModel: MainViewModel
-    private let stackView: UIStackView = {
-        let stack = UIStackView()
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.alignment = .fill
-        stack.distribution = .equalSpacing
-        stack.axis = .vertical
-        stack.spacing = 4
-        return stack
+    private let tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
     }()
     private let addButton: UIButton = {
         let button = UIButton()
@@ -37,13 +33,14 @@ class MainViewController: BaseViewController {
     
     override func configureUI() {
         view.backgroundColor = .white
-        view.addSubview(stackView)
+        view.addSubview(tableView)
         view.addSubview(addButton)
         
-        stackView.snp.makeConstraints {
-            $0.top.leading.trailing.equalTo(view)
-        }
+        tableView.register(MainTableViewCell.self, forCellReuseIdentifier: MainTableViewCell.identifier)
         
+        tableView.snp.makeConstraints {
+            $0.top.leading.trailing.bottom.equalToSuperview()
+        }
         addButton.snp.makeConstraints {
             $0.width.height.equalTo(80)
             $0.trailing.bottom.equalTo(view.safeAreaLayoutGuide).offset(-20)
@@ -51,7 +48,9 @@ class MainViewController: BaseViewController {
     }
     
     override func subscribe() {
-        
+        viewModel.contentList
+            .bind(to: tableView.rx.items(dataSource: viewModel.dataSource))
+            .disposed(by: disposeBag)
     }
 }
 
