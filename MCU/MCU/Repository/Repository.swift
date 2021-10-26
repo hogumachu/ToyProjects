@@ -39,12 +39,3 @@ class Repository: API {
         }
     }
 }
-
-enum NetworkError: Error {
-    case invalidURL
-    case dataTaskError
-    case responseError
-    case statusCodeError
-    case invalidData
-    case decodeError
-}
