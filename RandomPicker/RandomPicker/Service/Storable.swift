@@ -11,4 +11,6 @@ protocol Storable {
     func deleteContent(_ content: Content) -> Void
     
     func deleteSubContent(_ content: Content, _ subContent: SubContent) -> Void
+    
+    func fetchData(_ content: Content) -> Content
 }
