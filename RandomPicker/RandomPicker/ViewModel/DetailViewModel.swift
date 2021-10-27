@@ -42,4 +42,12 @@ class DetailViewModel: ViewModelType {
         sectionModel = SubContentSectionModel(model: 0, items: content.contents)
         subStore.accept([sectionModel])
     }
+    
+    func random() -> SubContent {
+        return content.contents.randomElement() ?? SubContent(title: "", score: 0.0)
+    }
+    
+    func validTitle(_ title: String) -> Bool {
+        return !content.contents.contains(where: {$0.title == title})
+    }
 }
