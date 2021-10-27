@@ -4,7 +4,6 @@ import RxDataSources
 typealias ContentSectionModel = AnimatableSectionModel<Int, Content>
 
 class MainViewModel: ViewModelType {
-    
     let dataSource: RxTableViewSectionedAnimatedDataSource<ContentSectionModel> = {
         let ds = RxTableViewSectionedAnimatedDataSource<ContentSectionModel> { ds, tableView, indexPath, content in
             let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.identifier, for: indexPath) as! MainTableViewCell

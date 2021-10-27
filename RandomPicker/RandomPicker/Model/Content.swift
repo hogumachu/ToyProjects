@@ -2,24 +2,25 @@ import RxDataSources
 
 struct Content: IdentifiableType, Equatable {
     static func == (lhs: Content, rhs: Content) -> Bool {
-        return lhs.identity == rhs.identity
+        return lhs.title == rhs.title
     }
     
     let title: String
     var contents: [SubContent]
-    let identity: String
     
-    init(title: String, contents: [SubContent]) {
-        self.title = title
-        self.contents = contents
-        self.identity = title
+    var identity: String {
+        return title
     }
 }
 
-struct SubContent: Equatable {
+struct SubContent: IdentifiableType, Equatable {
     static func == (lhs: SubContent, rhs: SubContent) -> Bool {
         return lhs.title == rhs.title
     }
     let title: String
     let score: Double
+    
+    var identity: String {
+        return title
+    }
 }
