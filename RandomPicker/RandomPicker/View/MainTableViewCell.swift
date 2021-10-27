@@ -3,6 +3,7 @@ import SnapKit
 
 class MainTableViewCell: UITableViewCell {
     static let identifier = "MainTableViewCell"
+    
     let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false

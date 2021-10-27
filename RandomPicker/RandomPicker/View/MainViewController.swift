@@ -51,6 +51,11 @@ class MainViewController: BaseViewController {
         viewModel.contentList
             .bind(to: tableView.rx.items(dataSource: viewModel.dataSource))
             .disposed(by: disposeBag)
+        
+        tableView.rx.modelSelected(Content.self)
+            .subscribe(onNext: { [weak self] content in
+                self?.coordinator?.sceneChange(scene: .detailViewController, style: .push, animated: true, content: content)
+            }).disposed(by: disposeBag)
     }
 }
 

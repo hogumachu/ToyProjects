@@ -10,6 +10,12 @@ class ContentStorage: Storable {
             .init(title: "마라탕", score: 3),
             .init(title: "부대찌개", score: 4),
             .init(title: "피자", score: 5)
+        ]),
+        Content.init(title: "백화점", contents: [
+            .init(title: "신세계백화점", score: 4),
+            .init(title: "현대백화점", score: 3),
+            .init(title: "롯데백화점", score: 3),
+            .init(title: "갤러리아백화점", score: 4)
         ])
     ]
     private lazy var store = BehaviorSubject<[ContentSectionModel]>(value: [sectionModel])

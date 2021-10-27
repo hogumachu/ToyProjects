@@ -1,6 +1,7 @@
 enum Scene {
     case none
     case mainViewController
+    case detailViewController
 }
 
 enum SceneTransitionStyle {
