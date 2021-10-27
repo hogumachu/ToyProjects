@@ -1,4 +1,5 @@
 import RxSwift
+import RxCocoa
 import RxDataSources
 
 typealias SubContentSectionModel = AnimatableSectionModel<Int, SubContent>
@@ -12,7 +13,7 @@ class DetailViewModel: ViewModelType {
         self.title = dependency.content.title
         super.init(storage: storage)
     }
-    private let content: Content
+    private var content: Content
     let title: String
     
     let dataSource: RxTableViewSectionedAnimatedDataSource<SubContentSectionModel> = {
@@ -24,12 +25,21 @@ class DetailViewModel: ViewModelType {
         return ds
     }()
     
-    private lazy var store = BehaviorSubject<[SubContentSectionModel]>(value: [sectionModel])
+    private lazy var subStore = BehaviorRelay<[SubContentSectionModel]>(value: [sectionModel])
     private lazy var sectionModel = SubContentSectionModel(model: 0, items: content.contents)
     
     var subContentList: Observable<[SubContentSectionModel]> {
-        return store
+        return subStore.asObservable()
     }
     
+    func update(subContent: SubContent) {
+        self.storage.createSubContent(content, subContent)
+        updateContent()
+    }
     
+    private func updateContent() {
+        content = storage.fetchData(content)
+        sectionModel = SubContentSectionModel(model: 0, items: content.contents)
+        subStore.accept([sectionModel])
+    }
 }

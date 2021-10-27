@@ -52,4 +52,9 @@ class ContentStorage: Storable {
             }
         store.onNext([sectionModel])
     }
+    
+    func fetchData(_ content: Content) -> Content {
+        return sectionModel.items.first(where: {$0 == content}) ?? Content(title: "", contents: [])
+        
+    }
 }

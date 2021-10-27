@@ -15,40 +15,7 @@ final class Coordinator {
         self.detailViewControllerFactory = dependency.detailViewControllerFactory
     }
     
-    func sceneChange(scene: Scene, style: SceneTransitionStyle, animated: Bool) {
-        
-        let vc = sceneSelect(scene)
-        
-        switch style {
-        case .root:
-            navigationController?.setViewControllers([vc], animated: animated)
-        case .modal:
-            navigationController?.present(vc, animated: animated, completion: nil)
-        case .push:
-            navigationController?.pushViewController(vc, animated: animated)
-        case .dismiss:
-            navigationController?.dismiss(animated: animated, completion: nil)
-        case .pop:
-            navigationController?.popViewController(animated: animated)
-        }
-    }
-    
-    private func sceneSelect(_ scene: Scene) -> UIViewController {
-        switch scene {
-        case .none:
-            return UIViewController()
-        case .mainViewController:
-            let vc = mainViewControllerFactory()
-            vc.coordinator = self
-            return vc
-        case .detailViewController:
-            let vc = detailViewControllerFactory(Content.init(title: "", contents: []))
-            vc.coordinator = self
-            return vc
-        }
-    }
-    
-    func sceneChange(scene: Scene, style: SceneTransitionStyle, animated: Bool, content: Content) {
+    func sceneChange(scene: Scene, style: SceneTransitionStyle, animated: Bool, content: Content = Content(title: "", contents: [])) {
         let vc = sceneSelect(scene, content: content)
         
         switch style {
