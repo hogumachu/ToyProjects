@@ -18,7 +18,7 @@ struct SubContent: IdentifiableType, Equatable {
         return lhs.title == rhs.title
     }
     let title: String
-    let score: Double
+    let score: Int
     
     var identity: String {
         return title

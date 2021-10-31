@@ -20,6 +20,7 @@ final class DetailViewModel: ViewModelType {
         let ds = RxTableViewSectionedAnimatedDataSource<SubContentSectionModel> { ds, tableView, indexPath, item in
             let cell = tableView.dequeueReusableCell(withIdentifier: DetailTableViewCell.identifier, for: indexPath) as? DetailTableViewCell ?? DetailTableViewCell(style: .default, reuseIdentifier: DetailTableViewCell.identifier)
             cell.titleLabel.text = item.title
+            cell.scoreLabel.text = "점수 : \(item.score)"
             return cell
         }
         return ds
@@ -44,10 +45,19 @@ final class DetailViewModel: ViewModelType {
     }
     
     func random() -> SubContent {
-        return content.contents.randomElement() ?? SubContent(title: "", score: 0.0)
+        return content.contents.randomElement() ?? SubContent(title: "", score: 0)
     }
     
     func validTitle(_ title: String) -> Bool {
-        return !content.contents.contains(where: {$0.title == title})
+        return !title.isEmpty && !content.contents.contains(where: {$0.title == title})
+    }
+    
+    func checkAndUpdateContent(_ content: (title: String?, score: String?)) -> Bool {
+        guard let title = content.title, let score = content.score, validTitle(title) else {
+            return false
+        }
+        update(subContent: SubContent(title: title, score: Int(score) ?? 0))
+        return true
+        
     }
 }

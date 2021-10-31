@@ -73,49 +73,25 @@ class DetailViewController: BaseViewController {
             .disposed(by: disposeBag)
         
         navigationItem.rightBarButtonItem!.rx.tap
-            .subscribe(onNext: { [weak self] in
-                // identity 가 title 이므로
-                // update 할 때 동일한 이름을 가졌는지 확인하고 데이터 추가해야 함
-                // 안그러면 오류남 !
-//                self?.viewModel.update(subContent: SubContent(title: "더미 데이터", score: 1.0))
-//                self?.addView.isHidden = false
-                self?.addContentView.changeHidden()
+            .subscribe(onNext: { [unowned self] in
+                addContentView.changeHidden()
             })
             .disposed(by: disposeBag)
         
+        // TODO: - Random Select
         randomButton.rx.tap
-            .subscribe(onNext: { [weak viewModel] in
-                print(viewModel?.random().title ?? "")
+            .subscribe(onNext: { [unowned viewModel] in
+                print(viewModel.random().title)
             })
             .disposed(by: disposeBag)
         
-//        Observable.zip(titleTextField.rx.text, scoreTextField.rx.text)
-//            .subscribe(onNext: { [weak self] title, score in
-//                guard let title = title, let score = score else { return }
-//
-//                if title.isEmpty || score.isEmpty {
-//                    self?.addButton.isEnabled = false
-//                } else {
-//                    self?.addButton.isEnabled = true
-//                }
-//            })
-//            .disposed(by: disposeBag)
-//
-//        addButton.rx.tap
-//            .subscribe(onNext: { [weak self] in
-//                guard let title = self?.titleTextField.text else { return }
-//                guard let score = self?.scoreTextField.text else { return }
-//                guard let valid = self?.viewModel.validTitle(title) else { return }
-//
-//                if valid {
-//                    self?.viewModel.update(subContent: SubContent(title: title, score: Double(score) ?? 0.0))
-//                    self?.addView.isHidden = true
-//                } else {
-//                    self?.titleTextField.text = ""
-//                    self?.addButton.isEnabled = false
-//                }
-//            })
-//            .disposed(by: disposeBag)
+        addContentView.addButtonEvent
+            .subscribe(onNext: { [unowned self] in
+                _ = viewModel
+                    .checkAndUpdateContent(addContentView.pushTextFieldTexts())
+                addContentView.changeHidden()
+            })
+            .disposed(by: disposeBag)
     }
 }
 

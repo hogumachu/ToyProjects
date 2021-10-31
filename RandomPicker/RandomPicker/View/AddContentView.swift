@@ -1,6 +1,10 @@
 import UIKit
+import SnapKit
+import RxSwift
 
 class AddContentView: UIView {
+    // MARK: - Properties
+    lazy var addButtonEvent = addButton.rx.tap
     private lazy var cancelBackgroundButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .clear
@@ -66,7 +70,6 @@ class AddContentView: UIView {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("추가", for: .normal)
-        button.setTitle("X", for: .disabled)
         button.titleLabel?.textAlignment = .center
         button.setTitleColor(.black, for: .normal)
         return button
@@ -81,6 +84,7 @@ class AddContentView: UIView {
         return button
     }()
     
+    // MARK: - Lifecycles
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = UIColor(white: 0, alpha: 0.2)
@@ -144,8 +148,19 @@ class AddContentView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Helper
     @objc
     func changeHidden() {
         isHidden = !isHidden
+        
+        if isHidden {
+            titleTextField.text = ""
+            scoreTextField.text = ""
+            resignFirstResponder()
+        }
+    }
+    
+    func pushTextFieldTexts() -> (title: String?, score: String?) {
+        return (titleTextField.text, scoreTextField.text)
     }
 }
