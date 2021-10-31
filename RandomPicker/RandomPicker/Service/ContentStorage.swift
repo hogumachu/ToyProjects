@@ -1,8 +1,6 @@
 import RxSwift
 
 class ContentStorage: Storable {
-    
-    
     private var contents: [Content] = [
         Content.init(title: "음식", contents: [
             .init(title: "삼겹살", score: 4),
