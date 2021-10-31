@@ -33,6 +33,7 @@
 		F16EF40B2727F3F40087B90E /* ViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16EF40A2727F3F40087B90E /* ViewModelType.swift */; };
 		F16EF40D27280B8E0087B90E /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16EF40C27280B8E0087B90E /* MainTableViewCell.swift */; };
 		F16EF41027280C9A0087B90E /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = F16EF40F27280C9A0087B90E /* RxDataSources */; };
+		F1DB1953272E80CB0038E936 /* AddContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DB1952272E80CB0038E936 /* AddContentView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +80,7 @@
 		F16EF4082727F3A20087B90E /* Storable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storable.swift; sourceTree = "<group>"; };
 		F16EF40A2727F3F40087B90E /* ViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelType.swift; sourceTree = "<group>"; };
 		F16EF40C27280B8E0087B90E /* MainTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
+		F1DB1952272E80CB0038E936 /* AddContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContentView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +120,7 @@
 				F16EF40C27280B8E0087B90E /* MainTableViewCell.swift */,
 				F107B3B427281D65005C0C63 /* DetailViewController.swift */,
 				F107B3B827281E96005C0C63 /* DetailTableViewCell.swift */,
+				F1DB1952272E80CB0038E936 /* AddContentView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -385,6 +388,7 @@
 				F16EF40D27280B8E0087B90E /* MainTableViewCell.swift in Sources */,
 				F16EF3BB2727EA570087B90E /* SceneDelegate.swift in Sources */,
 				F107B3B527281D65005C0C63 /* DetailViewController.swift in Sources */,
+				F1DB1953272E80CB0038E936 /* AddContentView.swift in Sources */,
 				F16EF3FF2727F07F0087B90E /* MainViewModel.swift in Sources */,
 				F16EF40B2727F3F40087B90E /* ViewModelType.swift in Sources */,
 				F107B3B727281D7C005C0C63 /* DetailViewModel.swift in Sources */,

@@ -4,7 +4,7 @@ import RxDataSources
 
 typealias SubContentSectionModel = AnimatableSectionModel<Int, SubContent>
 
-class DetailViewModel: ViewModelType {
+final class DetailViewModel: ViewModelType {
     struct Dependency {
         let content: Content
     }
