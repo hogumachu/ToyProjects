@@ -30,6 +30,7 @@ class DetailViewController: BaseViewController {
         button.layer.cornerRadius = 40
         return button
     }()
+    private lazy var randomPickView = RandomPickView(dependency: .init(viewModel: viewModel))
     
     init(dependency: Dependency) {
         self.viewModel = dependency.viewModel
@@ -41,6 +42,10 @@ class DetailViewController: BaseViewController {
     }
     
     override func configureUI() {
+        randomPickView.isHidden = true
+        
+        
+        
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "추가", style: .plain, target: nil, action: nil)
         
@@ -50,6 +55,7 @@ class DetailViewController: BaseViewController {
         view.addSubview(tableView)
         view.addSubview(randomButton)
         view.addSubview(addContentView)
+        view.addSubview(randomPickView)
         
         tableView.register(DetailTableViewCell.self, forCellReuseIdentifier: DetailTableViewCell.identifier)
         
@@ -63,6 +69,10 @@ class DetailViewController: BaseViewController {
         }
         
         addContentView.snp.makeConstraints {
+            $0.top.leading.trailing.bottom.equalToSuperview()
+        }
+        
+        randomPickView.snp.makeConstraints {
             $0.top.leading.trailing.bottom.equalToSuperview()
         }
     }
@@ -80,8 +90,9 @@ class DetailViewController: BaseViewController {
         
         // TODO: - Random Select
         randomButton.rx.tap
-            .subscribe(onNext: { [unowned viewModel] in
-                print(viewModel.random().title)
+            .subscribe(onNext: { [weak self] in
+//                print(viewModel.random().title)
+                self?.randomPickView.isHidden = false
             })
             .disposed(by: disposeBag)
         
