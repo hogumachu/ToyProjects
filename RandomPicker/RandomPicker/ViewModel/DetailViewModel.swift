@@ -26,6 +26,19 @@ final class DetailViewModel: ViewModelType {
         return ds
     }()
     
+    let collectionViewDataSource: RxCollectionViewSectionedAnimatedDataSource<SubContentSectionModel> = {
+        let ds = RxCollectionViewSectionedAnimatedDataSource<SubContentSectionModel> { ds, collectionView, indexPath, item in
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RandomCollectionViewCell.identifier, for: indexPath) as? RandomCollectionViewCell ?? RandomCollectionViewCell(frame: .zero)
+            
+            // TODO: - CollectionViewCell Properties Setting
+            cell.titleLabel.text = item.title
+            
+            return cell
+        }
+        
+        return ds
+    }()
+    
     private lazy var subStore = BehaviorRelay<[SubContentSectionModel]>(value: [sectionModel])
     private lazy var sectionModel = SubContentSectionModel(model: 0, items: content.contents)
     
