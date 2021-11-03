@@ -21,6 +21,14 @@ class MainViewController: BaseViewController {
         button.layer.cornerRadius = 40
         return button
     }()
+    private let cardStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.axis = .vertical
+        stack.distribution = .fillEqually
+        stack.spacing = 10
+        return stack
+    }()
     
     init(dependency: Dependency) {
         self.viewModel = dependency.viewModel
@@ -33,13 +41,30 @@ class MainViewController: BaseViewController {
     
     override func configureUI() {
         view.backgroundColor = .white
+        view.addSubview(cardStackView)
         view.addSubview(tableView)
         view.addSubview(addButton)
         
+        viewModel.contentList
+            .subscribe(onNext: {
+                $0[0].items
+                    .map { CardView($0.title) }
+                    .forEach {
+                        self.cardStackView.addArrangedSubview($0)
+                    }
+            })
+            .disposed(by: disposeBag)
+        
         tableView.register(MainTableViewCell.self, forCellReuseIdentifier: MainTableViewCell.identifier)
         
+        cardStackView.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(10)
+            $0.leading.equalToSuperview().offset(50)
+            $0.trailing.equalToSuperview().offset(-50)
+        }
         tableView.snp.makeConstraints {
-            $0.top.leading.trailing.bottom.equalToSuperview()
+            $0.top.equalTo(cardStackView.snp.bottom).offset(10)
+            $0.leading.trailing.bottom.equalToSuperview()
         }
         addButton.snp.makeConstraints {
             $0.width.height.equalTo(80)
@@ -51,7 +76,6 @@ class MainViewController: BaseViewController {
         viewModel.contentList
             .bind(to: tableView.rx.items(dataSource: viewModel.dataSource))
             .disposed(by: disposeBag)
-        
         tableView.rx.modelSelected(Content.self)
             .subscribe(onNext: { [weak self] content in
                 self?.coordinator?.sceneChange(scene: .detailViewController, style: .push, animated: true, content: content)
@@ -59,3 +83,27 @@ class MainViewController: BaseViewController {
     }
 }
 
+class CardView: UIView {
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .black
+        return label
+    }()
+    init(_ title: String) {
+        super.init(frame: .zero)
+        titleLabel.text = title
+        backgroundColor = .systemPink
+        addSubview(titleLabel)
+        clipsToBounds = true
+        layer.cornerCurve = .continuous
+        layer.cornerRadius = 16
+        titleLabel.snp.makeConstraints {
+            $0.center.equalToSuperview()
+        }
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
