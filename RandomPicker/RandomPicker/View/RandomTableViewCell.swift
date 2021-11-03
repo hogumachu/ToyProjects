@@ -1,8 +1,8 @@
 import UIKit
 import SnapKit
 
-class RandomCollectionViewCell: UICollectionViewCell {
-    static let identifier = "RandomCollectionViewCell"
+class RandomTableViewCell: UITableViewCell {
+    static let identifier = "RandomTableViewCell"
     
     let titleLabel: UILabel = {
         let label = UILabel()
@@ -29,13 +29,15 @@ class RandomCollectionViewCell: UICollectionViewCell {
         return stack
     }()
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         addSubview(cardView)
         cardView.addSubview(titleLabel)
     
         cardView.snp.makeConstraints {
-            $0.top.leading.trailing.bottom.equalToSuperview()
+            $0.top.leading.equalToSuperview().offset(10)
+            $0.trailing.bottom.equalToSuperview().offset(-10)
+            $0.height.equalTo(300)
         }
         
         titleLabel.snp.makeConstraints {

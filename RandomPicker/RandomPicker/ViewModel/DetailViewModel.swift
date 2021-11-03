@@ -26,16 +26,12 @@ final class DetailViewModel: ViewModelType {
         return ds
     }()
     
-    let collectionViewDataSource: RxCollectionViewSectionedAnimatedDataSource<SubContentSectionModel> = {
-        let ds = RxCollectionViewSectionedAnimatedDataSource<SubContentSectionModel> { ds, collectionView, indexPath, item in
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RandomCollectionViewCell.identifier, for: indexPath) as? RandomCollectionViewCell ?? RandomCollectionViewCell(frame: .zero)
-            
-            // TODO: - CollectionViewCell Properties Setting
+    let randomTableViewDataSource: RxTableViewSectionedAnimatedDataSource<SubContentSectionModel> = {
+        let ds = RxTableViewSectionedAnimatedDataSource<SubContentSectionModel> { ds, tableView, indexPath, item in
+            let cell = tableView.dequeueReusableCell(withIdentifier: RandomTableViewCell.identifier, for: indexPath) as? RandomTableViewCell ?? RandomTableViewCell(style: .default, reuseIdentifier: RandomTableViewCell.identifier)
             cell.titleLabel.text = item.title
-            
             return cell
         }
-        
         return ds
     }()
     
@@ -57,8 +53,16 @@ final class DetailViewModel: ViewModelType {
         subStore.accept([sectionModel])
     }
     
-    func random() -> SubContent {
-        return content.contents.randomElement() ?? SubContent(title: "", score: 0)
+    func random() -> String {
+        var randoms: [String] = []
+        
+        content.contents.forEach {
+            for _ in 0..<$0.score {
+                randoms.append($0.title)
+            }
+        }
+        print(randoms)
+        return randoms.randomElement() ?? ""
     }
     
     func validTitle(_ title: String) -> Bool {
@@ -66,10 +70,10 @@ final class DetailViewModel: ViewModelType {
     }
     
     func checkAndUpdateContent(_ content: (title: String?, score: String?)) -> Bool {
-        guard let title = content.title, let score = content.score, validTitle(title) else {
+        guard let title = content.title, let score = Int(content.score ?? "1"), validTitle(title), score > 0 && score <= 10 else {
             return false
         }
-        update(subContent: SubContent(title: title, score: Int(score) ?? 0))
+        update(subContent: SubContent(title: title, score: score))
         return true
         
     }

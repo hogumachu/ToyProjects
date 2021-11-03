@@ -44,8 +44,6 @@ class DetailViewController: BaseViewController {
     override func configureUI() {
         randomPickView.isHidden = true
         
-        
-        
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "추가", style: .plain, target: nil, action: nil)
         
@@ -91,7 +89,7 @@ class DetailViewController: BaseViewController {
         // TODO: - Random Select
         randomButton.rx.tap
             .subscribe(onNext: { [weak self] in
-//                print(viewModel.random().title)
+                print(self?.viewModel.random() ?? "")
                 self?.randomPickView.isHidden = false
             })
             .disposed(by: disposeBag)
