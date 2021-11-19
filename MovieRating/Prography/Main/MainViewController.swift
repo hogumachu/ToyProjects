@@ -32,6 +32,13 @@ class MainViewController: UIViewController {
         button.clipsToBounds = true
         button.layer.cornerRadius = 16
         button.layer.cornerCurve = .continuous
+        button.layer.shadowColor = UIColor.black.cgColor
+        button.layer.shadowRadius = 6
+        button.layer.shadowOpacity = 0.5
+        button.layer.shadowOffset = CGSize(width: 5, height: 5)
+        button.layer.shouldRasterize = true
+        button.layer.rasterizationScale = UIScreen.main.scale
+        button.layer.masksToBounds = false
         return button
     }()
     private let loadingIndicator: UIActivityIndicatorView = {
@@ -82,6 +89,7 @@ class MainViewController: UIViewController {
         view.addSubview(scoreTextField)
         view.addSubview(nextButton)
         view.addSubview(loadingIndicator)
+        
         
         NSLayoutConstraint.activate([
             scoreLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 5),
