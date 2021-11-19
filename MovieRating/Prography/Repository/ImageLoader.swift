@@ -1,7 +1,7 @@
 import UIKit.UIImage
 
 class ImageLoader {
-    private static var imageCache: [String: UIImage] = [:]
+    private static var imageCache = NSMutableDictionary()
     
     static func fetchImage(url: String, completion: @escaping (UIImage?) -> Void) {
         if url.isEmpty {
@@ -10,7 +10,7 @@ class ImageLoader {
         }
         
         if imageCache[url] != nil {
-            completion(imageCache[url]!)
+            completion(imageCache[url] as? UIImage)
             return
         }
         
