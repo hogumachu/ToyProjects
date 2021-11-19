@@ -39,6 +39,10 @@ class Repository {
             
         }.resume()
     }
+    
+    func generateURL(score: String, page: Int) -> String {
+        return "https://yts.mx/api/v2/list_movies.json?limit=20&minimum_rating=\(score)&sort_by=rating&order_by=asc&page=\(page)"
+    }
 }
 
 public enum RepositoryError: Error {
