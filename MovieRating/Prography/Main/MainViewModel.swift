@@ -8,7 +8,7 @@ class MainViewModel: ViewModelType {
     func next(score: String?) {
         startLoading()
         
-        Repository.shared.execute(url: "https://yts.mx/api/v2/list_movies.json?limit=20&minimum_rating=\(score ?? "0")&sort_by=rating&order_by=asc&page=1") { [weak self] (result: Result<MovieResponse, Error>) in
+        Repository.shared.execute(url: Repository.shared.generateURL(score: score ?? "0", page: 1)) { [weak self] (result: Result<MovieResponse, Error>) in
             switch result {
             case .success(let success):
                 if let movies = success.data?.movies {
