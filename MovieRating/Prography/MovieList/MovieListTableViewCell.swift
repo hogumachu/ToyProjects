@@ -17,6 +17,7 @@ class MovieListTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 20, weight: .semibold)
         label.textColor = .black
+        label.textAlignment = .right
         return label
     }()
     private let backgroundImageView: UIImageView = {
@@ -53,7 +54,7 @@ class MovieListTableViewCell: UITableViewCell {
             
             ratingLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
             ratingLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
-            ratingLabel.widthAnchor.constraint(equalToConstant: 30),
+            ratingLabel.widthAnchor.constraint(equalToConstant: 60),
             
             backgroundImageView.topAnchor.constraint(equalTo: topAnchor),
             backgroundImageView.leadingAnchor.constraint(equalTo: leadingAnchor),

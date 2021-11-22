@@ -1,7 +1,6 @@
 import UIKit.UIImage
 
 class ImageLoader {
-    private static var imageCache = NSMutableDictionary()
     
     static func fetchImage(url: String, completion: @escaping (UIImage?) -> Void) {
         if url.isEmpty {
@@ -9,8 +8,8 @@ class ImageLoader {
             return
         }
         
-        if imageCache[url] != nil {
-            completion(imageCache[url] as? UIImage)
+        if let image = ImageCacheManager.shared.loadImage(url) {
+            completion(image)
             return
         }
         
@@ -42,7 +41,7 @@ class ImageLoader {
                 return
             }
             
-            self.imageCache[url] = image
+            ImageCacheManager.shared.saveImage(url, image: image)
             completion(image)
         }
         .resume()
