@@ -60,7 +60,7 @@ class MovieListTableViewCell: UITableViewCell {
             backgroundImageView.leadingAnchor.constraint(equalTo: leadingAnchor),
             backgroundImageView.trailingAnchor.constraint(equalTo: trailingAnchor),
             backgroundImageView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            backgroundImageView.heightAnchor.constraint(equalToConstant: 40),
+            backgroundImageView.heightAnchor.constraint(equalToConstant: 80),
         ])
     }
     

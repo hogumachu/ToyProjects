@@ -2,12 +2,14 @@ import Foundation
 
 class MovieDetailViewModel: ViewModelType {
     struct Dependency {
+        let coordinator: Coordinator
         let movie: Movie
     }
-    var coordinator: Coordinator?
+    let coordinator: Coordinator
     private let movie: Movie
     
     init(dependency: Dependency) {
+        self.coordinator = dependency.coordinator
         self.movie = dependency.movie
     }
     

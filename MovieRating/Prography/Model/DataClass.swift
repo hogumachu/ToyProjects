@@ -4,5 +4,9 @@ struct DataClass: Codable {
     let movieCount: Int?
     let limit: Int?
     let page_number: Int?
-    let movies: [Movie]?
+    var movies: [Movie]?
+}
+
+extension DataClass {
+    static let Empty: DataClass = .init(movieCount: 0, limit: 0, page_number: 0, movies: [])
 }

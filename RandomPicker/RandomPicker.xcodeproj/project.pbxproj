@@ -34,6 +34,8 @@
 		F16EF40D27280B8E0087B90E /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16EF40C27280B8E0087B90E /* MainTableViewCell.swift */; };
 		F16EF41027280C9A0087B90E /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = F16EF40F27280C9A0087B90E /* RxDataSources */; };
 		F1DB1953272E80CB0038E936 /* AddContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DB1952272E80CB0038E936 /* AddContentView.swift */; };
+		F1DB1955272F8C4E0038E936 /* RandomPickView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DB1954272F8C4E0038E936 /* RandomPickView.swift */; };
+		F1DB1957272F918A0038E936 /* RandomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1DB1956272F918A0038E936 /* RandomTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,6 +83,8 @@
 		F16EF40A2727F3F40087B90E /* ViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelType.swift; sourceTree = "<group>"; };
 		F16EF40C27280B8E0087B90E /* MainTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
 		F1DB1952272E80CB0038E936 /* AddContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddContentView.swift; sourceTree = "<group>"; };
+		F1DB1954272F8C4E0038E936 /* RandomPickView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomPickView.swift; sourceTree = "<group>"; };
+		F1DB1956272F918A0038E936 /* RandomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +125,8 @@
 				F107B3B427281D65005C0C63 /* DetailViewController.swift */,
 				F107B3B827281E96005C0C63 /* DetailTableViewCell.swift */,
 				F1DB1952272E80CB0038E936 /* AddContentView.swift */,
+				F1DB1954272F8C4E0038E936 /* RandomPickView.swift */,
+				F1DB1956272F918A0038E936 /* RandomTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -383,6 +389,8 @@
 				F16EF3B92727EA570087B90E /* AppDelegate.swift in Sources */,
 				F16EF3EF2727EACC0087B90E /* CompositionRoot.swift in Sources */,
 				F16EF3F12727EBFE0087B90E /* BaseViewController.swift in Sources */,
+				F1DB1957272F918A0038E936 /* RandomTableViewCell.swift in Sources */,
+				F1DB1955272F8C4E0038E936 /* RandomPickView.swift in Sources */,
 				F16EF3F42727ECAE0087B90E /* Scene+Style.swift in Sources */,
 				F16EF4092727F3A20087B90E /* Storable.swift in Sources */,
 				F16EF40D27280B8E0087B90E /* MainTableViewCell.swift in Sources */,

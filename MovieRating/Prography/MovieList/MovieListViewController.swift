@@ -1,4 +1,6 @@
 import UIKit
+import RxSwift
+import RxCocoa
 
 class MovieListViewController: UIViewController {
     struct Dependency {
@@ -8,6 +10,7 @@ class MovieListViewController: UIViewController {
     // MARK: - Properties
     
     let viewModel: MovieListViewModel
+    private let disposeBag = DisposeBag()
     
     private let movieListTableView: UITableView = {
         let tableView = UITableView()
@@ -58,56 +61,27 @@ class MovieListViewController: UIViewController {
     }
     
     private func configureTableView() {
-        movieListTableView.delegate = self
-        movieListTableView.dataSource = self
+        _ = movieListTableView.rx.setDelegate(self)
         movieListTableView.register(MovieListTableViewCell.self, forCellReuseIdentifier: MovieListTableViewCell.identifier)
+        
     }
     
     private func bindViewModel() {
-        viewModel.startLoading = { [weak self] in
-            self?.loadingIndicator.isHidden = false
-            self?.loadingIndicator.startAnimating()
-        }
+        viewModel.storage.movieList()
+            .bind(to: movieListTableView.rx.items(cellIdentifier: MovieListTableViewCell.identifier, cellType: MovieListTableViewCell.self)) { index, item, cell in
+                cell.setItem(item)
+            }
+            .disposed(by: disposeBag)
         
-        viewModel.endLoading = { [weak self] in
-            self?.loadingIndicator.stopAnimating()
-            self?.loadingIndicator.isHidden = true
-            
-            self?.movieListTableView.reloadData()
-        }
+        movieListTableView.rx.itemSelected
+            .subscribe(onNext: { [weak self] indexPath in
+                self?.viewModel.detail(at: indexPath.row)
+            })
+            .disposed(by: disposeBag)
     }
 }
 
-extension MovieListViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let movie = viewModel.movie(at: indexPath.row)
-        viewModel.detail(movie: movie)
-        tableView.deselectRow(at: indexPath, animated: false)
-    }
-}
-
-extension MovieListViewController: UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: MovieListTableViewCell.identifier, for: indexPath) as! MovieListTableViewCell
-        let movie = viewModel.movie(at: indexPath.row)
-        
-        cell.setItem(movie)
-        return cell
-    }
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModel.movieCount()
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return CGFloat(80)
-    }
-}
-
-extension MovieListViewController {
+extension MovieListViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView.frame.height + scrollView.contentOffset.y > scrollView.contentSize.height {
             viewModel.next()
