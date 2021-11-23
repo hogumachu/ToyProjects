@@ -8,15 +8,15 @@ class MovieListTableViewCell: UITableViewCell {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 20, weight: .semibold)
-        label.textColor = .black
+        label.font = .init(name: "Georgia Italic", size: 20)
+        label.textColor = .white
         return label
     }()
     private let ratingLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .systemFont(ofSize: 20, weight: .semibold)
-        label.textColor = .black
+        label.font = .init(name: "Georgia Italic", size: 20)
+        label.textColor = .white
         label.textAlignment = .right
         return label
     }()
@@ -25,7 +25,9 @@ class MovieListTableViewCell: UITableViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
-        imageView.alpha = 0.3
+        imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 16
+        imageView.layer.cornerCurve = .continuous
         return imageView
     }()
     
@@ -46,20 +48,21 @@ class MovieListTableViewCell: UITableViewCell {
         addSubview(backgroundImageView)
         addSubview(titleLabel)
         addSubview(ratingLabel)
+        backgroundColor = .clear
         
         NSLayoutConstraint.activate([
-            titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
-            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+            titleLabel.centerYAnchor.constraint(equalTo: backgroundImageView.centerYAnchor),
+            titleLabel.leadingAnchor.constraint(equalTo: backgroundImageView.leadingAnchor, constant: 10),
             titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: ratingLabel.leadingAnchor, constant: -20),
             
-            ratingLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
-            ratingLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
+            ratingLabel.centerYAnchor.constraint(equalTo: backgroundImageView.centerYAnchor),
+            ratingLabel.trailingAnchor.constraint(equalTo: backgroundImageView.trailingAnchor, constant: -10),
             ratingLabel.widthAnchor.constraint(equalToConstant: 60),
             
             backgroundImageView.topAnchor.constraint(equalTo: topAnchor),
-            backgroundImageView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            backgroundImageView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            backgroundImageView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            backgroundImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+            backgroundImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
+            backgroundImageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
             backgroundImageView.heightAnchor.constraint(equalToConstant: 80),
         ])
     }

@@ -18,7 +18,13 @@ class MovieStorage: MovieStorageType {
     }
     
     func currentPage() -> Int {
-        return dataClass.page_number ?? 1
+        if let currentPage = dataClass.page_number {
+            dataClass.page_number = currentPage + 1
+            
+            return dataClass.page_number!
+        }
+        
+        return 1
     }
     
     func addMovies(movies: [Movie]) {
