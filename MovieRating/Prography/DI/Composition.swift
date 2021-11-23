@@ -6,22 +6,26 @@ struct AppDependency {
 
 extension AppDependency {
     static func resolve() -> AppDependency {
+        let storage = MovieStorage()
+        
         let mainNavigationController = UINavigationController()
-        let mainViewControllerFactory: () -> MainViewController = {
-            return .init(dependency: .init(viewModel: .init()))
+        
+        let mainViewControllerFactory: (MainViewController.Dependency) -> MainViewController = { dependency in
+            return .init(dependency: dependency)
         }
         
-        let movieListViewControllerFactory: ([Movie], Int, String) -> MovieListViewController = { movies, page, score in
-            return .init(dependency: .init(viewModel: .init(dependency: .init(movies: movies, page: page, score: score))))
+        let movieListViewControllerFactory: (MovieListViewController.Dependency) -> MovieListViewController = { dependency in
+            return .init(dependency: dependency)
         }
         
-        let movieDetailViewControllerFactory: (Movie) -> MovieDetailViewController = { movie in
-            return .init(dependency: .init(viewModel: .init(dependency: .init(movie: movie))))
+        let movieDetailViewControllerFactory: (MovieDetailViewController.Dependency) -> MovieDetailViewController = { dependency in
+            return .init(dependency: dependency)
         }
         
         return .init(
             mainCoordinator: .init(
                 dependency: .init(
+                    storage: storage,
                     mainNavigationController: mainNavigationController,
                     mainViewControllerFactory: mainViewControllerFactory,
                     movieListViewControllerFactory: movieListViewControllerFactory,
