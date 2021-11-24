@@ -12,4 +12,4 @@
 ## MovieRating
 ### Reference: [Link](http://prography.org/pdf/prography_6_ios.pdf)
 
-![movieRating](https://user-images.githubusercontent.com/74225754/142595448-c2567f40-fc0d-4f6d-a100-89df32b50832.gif)
+![movieRating](https://user-images.githubusercontent.com/74225754/143176119-7a1c490b-f1c7-42e7-8b45-fe18f3082e7c.gif)
